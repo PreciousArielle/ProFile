@@ -6,7 +6,7 @@ initResumeEditor({
     const HDR_H  = 155   // visible header height (below the clip)
     const COL_L  = 260   // left column width
     const COL_R_L = 280  // right column left start
-    const COL_R_W = 494  // right column width
+    const COL_R_W = 514 // right column width
     const BODY_T = HDR_H + 60
 
     // ── HEADER BAR (rendered by JS so PDF is clean) ──
@@ -105,7 +105,7 @@ initResumeEditor({
       </div>`
     }
 
-    let rightHTML = `<div style="font-family:'DM Sans',sans-serif;font-size:11.5px;color:#1A1A18;line-height:1.55;box-sizing:border-box;">`
+    let rightHTML = `<div style="font-family:'DM Sans',sans-serif;font-size:11.5px;color:#1A1A18;line-height:1.55;box-sizing:border-box;padding-right:20px;">`
 
     // Skills — bullet list
     if (data.skills && data.skills.trim()) {

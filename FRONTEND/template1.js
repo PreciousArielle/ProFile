@@ -30,9 +30,10 @@ initResumeEditor({
     // Divider — no name here, name is in main content only
 
     // Education
-    if (data.edu && data.edu.some(e => e.school || e.course)) {
+    const eduData = data.edu || data.education || [];
+    if (eduData.some(e => e.school || e.course)) {
       sidebarHTML += `<div style="font-size:9px;font-weight:600;color:#8FB89A;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;">Education</div>`
-      data.edu.forEach(edu => {
+      eduData.forEach(edu => {
         if (!edu.school && !edu.course) return
         sidebarHTML += `<div style="margin-bottom:10px;">`
         if (edu.year) sidebarHTML += `<div style="font-size:9px;color:#999;margin-bottom:2px;">${edu.year}</div>`
