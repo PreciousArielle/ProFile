@@ -7,7 +7,7 @@ initResumeEditor({
     const COL_L  = 260   // left column width
     const COL_R_L = 280  // right column left start
     const COL_R_W = 494  // right column width
-    const BODY_T = HDR_H + 20
+    const BODY_T = HDR_H + 60
 
     // ── HEADER BAR (rendered by JS so PDF is clean) ──
     buildHtmlElement({

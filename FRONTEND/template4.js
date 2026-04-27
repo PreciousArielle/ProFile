@@ -78,10 +78,15 @@ initResumeEditor({
 
     let leftHTML = `<div style="font-family:'DM Sans',sans-serif;font-size:11px;color:#7A776E;line-height:1.5;box-sizing:border-box;">`
     if (data.photo) {
-      leftHTML += `<div style="margin-bottom:10px;">
-        <img src="${data.photo}" style="width:90px;height:90px;object-fit:cover;border-radius:50%;border:2px solid #8FB89A;display:block;">
-      </div>`
-    }
+  buildImageElement({
+    src: data.photo,
+    left: 20, 
+    top: 20,
+    width: 220, // Full width of the left sidebar accent
+    height: 180,
+    borderRadius: '0px' // Clean, professional look
+  });
+}
     leftHTML += `<div style="color:#2B3A2E;font-size:10px;font-weight:bold;letter-spacing:0.1em;
       text-transform:uppercase;border-bottom:1px solid #D4CFC4;padding-bottom:3px;margin-bottom:6px;">Contact</div>`
     if (data.email) leftHTML += `<div style="margin-bottom:3px;">Email: ${data.email}</div>`

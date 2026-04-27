@@ -98,9 +98,16 @@ initResumeEditor({
     let mainHTML = `<div style="font-family:'DM Sans',sans-serif;font-size:12px;color:#1A1A18;line-height:1.6;box-sizing:border-box;">`
 
     if (data.photo) {
-      mainHTML += `<div style="float:right;margin:0 0 8px 16px;">
-        <img src="${data.photo}" style="width:80px;height:80px;object-fit:cover;border-radius:50%;border:1px solid #D4CFC4;display:block;">
-      </div>`
+    if (data.photo) {
+  buildImageElement({
+    src: data.photo,
+    left: 680, // Positioned at the top right
+    top: 20,
+    width: 80,
+    height: 80,
+    borderRadius: '4px' // Square with slight rounding like templates 1 & 2
+  });
+}
     }
 
     if (data.summary && data.summary.trim()) mainHTML += `<div style="margin-bottom:6px;">${data.summary}</div>`
