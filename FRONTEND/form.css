@@ -1,0 +1,534 @@
+/* =============================================
+   ProFile Beta — form.css
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #EDEAE3;
+  --surface:  #F7F5F0;
+  --border:   #D4CFC4;
+  --accent:   #2B3A2E;
+  --accent-lt:#4A6350;
+  --sage:     #8FB89A;
+  --text:     #1A1A18;
+  --muted:    #7A776E;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 52px;
+  background: var(--accent);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-family: "DM Serif Display", serif;
+  font-size: 18px;
+  color: #EDE9DF;
+  text-decoration: none;
+}
+
+.logo span { color: var(--sage); }
+
+.btn-skip {
+  font-size: 12px;
+  color: rgba(237,233,223,0.5);
+  text-decoration: none;
+  padding: 5px 12px;
+  border: 1px solid rgba(237,233,223,0.15);
+  border-radius: 6px;
+  transition: color 0.12s, background 0.12s;
+}
+
+.btn-skip:hover { color: #EDE9DF; background: rgba(255,255,255,0.06); }
+
+/* ── LAYOUT ── */
+.builder-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  height: calc(100vh - 52px);
+  overflow: hidden;
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .builder-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    height: auto;
+    overflow: visible;
+  }
+
+  .form-panel {
+    overflow-y: visible;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .preview-panel {
+    overflow-y: visible;
+    height: auto;
+    padding: 20px 16px 40px;
+  }
+
+  .preview-wrap {
+    max-width: 340px;
+    margin: 0 auto;
+  }
+}
+
+/* ── FORM PANEL ── */
+.form-panel {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px 16px 60px;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  min-width: 0;
+}
+
+.form-intro {
+  margin-bottom: 20px;
+}
+
+.form-intro h1 {
+  font-family: "DM Serif Display", serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.form-intro p {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ── PAPER SIZE TOGGLE ── */
+.paper-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.paper-label {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.paper-options {
+  display: flex;
+  gap: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px;
+}
+
+.paper-btn {
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.paper-btn.active {
+  background: var(--accent);
+  color: #EDE9DF;
+}
+
+.paper-btn:not(.active):hover {
+  background: var(--border);
+  color: var(--text);
+}
+
+/* ── SECTION CARDS ── */
+.section-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.12s;
+}
+
+.section-header:hover { background: var(--bg); }
+
+.section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.section-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #EDE9DF;
+  font-size: 11px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.chevron {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.section-body {
+  padding: 4px 14px 14px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── FIELDS ── */
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field.full { grid-column: 1 / -1; }
+
+.field label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.field .hint {
+  font-weight: 400;
+  color: #C5C0B8;
+}
+
+.field input,
+.field textarea,
+.field select {
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 10px;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.12s, box-shadow 0.12s;
+  min-width: 0;
+  width: 100%;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--accent-lt);
+  box-shadow: 0 0 0 3px rgba(143,184,154,0.15);
+}
+
+.field input::placeholder,
+.field textarea::placeholder { color: #C5C0B8; }
+
+/* ── PHOTO UPLOAD ── */
+.photo-upload-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  height: 90px;
+  border: 1.5px dashed var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  background: white;
+  transition: border-color 0.12s, background 0.12s;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.photo-upload-wrap:hover {
+  border-color: var(--sage);
+  background: var(--bg);
+}
+
+#photoPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ── ENTRY CARDS (repeatable) ── */
+.entry-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 8px;
+}
+
+.entry-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.entry-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent-lt);
+}
+
+.btn-remove {
+  font-size: 11px;
+  color: #C0392B;
+  background: #FDF0EE;
+  border: 1px solid #F5C6C0;
+  border-radius: 4px;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.btn-remove:hover { background: #FAD7D3; }
+
+.btn-add {
+  margin-top: 10px;
+  width: 100%;
+  padding: 7px;
+  background: transparent;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  color: var(--accent-lt);
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.btn-add:hover { background: var(--bg); border-color: var(--sage); }
+
+/* ── FORM ACTIONS ── */
+.form-actions {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-build {
+  width: 100%;
+  height: 42px;
+  background: var(--accent);
+  color: #EDE9DF;
+  border: none;
+  border-radius: 8px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s, transform 0.1s;
+}
+
+.btn-build:hover  { background: var(--accent-lt); }
+.btn-build:active { transform: scale(0.98); }
+
+.btn-freestyle {
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.12s;
+}
+
+.btn-freestyle:hover { color: var(--text); }
+
+/* ── PREVIEW PANEL ── */
+.preview-panel {
+  background: var(--bg);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 16px;
+  gap: 12px;
+  min-width: 0;
+}
+
+.preview-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  align-self: flex-start;
+}
+
+.preview-wrap {
+  width: 100%;
+  max-width: 620px;
+}
+
+/* ── MINI RESUME PREVIEW ── */
+.preview-resume {
+  width: 100%;
+  /* padding-bottom gives us the A4 aspect ratio AND a real computed height */
+  padding-bottom: calc(100% * 1123 / 794);
+  height: 0;
+  background: white;
+  position: relative;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.10);
+  overflow: hidden;
+  font-size: 9px;
+}
+
+.prev-sidebar {
+  /* positioning handled inline in T1 */
+  background: #2B3A2E;
+}
+
+.prev-contact { margin-bottom: 6px; }
+
+.prev-contact-item {
+  font-size: 7px;
+  color: rgba(237,233,223,0.7);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prev-section-title {
+  font-size: 7.5px;
+  font-weight: bold;
+  color: #8FB89A;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 6px 0 3px;
+  border-bottom: 0.5px solid rgba(143,184,154,0.3);
+  padding-bottom: 2px;
+}
+
+.prev-skill-item {
+  font-size: 7px;
+  color: rgba(237,233,223,0.75);
+  margin-bottom: 1.5px;
+}
+
+.prev-main {
+  /* positioning handled inline in T1 */
+  padding: 5% 4% 4%;
+}
+
+.prev-name {
+  font-family: "DM Serif Display", serif;
+  font-size: 18px;
+  color: #1A1A18;
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+.prev-jobtitle {
+  font-size: 7.5px;
+  color: #7A776E;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+.prev-summary {
+  font-size: 7.5px;
+  color: #444;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  white-space: pre-wrap;
+}
+
+.prev-entry { margin-bottom: 5px; }
+
+.prev-entry-title {
+  font-size: 8px;
+  font-weight: bold;
+  color: #1A1A18;
+}
+
+.prev-entry-sub {
+  font-size: 7px;
+  color: #7A776E;
+}
+
+.prev-entry-desc {
+  font-size: 7px;
+  color: #444;
+  line-height: 1.4;
+  margin-top: 1px;
+}
+
+#prev-work-section .prev-section-title,
+#prev-edu-section .prev-section-title {
+  font-size: 7px;
+  color: #2B3A2E;
+  border-bottom: 0.5px solid #8FB89A;
+  padding-bottom: 2px;
+  margin-bottom: 4px;
+  margin-top: 6px;
+}
+/* ── RESET FORM BUTTON ── */
+.btn-reset-form {
+  width: 100%;
+  height: 36px;
+  background: transparent;
+  color: #C0392B;
+  border: 1px solid #F5C6C0;
+  border-radius: 8px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.btn-reset-form:hover { background: #FDF0EE; }

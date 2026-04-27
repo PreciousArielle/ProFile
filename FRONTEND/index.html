@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProFile - Resume Builder</title>
+  <link rel="stylesheet" href="home.css">
+</head>
+<body>
+  <script src="auth-guard.js"></script>
+
+  <header class="site-header">
+    <a class="logo" href="/index.html">Pro<span>File</span></a>
+
+    <nav class="site-nav">
+      <a class="nav-link" href="#features">Features</a>
+      <a class="nav-link" href="#templates">Templates</a>
+      <a class="nav-link" href="#how-it-works">How It Works</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="btn-ghost" href="form.html?template=1">Start Building</a>
+      <button onclick="logout()" class="btn-reset">Sign Out</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-shell">
+      <div class="hero-noise"></div>
+      <div class="hero-orb hero-orb-a"></div>
+      <div class="hero-orb hero-orb-b"></div>
+      <div class="hero-ribbon hero-ribbon-a"></div>
+      <div class="hero-ribbon hero-ribbon-b"></div>
+
+      <section class="hero">
+  <div class="hero-copy">
+    <div class="hero-eyebrow">ATS-first resume builder</div>
+    <h1>Build a resume that looks sharp and scans clean.</h1>
+    <p>
+      Choose a layout, fill in your details, and generate a polished resume without wrestling with formatting.
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn-primary" href="form.html?template=1">Create Resume</a>
+      <a class="btn-secondary" href="#templates">Browse Templates</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="stat-label">Templates</span>
+        <strong>4 layouts</strong>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Export</span>
+        <strong>PDF ready</strong>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Workflow</span>
+        <strong>Form-driven</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual" aria-hidden="true">
+    <div class="laptop-scene">
+      <div class="laptop-glow"></div>
+
+      <div class="laptop">
+        <div class="laptop-screen">
+          <div class="screen-topbar"></div>
+          <div class="resume-ui">
+            <div class="resume-sidebar"></div>
+            <div class="resume-main">
+              <div class="resume-name"></div>
+              <div class="resume-role"></div>
+              <div class="resume-rule"></div>
+
+              <div class="resume-section"></div>
+              <div class="resume-line w-92"></div>
+              <div class="resume-line w-76"></div>
+              <div class="resume-line w-68"></div>
+
+              <div class="resume-section"></div>
+              <div class="resume-line w-88"></div>
+              <div class="resume-line w-72"></div>
+
+              <div class="resume-section"></div>
+              <div class="resume-line w-84"></div>
+              <div class="resume-line w-66"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="laptop-base"></div>
+        <div class="laptop-trackpad"></div>
+      </div>
+        <div class="scene-line w-74"></div>
+      </div>
+    </div>
+  </div>
+</section>
+</section>
+
+    <section class="info-band" id="features">
+      <div class="info-card">
+        <span class="info-kicker">Clean structure</span>
+        <h2>Built for hiring workflows, not design chaos.</h2>
+      </div>
+      <div class="info-list">
+        <div class="info-item">
+          <strong>ATS-friendly layouts</strong>
+          <p>Readable sections, consistent hierarchy, no unnecessary clutter.</p>
+        </div>
+        <div class="info-item">
+          <strong>Form-first workflow</strong>
+          <p>Edit your content from structured inputs instead of freehand formatting.</p>
+        </div>
+        <div class="info-item">
+          <strong>Fast export</strong>
+          <p>Generate a ready-to-send PDF from the same builder flow.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="templates">
+      <div class="section-header">
+        <div>
+          <span class="section-kicker">Template library</span>
+          <h2 class="section-title">Choose a resume direction</h2>
+        </div>
+        <span class="section-sub">Start from a structure, then fill in your details.</span>
+      </div>
+
+      <div class="search-wrap">
+        <input type="text" placeholder="Search templates..." id="searchInput" oninput="filterTemplates()">
+        <button class="search-btn" type="button">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M10 10L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Search
+        </button>
+      </div>
+
+      <div class="template-grid" id="templateGrid">
+        <a class="template-card" href="form.html?template=1" data-name="classic sidebar">
+          <div class="template-preview preview-t1">
+            <div class="p-sidebar" style="background:#2C2C2C;"></div>
+            <div style="position:absolute;left:0;top:0;width:24%;height:28%;background:#3A3A3A;"></div>
+            <div class="p-name" style="background:#1A1A18;"></div>
+            <div class="p-sub" style="background:#D4CFC4;"></div>
+            <div class="p-line p-line-1"></div><div class="p-line p-line-2"></div>
+            <div class="p-line p-line-3"></div><div class="p-line p-line-4"></div>
+            <div class="p-line p-line-5"></div><div class="p-line p-line-6"></div>
+          </div>
+          <div class="template-info">
+            <span class="template-name">Classic Sidebar</span>
+            <span class="template-tag tag-free">Free</span>
+          </div>
+        </a>
+
+        <a class="template-card" href="form.html?template=2" data-name="bold header">
+          <div class="template-preview preview-t2">
+            <div style="position:absolute;left:0;top:0;width:100%;height:22%;background:#4A5568;clip-path:polygon(0 0,100% 0,100% 75%,0 100%);"></div>
+            <div class="p-name" style="background:white;opacity:0.9;top:5%;left:6%;"></div>
+            <div class="p-sub" style="background:rgba(255,255,255,0.5);top:13%;left:6%;"></div>
+            <div class="p-line p-line-4"></div><div class="p-line p-line-5"></div><div class="p-line p-line-6"></div>
+          </div>
+          <div class="template-info">
+            <span class="template-name">Modern Header</span>
+            <span class="template-tag tag-free">Free</span>
+          </div>
+        </a>
+
+        <a class="template-card" href="form.html?template=3" data-name="minimal">
+          <div class="template-preview preview-t3">
+            <div class="p-name"></div><div class="p-sub"></div><div class="p-rule"></div>
+            <div class="p-line p-line-4"></div><div class="p-line p-line-5"></div><div class="p-line p-line-6"></div>
+          </div>
+          <div class="template-info">
+            <span class="template-name">Minimal</span>
+            <span class="template-tag tag-free">Free</span>
+          </div>
+        </a>
+
+        <a class="template-card" href="form.html?template=4" data-name="two column">
+          <div class="template-preview preview-t4">
+            <div class="p-col-l"></div><div class="p-name"></div><div class="p-sub"></div>
+            <div class="p-line p-line-1"></div><div class="p-line p-line-2"></div><div class="p-line p-line-3"></div>
+            <div class="p-line-r p-line-4"></div><div class="p-line-r p-line-5"></div><div class="p-line-r p-line-6"></div>
+          </div>
+          <div class="template-info">
+            <span class="template-name">Two Column</span>
+            <span class="template-tag tag-free">Free</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="workflow" id="how-it-works">
+      <div class="section-header">
+        <div>
+          <span class="section-kicker">Workflow</span>
+          <h2 class="section-title">Three steps, no layout wrestling</h2>
+        </div>
+      </div>
+
+      <div class="workflow-grid">
+        <div class="workflow-card">
+          <span class="step-no">01</span>
+          <h3>Pick a template</h3>
+          <p>Start with a structure that matches the tone you want.</p>
+        </div>
+        <div class="workflow-card">
+          <span class="step-no">02</span>
+          <h3>Fill the form</h3>
+          <p>Add your content through structured sections instead of manual design edits.</p>
+        </div>
+        <div class="workflow-card">
+          <span class="step-no">03</span>
+          <h3>Export to PDF</h3>
+          <p>Generate a clean final copy for applications and submissions.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">ProFile Beta - Resume builder for focused, ATS-friendly applications.</footer>
+
+  <script>
+    function filterTemplates() {
+      const q = document.getElementById('searchInput').value.toLowerCase()
+      document.querySelectorAll('.template-card').forEach(card => {
+        card.style.display = (card.dataset.name || '').includes(q) ? '' : 'none'
+      })
+    }
+  </script>
+</body>
+</html>

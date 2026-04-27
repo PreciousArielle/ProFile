@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProFile — Create Account</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #EDEAE3; --surface: #F7F5F0; --border: #D4CFC4;
+      --accent: #2B3A2E; --accent-lt: #4A6350; --sage: #8FB89A;
+      --text: #1A1A18; --muted: #7A776E;
+    }
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+      animation: slideUp 0.4s ease both;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .logo {
+      font-family: "DM Serif Display", serif;
+      font-size: 28px;
+      color: var(--accent);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .logo span { color: var(--sage); }
+    .subtitle {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 36px;
+    }
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .field input {
+      width: 100%;
+      height: 40px;
+      padding: 0 12px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.12s, box-shadow 0.12s;
+    }
+    .field input:focus {
+      border-color: var(--accent-lt);
+      box-shadow: 0 0 0 3px rgba(143,184,154,0.15);
+      background: white;
+    }
+    .hint { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .btn {
+      width: 100%;
+      height: 42px;
+      background: var(--accent);
+      color: #EDE9DF;
+      border: none;
+      border-radius: 8px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.12s, transform 0.1s;
+    }
+    .btn:hover  { background: var(--accent-lt); }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .divider {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 20px 0;
+      position: relative;
+    }
+    .divider::before, .divider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 1px;
+      background: var(--border);
+    }
+    .divider::before { left: 0; }
+    .divider::after  { right: 0; }
+    .link-row {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .link-row a {
+      color: var(--accent-lt);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .link-row a:hover { text-decoration: underline; }
+    .error {
+      background: #FCEBEB;
+      color: #A32D2D;
+      border: 1px solid #F7C1C1;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+      animation: shake 0.3s ease;
+    }
+    .success {
+      background: #E1F5EE;
+      color: #0F6E56;
+      border: 1px solid #9FE1CB;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25%      { transform: translateX(-6px); }
+      75%      { transform: translateX(6px); }
+    }
+    .spinner {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid rgba(237,233,223,0.4);
+      border-top-color: #EDE9DF;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">Pro<span>File</span></div>
+    <p class="subtitle">Create your free account</p>
+
+    <div class="error"   id="errorMsg"></div>
+    <div class="success" id="successMsg"></div>
+
+    <div class="field">
+      <label>Full Name</label>
+      <input type="text" id="fullname" placeholder="e.g. Juan dela Cruz" autocomplete="name">
+    </div>
+    <div class="field">
+      <label>Username</label>
+      <input type="text" id="username" placeholder="e.g. juandelacruz" autocomplete="username">
+      <p class="hint">Letters and numbers only, no spaces.</p>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="At least 6 characters" autocomplete="new-password">
+    </div>
+    <div class="field">
+      <label>Confirm Password</label>
+      <input type="password" id="confirm" placeholder="Repeat your password" autocomplete="new-password">
+    </div>
+
+    <button class="btn" id="registerBtn" onclick="doRegister()">Create Account</button>
+
+    <div class="divider">or</div>
+    <div class="link-row">
+      Already have an account? <a href="/login.html">Sign in</a>
+    </div>
+  </div>
+
+  <script>
+    if (localStorage.getItem("profile_token")) {
+      window.location.href = "/index.html"
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Enter") doRegister()
+    })
+
+    async function doRegister() {
+      const fullname = document.getElementById("fullname").value.trim()
+      const username = document.getElementById("username").value.trim()
+      const password = document.getElementById("password").value
+      const confirm  = document.getElementById("confirm").value
+      const btn      = document.getElementById("registerBtn")
+      const err      = document.getElementById("errorMsg")
+      const suc      = document.getElementById("successMsg")
+
+      err.style.display = "none"
+      suc.style.display = "none"
+
+      if (!fullname || !username || !password || !confirm) {
+        showError("Please fill in all fields."); return
+      }
+      if (!/^[a-zA-Z0-9]+$/.test(username)) {
+        showError("Username can only contain letters and numbers."); return
+      }
+      if (password.length < 6) {
+        showError("Password must be at least 6 characters."); return
+      }
+      if (password !== confirm) {
+        showError("Passwords do not match."); return
+      }
+
+      btn.disabled = true
+      btn.innerHTML = '<span class="spinner"></span>Creating account...'
+
+      try {
+        const res  = await fetch("/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fullname, username, password })
+        })
+        const data = await res.json()
+
+        if (!res.ok) {
+          showError(data.error || "Registration failed.")
+          btn.disabled = false
+          btn.textContent = "Create Account"
+          return
+        }
+
+        suc.textContent = "Account created! Redirecting to login..."
+        suc.style.display = "block"
+        setTimeout(() => window.location.href = "/login.html", 1500)
+
+      } catch(e) {
+        showError("Could not connect to server.")
+        btn.disabled = false
+        btn.textContent = "Create Account"
+      }
+    }
+
+    function showError(msg) {
+      const err = document.getElementById("errorMsg")
+      err.textContent = msg
+      err.style.display = "block"
+    }
+  </script>
+</body>
+</html>

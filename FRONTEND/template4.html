@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProFile Beta — Two Column</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style4.css">
+</head>
+<body>
+  <script src="auth-guard.js"></script>
+
+  <header class="header">
+    <div class="header-logo">Pro<span>File</span> <span style="font-size:11px;opacity:0.5;font-family:'DM Sans',sans-serif;font-weight:300;letter-spacing:0.1em;">BETA</span></div>
+    <div class="header-right">
+      <a href="form.html?template=4" style="font-size:12px;color:rgba(237,233,223,0.5);text-decoration:none;padding:5px 10px;border:1px solid rgba(237,233,223,0.15);border-radius:6px;margin-right:4px;">← Back</a>
+      <button class="btn-download" onclick="generatePDF()">↓ Download PDF</button>
+      <button onclick="logout()" class="btn-reset">Sign Out</button>
+    </div>
+  </header>
+
+  <div class="canvas-area">
+    <div id="resume">
+
+      <!-- Left column background -->
+      <div class="left-col-bg"></div>
+      <!-- Accent stripe at top of left col -->
+      <div class="left-col-accent"></div>
+
+      <!-- Left column: name + contact/skills -->
+      <div class="text name">
+        <div class="drag-handle"></div>
+        <div class="text-content" contenteditable="false">Your Name</div>
+        <div class="resize-grip"></div>
+      </div>
+
+      <div class="text jobtitle">
+        <div class="drag-handle"></div>
+        <div class="text-content" contenteditable="false">Job Title</div>
+        <div class="resize-grip"></div>
+      </div>
+
+      <div class="text left-body">
+        <div class="drag-handle"></div>
+        <div class="text-content" contenteditable="false">Contact&#10;email@example.com&#10;+63 912 345 6789&#10;&#10;Skills&#10;HTML · CSS · JavaScript</div>
+        <div class="resize-grip"></div>
+      </div>
+
+      <!-- Right column: main content -->
+      <div class="text main-body">
+        <div class="drag-handle"></div>
+        <div class="text-content" contenteditable="false">Summary: A passionate professional with experience in...</div>
+        <div class="resize-grip"></div>
+      </div>
+
+    </div>
+  </div>
+
+  </div>
+
+  <script src="editor.js"></script>
+  <script src="template4.js"></script>
+</body>
+</html>
