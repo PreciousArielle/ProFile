@@ -1,130 +1,174 @@
 initResumeEditor({
   templateNum: 4,
   storageKey: 'profile_canvas_state_t4',
-  renderFromFormData({ data, buildTextElement, buildHtmlElement }) {
-    function section(title, body) {
-      if (!body) return ''
-      return `<div style="color:#2B3A2E;font-size:11px;font-weight:bold;letter-spacing:0.08em;
-        text-transform:uppercase;border-bottom:1px solid #8FB89A;padding-bottom:3px;margin-bottom:6px;">${title}</div>${body}`
-    }
+  renderFromFormData({ data, buildTextElement, buildHtmlElement, buildImageElement }) {
 
-    function renderEntries(items, renderer) {
-      if (!items || !items.length) return ''
-      return items.map(renderer).filter(Boolean).join('')
-    }
+    const SIDEBAR_W = 260
+    const MAIN_L    = 260
+    const MAIN_W    = 495
+    const PAGE_H    = 1123
 
-    const workHTML = renderEntries(data.work || [], job => {
-      if (!job.title && !job.company) return ''
-      return `<div style="margin-bottom:5px;">
-        <div style="font-weight:bold;">${job.title || ''}${job.company ? ' — ' + job.company : ''}</div>
-        ${job.duration ? `<div style="font-size:11px;color:#7A776E;">${job.duration}</div>` : ''}
-        ${job.desc ? `<div style="margin-top:2px;">${job.desc}</div>` : ''}
-      </div>`
+    // ── 1. SIDEBAR BACKGROUND (rendered first) ──
+    buildHtmlElement({
+      left: 0, top: 0, width: SIDEBAR_W,
+      html: `<div style="width:${SIDEBAR_W}px;height:${PAGE_H}px;background:#EDEAE3;"></div>`
     })
 
-    const eduHTML = renderEntries(data.edu || [], edu => {
-      if (!edu.school && !edu.course) return ''
-      return `<div style="margin-bottom:6px;">
-        ${edu.school ? `<div style="font-weight:bold;">${edu.school}</div>` : ''}
-        ${edu.course ? `<div>${edu.course}</div>` : ''}
-        ${edu.year ? `<div style="font-size:11px;color:#7A776E;">${edu.year}</div>` : ''}
-      </div>`
+    // ── 2. MAIN BACKGROUND (rendered second) ──
+    buildHtmlElement({
+      left: MAIN_L, top: 0, width: MAIN_W,
+      html: `<div style="width:${MAIN_W}px;height:${PAGE_H}px;background:#FFFFFF;"></div>`
     })
 
-    const certHTML = renderEntries(data.certifications || [], cert => {
-      if (!cert.name && !cert.org) return ''
-      return `<div style="margin-bottom:6px;">
-        ${cert.name ? `<div style="font-weight:bold;">${cert.name}</div>` : ''}
-        ${cert.org ? `<div>${cert.org}</div>` : ''}
-        ${cert.date ? `<div style="font-size:11px;color:#7A776E;">${cert.date}</div>` : ''}
-      </div>`
-    })
+    // ── 3. SIDEBAR CONTENT ──
+    let sidebarHTML = `<div style="font-family:'DM Sans',sans-serif;box-sizing:border-box;width:${SIDEBAR_W}px;">`
 
-    const awardHTML = renderEntries(data.awards || [], award => {
-      if (!award.name && !award.issuer) return ''
-      return `<div style="margin-bottom:6px;">
-        ${award.name ? `<div style="font-weight:bold;">${award.name}</div>` : ''}
-        ${award.issuer ? `<div>${award.issuer}</div>` : ''}
-        ${award.year ? `<div style="font-size:11px;color:#7A776E;">${award.year}</div>` : ''}
-      </div>`
-    })
-
-    const langHTML = renderEntries(data.languages || [], lang => {
-      if (!lang.name) return ''
-      return `<div style="margin-bottom:5px;"><div><span style="font-weight:bold;">${lang.name}</span>${lang.level ? ` — ${lang.level}` : ''}</div></div>`
-    })
-
-    buildTextElement({
-      classes: ['name'],
-      text: data.name || 'Your Name',
-      left: 22,
-      top: 26,
-      width: 260,
-      fontSize: '24px',
-      fontFamily: "'DM Serif Display', serif",
-      color: '#2B3A2E'
-    })
-
-    buildTextElement({
-      classes: ['jobtitle'],
-      text: data.jobtitle || 'Job Title',
-      left: 22,
-      top: 80,
-      width: 260,
-      fontSize: '11px',
-      color: '#8FB89A',
-      fontFamily: "'DM Sans', sans-serif"
-    })
-
-    let leftHTML = `<div style="font-family:'DM Sans',sans-serif;font-size:11px;color:#7A776E;line-height:1.5;box-sizing:border-box;">`
+    // Photo
     if (data.photo) {
-      leftHTML += `<div style="margin-bottom:10px;">
-        <img src="${data.photo}" style="width:90px;height:90px;object-fit:cover;border-radius:50%;border:2px solid #8FB89A;display:block;">
-      </div>`
+      sidebarHTML += `
+        <div style="width:100%;padding:20px 0 16px;display:flex;align-items:center;justify-content:center;">
+          <img src="${data.photo}" style="width:160px;height:160px;object-fit:cover;display:block;border-radius:4px;">
+        </div>`
+    } else {
+      sidebarHTML += `<div style="width:100%;height:180px;background:#D4CFC4;"></div>`
     }
-    leftHTML += `<div style="color:#2B3A2E;font-size:10px;font-weight:bold;letter-spacing:0.1em;
-      text-transform:uppercase;border-bottom:1px solid #D4CFC4;padding-bottom:3px;margin-bottom:6px;">Contact</div>`
-    if (data.email) leftHTML += `<div style="margin-bottom:3px;">Email: ${data.email}</div>`
-    if (data.phone) leftHTML += `<div style="margin-bottom:3px;">Phone: ${data.phone}</div>`
-    if (data.location) leftHTML += `<div style="margin-bottom:3px;">Location: ${data.location}</div>`
 
-    if (data.skills && data.skills.trim()) {
-      const skillList = data.skills.split(',').map(s => s.trim()).filter(Boolean)
-      leftHTML += `<div style="color:#2B3A2E;font-size:10px;font-weight:bold;letter-spacing:0.1em;
-        text-transform:uppercase;border-bottom:1px solid #D4CFC4;padding-bottom:3px;margin:10px 0 6px;">Skills</div>`
-      skillList.forEach(skill => {
-        leftHTML += `<div style="margin-bottom:3px;">${skill}</div>`
+    sidebarHTML += `<div style="padding:10px 18px 20px;">`
+
+    // Education
+    const eduData = data.edu || []
+    if (eduData.some(e => e.school || e.course)) {
+      sidebarHTML += `<div style="font-size:9px;font-weight:700;color:#2B3A2E;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #D4CFC4;padding-bottom:3px;margin-bottom:8px;">Education</div>`
+      eduData.forEach(edu => {
+        if (!edu.school && !edu.course) return
+        sidebarHTML += `<div style="margin-bottom:10px;">`
+        if (edu.year) sidebarHTML += `<div style="font-size:9px;color:#7A776E;margin-bottom:2px;">${edu.year}</div>`
+        if (edu.course) sidebarHTML += `<div style="font-size:10px;font-weight:600;color:#1A1A18;line-height:1.3;">${edu.course}</div>`
+        if (edu.school) sidebarHTML += `<div style="font-size:10px;color:#7A776E;font-style:italic;">${edu.school}</div>`
+        sidebarHTML += `</div>`
       })
     }
-    leftHTML += `</div>`
 
-    buildHtmlElement({
-      left: 22,
-      top: 120,
-      width: 262,
-      classes: ['left-body'],
-      html: leftHTML
+    // Skills
+    if (data.skills && data.skills.trim()) {
+      sidebarHTML += `<div style="font-size:9px;font-weight:700;color:#2B3A2E;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #D4CFC4;padding-bottom:3px;margin-bottom:8px;margin-top:10px;">Skills</div>`
+      data.skills.split(',').map(s => s.trim()).filter(Boolean).forEach(skill => {
+        sidebarHTML += `<div style="font-size:10px;color:#7A776E;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+          <span style="color:#8FB89A;font-size:12px;">•</span>${skill}
+        </div>`
+      })
+    }
+
+    // Languages
+    if (data.languages && data.languages.some(l => l.name)) {
+      sidebarHTML += `<div style="font-size:9px;font-weight:700;color:#2B3A2E;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #D4CFC4;padding-bottom:3px;margin-bottom:8px;margin-top:10px;">Languages</div>`
+      data.languages.forEach(lang => {
+        if (!lang.name) return
+        sidebarHTML += `<div style="font-size:10px;color:#7A776E;margin-bottom:4px;">
+          <span style="color:#1A1A18;font-weight:600;">${lang.name}</span>${lang.level ? ` <span style="color:#7A776E;font-size:9px;">(${lang.level})</span>` : ''}
+        </div>`
+      })
+    }
+
+    // Certifications
+    if (data.certifications && data.certifications.some(c => c.name || c.org)) {
+      sidebarHTML += `<div style="font-size:9px;font-weight:700;color:#2B3A2E;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #D4CFC4;padding-bottom:3px;margin-bottom:8px;margin-top:10px;">Certifications</div>`
+      data.certifications.forEach(cert => {
+        if (!cert.name && !cert.org) return
+        sidebarHTML += `<div style="margin-bottom:6px;">
+          <div style="font-size:10px;font-weight:600;color:#1A1A18;">${cert.name || ''}</div>
+          ${cert.org ? `<div style="font-size:9px;color:#7A776E;">${cert.org}</div>` : ''}
+          ${cert.date ? `<div style="font-size:9px;color:#7A776E;">${cert.date}</div>` : ''}
+        </div>`
+      })
+    }
+
+    // Contact
+    sidebarHTML += `<div style="font-size:9px;font-weight:700;color:#2B3A2E;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #D4CFC4;padding-bottom:3px;margin-bottom:8px;margin-top:10px;">Contact</div>`
+    if (data.email) sidebarHTML += `<div style="font-size:9.5px;color:#7A776E;margin-bottom:4px;word-break:break-all;">📧 ${data.email}</div>`
+    if (data.phone) sidebarHTML += `<div style="font-size:9.5px;color:#7A776E;margin-bottom:4px;">📞 ${data.phone}</div>`
+    if (data.location) sidebarHTML += `<div style="font-size:9.5px;color:#7A776E;margin-bottom:4px;">📍 ${data.location}</div>`
+
+    sidebarHTML += `</div></div>`
+
+    buildHtmlElement({ left: 0, top: 0, width: SIDEBAR_W, html: sidebarHTML })
+
+    // ── 4. MAIN CONTENT ──
+    buildTextElement({
+      left: MAIN_L + 20, top: 30, width: MAIN_W - 40,
+      text: (data.name || 'Your Name').toUpperCase(),
+      fontSize: '26px', fontFamily: "'DM Serif Display', serif", color: '#1A1A18'
     })
 
-    let mainHTML = `<div style="font-family:'DM Sans',sans-serif;font-size:12px;color:#1A1A18;line-height:1.55;box-sizing:border-box;">`
-    if (data.summary && data.summary.trim()) mainHTML += `<div style="margin-bottom:6px;color:#7A776E;font-style:italic;">${data.summary}</div>`
-    mainHTML += section('Work Experience', workHTML)
-    if (workHTML && eduHTML) mainHTML += `<div style="margin-bottom:4px;"></div>`
-    mainHTML += section('Education', eduHTML)
-    if (eduHTML && certHTML) mainHTML += `<div style="margin-bottom:4px;"></div>`
-    mainHTML += section('Certifications', certHTML)
-    if (certHTML && awardHTML) mainHTML += `<div style="margin-bottom:4px;"></div>`
-    mainHTML += section('Awards & Achievements', awardHTML)
-    if (awardHTML && langHTML) mainHTML += `<div style="margin-bottom:4px;"></div>`
-    mainHTML += section('Languages', langHTML)
+    buildTextElement({
+      left: MAIN_L + 20, top: 76, width: MAIN_W - 40,
+      text: data.jobtitle || 'Job Title',
+      fontSize: '11px', color: '#8FB89A', fontFamily: "'DM Sans', sans-serif"
+    })
+
+    buildHtmlElement({
+      left: MAIN_L + 20, top: 98, width: MAIN_W - 40,
+      html: `<div style="height:1px;background:#D4CFC4;"></div>`
+    })
+
+    function sectionHead(title) {
+      return `<div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+        color:#2B3A2E;border-bottom:1.5px solid #8FB89A;padding-bottom:3px;margin-bottom:8px;margin-top:14px;">${title}</div>`
+    }
+
+    let mainHTML = `<div style="font-family:'DM Sans',sans-serif;font-size:11px;color:#1A1A18;line-height:1.55;box-sizing:border-box;padding:0 20px;">`
+
+    if (data.summary && data.summary.trim()) {
+      mainHTML += sectionHead('Profile')
+      mainHTML += `<div style="font-size:11px;color:#555;line-height:1.6;margin-bottom:10px;">${data.summary}</div>`
+    }
+
+    if (data.work && data.work.some(j => j.title || j.company)) {
+      mainHTML += sectionHead('Work Experience')
+      data.work.forEach(job => {
+        if (!job.title && !job.company) return
+        mainHTML += `<div style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-start;">
+          <div style="flex-shrink:0;width:8px;height:8px;border-radius:50%;background:#2B3A2E;border:2px solid #8FB89A;margin-top:4px;"></div>
+          <div style="flex:1;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <div style="font-weight:700;font-size:11px;">${job.title || ''}</div>
+              ${job.duration ? `<div style="font-size:9px;color:#7A776E;white-space:nowrap;">${job.duration}</div>` : ''}
+            </div>
+            ${job.company ? `<div style="font-size:10px;color:#555;font-style:italic;margin-bottom:2px;">${job.company}</div>` : ''}
+            ${job.desc ? `<div style="font-size:10px;color:#444;line-height:1.5;">${job.desc}</div>` : ''}
+          </div>
+        </div>`
+      })
+    }
+
+    if (data.certifications && data.certifications.some(c => c.name || c.org)) {
+      mainHTML += sectionHead('Certifications')
+      data.certifications.forEach(cert => {
+        if (!cert.name && !cert.org) return
+        mainHTML += `<div style="margin-bottom:6px;">
+          <div style="font-weight:600;font-size:11px;">${cert.name || ''}</div>
+          ${cert.org ? `<div style="font-size:10px;color:#555;">${cert.org}</div>` : ''}
+          ${cert.date ? `<div style="font-size:9px;color:#7A776E;">${cert.date}</div>` : ''}
+        </div>`
+      })
+    }
+
+    if (data.awards && data.awards.some(a => a.name || a.issuer)) {
+      mainHTML += sectionHead('Awards & Achievements')
+      mainHTML += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">`
+      data.awards.forEach(award => {
+        if (!award.name && !award.issuer) return
+        mainHTML += `<div style="background:#F7F5F0;padding:8px 10px;border-left:3px solid #8FB89A;">
+          ${award.year ? `<div style="font-size:9px;color:#7A776E;">${award.year}</div>` : ''}
+          <div style="font-weight:600;font-size:10px;">${award.name || ''}</div>
+          ${award.issuer ? `<div style="font-size:9px;color:#555;">${award.issuer}</div>` : ''}
+        </div>`
+      })
+      mainHTML += `</div>`
+    }
+
     mainHTML += `</div>`
 
-    buildHtmlElement({
-      left: 330,
-      top: 26,
-      width: 440,
-      classes: ['main-body'],
-      html: mainHTML
-    })
+    buildHtmlElement({ left: MAIN_L, top: 112, width: MAIN_W, classes: ['main-body'], html: mainHTML })
   }
 })

@@ -3,24 +3,30 @@ initResumeEditor({
   storageKey: 'profile_canvas_state_t2',
   renderFromFormData({ data, buildTextElement, buildHtmlElement, buildImageElement }) {
 
-    const HDR_H  = 155   // visible header height (below the clip)
+    const HDR_H  = 180   // full header height
     const COL_L  = 260   // left column width
     const COL_R_L = 280  // right column left start
     const COL_R_W = 514 // right column width
-    const BODY_T = HDR_H + 60
+    const BODY_T = HDR_H + 20
 
-    // ── HEADER BAR (rendered by JS so PDF is clean) ──
+    // ── HEADER BAR ──
+    // Solid rect seals the top-right triangle the clip-path would leave white
     buildHtmlElement({
       left: 0, top: 0, width: 794,
-      html: `<div style="width:794px;height:180px;background:#4A5568;clip-path:polygon(0 0,100% 0,100% 75%,0 100%);position:absolute;top:0;left:0;"></div>`
+      html: `<div style="width:794px;height:135px;background:#4A5568;"></div>`
+    })
+    // Diagonal clipped band
+    buildHtmlElement({
+      left: 0, top: 0, width: 794,
+      html: `<div style="width:794px;height:180px;background:#4A5568;clip-path:polygon(0 0,100% 0,100% 75%,0 100%);"></div>`
     })
 
     // ── PHOTO ──────────────────────────────────────────
     if (data.photo) {
       buildImageElement({
         src: data.photo,
-        left: 660, top: 14,
-        width: 110, height: 110,
+        left: 670, top: 20,
+        width: 100, height: 100,
         borderRadius: '6px'
       })
     }

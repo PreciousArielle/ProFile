@@ -17,13 +17,14 @@ initResumeEditor({
     let sidebarHTML = `<div style="font-family:'DM Sans',sans-serif;box-sizing:border-box;width:100%;background:#2C2C2C;padding:0;">`
 
     // Photo — full bleed at top, NO circular placeholder below it
-    if (data.photo) {
-      sidebarHTML += `<div style="width:100%;height:200px;overflow:hidden;flex-shrink:0;">
-        <img src="${data.photo}" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>`
-    } else {
-      sidebarHTML += `<div style="width:100%;height:200px;background:#3A3A3A;flex-shrink:0;"></div>`
-    }
+   if (data.photo) {
+  sidebarHTML += `
+    <div style="width:100%; height:200px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+      <img src="${data.photo}" style="width:180px; height:180px; object-fit:cover; display:block; border-radius:2px;">
+    </div>`;
+} else {
+  sidebarHTML += `<div style="width:100%; height:200px; background:#3A3A3A; flex-shrink:0;"></div>`;
+}
 
     sidebarHTML += `<div style="padding:16px 14px;">`
 

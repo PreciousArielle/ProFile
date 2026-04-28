@@ -1,7 +1,7 @@
 initResumeEditor({
   templateNum: 3,
   storageKey: 'profile_canvas_state_t3',
-  renderFromFormData({ data, buildTextElement, buildHtmlElement }) {
+  renderFromFormData({ data, buildTextElement, buildHtmlElement, buildImageElement }) {
     function section(title, body) {
       if (!body) return ''
       return `<div style="color:#2B3A2E;font-size:11px;font-weight:bold;letter-spacing:0.08em;
@@ -98,16 +98,14 @@ initResumeEditor({
     let mainHTML = `<div style="font-family:'DM Sans',sans-serif;font-size:12px;color:#1A1A18;line-height:1.6;box-sizing:border-box;">`
 
     if (data.photo) {
-    if (data.photo) {
   buildImageElement({
     src: data.photo,
-    left: 680, // Positioned at the top right
-    top: 20,
-    width: 80,
-    height: 80,
-    borderRadius: '4px' // Square with slight rounding like templates 1 & 2
-  });
-}
+    left: 670,       // Exact position from T2
+    top: 20,        // Exact position from T2
+    width: 100,     // Exact width from T2
+    height: 100,    // Exact height from T2
+    borderRadius: '6px' // The slight rounded corner from T2
+  })
     }
 
     if (data.summary && data.summary.trim()) mainHTML += `<div style="margin-bottom:6px;">${data.summary}</div>`
@@ -126,7 +124,7 @@ initResumeEditor({
 
     buildHtmlElement({
       left: 40,
-      top: 158,
+      top: 158, 
       width: 714,
       classes: ['main-body'],
       html: mainHTML

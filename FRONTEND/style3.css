@@ -101,7 +101,7 @@ body {
 /* ── FULL-WIDTH DIVIDER ── */
 .divider-rule {
   position: absolute;
-  left: 40px; top: 108px;
+  left: 40px; top: 148px;
   width: 714px; height: 1px;
   background: var(--border);
 }
