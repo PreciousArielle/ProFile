@@ -1,0 +1,72 @@
+
+  .resume-grid {
+    display: grid;
+    /* Increased minimum to 320px and max to 450px so they stay chunky */
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+    gap: 30px;
+    /* Centering the grid if there's too much extra space on the sides */
+    justify-content: center; 
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+   }
+
+    .resume-card {
+    width: 100%; /* Important: let the grid decide the width */
+    max-width: 450px; /* Prevents them from getting TOO wide on giant monitors */
+    margin: 0 auto;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #fff;
+    border: 1.5px solid #e8e4dc;
+    transition: transform 0.18s, box-shadow 0.18s;
+    cursor: pointer;
+  }
+
+  .resume-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 32px rgba(20, 30, 18, 0.12);
+  }
+
+  .resume-preview {
+    width: 100%;
+    aspect-ratio: 794 / 1123;
+    position: relative;
+    overflow: hidden;
+    background: white;
+  }
+  .resume-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1A1A18;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .resume-info {
+  padding: 12px 14px;
+  border-top: 1px solid #eee;
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  }
+
+  .resume-info span {
+  display: block;
+
+  }
+
+  
+
+  .btn-danger {
+    background: #c0392b;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .btn-danger:hover {
+    background: #a93226;
+  }

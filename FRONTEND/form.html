@@ -180,6 +180,7 @@
       </div>
 
       <div class="form-actions">
+        <button class="btn-build" onclick="saveResume()">Save Draft</button>
         <button class="btn-build" onclick="buildResume()">Build My Resume -></button>
         
       </div>
@@ -735,6 +736,36 @@
     localStorage.setItem('profile_form_draft_t' + templateNum, JSON.stringify(data))
     localStorage.setItem('profile_form_data', JSON.stringify(data))
   }
+  
+  async function loadResumeFromServer() {
+  const resumeId = new URLSearchParams(window.location.search).get('id');
+  if (!resumeId) { loadSavedForm(); return; } // new resume, use local draft
+
+  const token = localStorage.getItem('profile_token');
+  try {
+    const res = await fetch(`/api/resumes/${resumeId}`, {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (!res.ok) { loadSavedForm(); return; }
+
+    const resume = await res.json();
+    const data = typeof resume.resume_data === 'string'
+      ? JSON.parse(resume.resume_data)
+      : resume.resume_data;
+
+    // Stamp template from the saved resume, not just the URL
+    // (optional but safer)
+    localStorage.setItem('profile_form_data', JSON.stringify(data));
+    loadSavedForm(); // now it reads the data you just set
+
+  } catch (e) {
+    console.warn('Could not load resume from server, falling back to local draft', e);
+    loadSavedForm();
+  }
+}
+
+// Replace the bare loadSavedForm() call at the bottom with:
+loadResumeFromServer();
 
   function loadSavedForm() {
     const raw = localStorage.getItem('profile_form_draft_t' + templateNum) || localStorage.getItem('profile_form_data')

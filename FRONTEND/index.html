@@ -9,17 +9,96 @@
 <body>
   <script src="auth-guard.js"></script>
 
+  <!-- ── Welcome Modal ── -->
+  <div id="welcomeOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); z-index:9999; align-items:center; justify-content:center; padding:24px;">
+    <div style="background:white; border-radius:20px; padding:40px; width:100%; max-width:460px; box-shadow:0 20px 60px rgba(0,0,0,0.15); animation:popIn 0.4s cubic-bezier(.22,.68,0,1.2) both; font-family:'DM Sans',sans-serif;">
+
+      <!-- Step 1: Pick role -->
+      <div id="step1">
+        <p style="font-size:12px; font-weight:500; color:#8FB89A; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px;">Welcome to ProFile</p>
+        <h2 style="font-family:'DM Serif Display',serif; font-size:26px; color:#2B3A2E; margin-bottom:8px;">First, tell us about yourself</h2>
+        <p style="font-size:13px; color:#7A776E; margin-bottom:28px; line-height:1.6;">This helps us personalize your experience and suggest the right templates.</p>
+
+        <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:28px;">
+          <button onclick="selectRole('student')" id="btn-student" style="display:flex; align-items:center; gap:14px; padding:16px 18px; border:2px solid #D4CFC4; border-radius:12px; background:#F7F5F0; cursor:pointer; text-align:left; font-family:'DM Sans',sans-serif; width:100%; transition:border-color 0.15s;">
+            <span style="font-size:24px;">🎓</span>
+            <div>
+              <div style="font-size:14px; font-weight:500; color:#1A1A18; margin-bottom:2px;">Student</div>
+              <div style="font-size:12px; color:#7A776E;">Building my first resume for internships or entry-level jobs</div>
+            </div>
+          </button>
+          <button onclick="selectRole('job_seeker')" id="btn-jobseeker" style="display:flex; align-items:center; gap:14px; padding:16px 18px; border:2px solid #D4CFC4; border-radius:12px; background:#F7F5F0; cursor:pointer; text-align:left; font-family:'DM Sans',sans-serif; width:100%; transition:border-color 0.15s;">
+            <span style="font-size:24px;">💼</span>
+            <div>
+              <div style="font-size:14px; font-weight:500; color:#1A1A18; margin-bottom:2px;">Job Seeker</div>
+              <div style="font-size:12px; color:#7A776E;">Looking for new opportunities or switching careers</div>
+            </div>
+          </button>
+        </div>
+
+        <button id="continueBtn" onclick="goToStep2()" disabled style="width:100%; height:44px; background:linear-gradient(135deg,#2B3A2E,#3d5241); color:#F0EDE5; border:none; border-radius:10px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; cursor:not-allowed; opacity:0.4; transition:opacity 0.15s;">Continue →</button>
+        <button onclick="closeWelcome()" style="display:block; width:100%; margin-top:12px; background:none; border:none; font-family:'DM Sans',sans-serif; font-size:12px; color:#7A776E; cursor:pointer; padding:4px;">Skip for now</button>
+      </div>
+
+      <!-- Step 2: Tutorial -->
+      <div id="step2" style="display:none;">
+        <div id="tut-1" class="tut-step">
+          <div style="font-size:48px; margin-bottom:16px;">📝</div>
+          <h3 style="font-family:'DM Serif Display',serif; font-size:22px; color:#2B3A2E; margin-bottom:10px;">Build your resume</h3>
+          <p style="font-size:13px; color:#7A776E; line-height:1.6;">Use the Resume Builder to fill in your personal info, education, skills, and experience step by step.</p>
+        </div>
+        <div id="tut-2" class="tut-step" style="display:none;">
+          <div style="font-size:48px; margin-bottom:16px;">🎨</div>
+          <h3 style="font-family:'DM Serif Display',serif; font-size:22px; color:#2B3A2E; margin-bottom:10px;">Pick a template</h3>
+          <p style="font-size:13px; color:#7A776E; line-height:1.6;">Choose from professionally designed templates. Each one is clean, modern, and ATS-friendly.</p>
+        </div>
+        <div id="tut-3" class="tut-step" style="display:none;">
+          <div style="font-size:48px; margin-bottom:16px;">👁️</div>
+          <h3 style="font-family:'DM Serif Display',serif; font-size:22px; color:#2B3A2E; margin-bottom:10px;">Preview in real time</h3>
+          <p style="font-size:13px; color:#7A776E; line-height:1.6;">See exactly how your resume looks as you type. No surprises when you download.</p>
+        </div>
+        <div id="tut-4" class="tut-step" style="display:none;">
+          <div style="font-size:48px; margin-bottom:16px;">📄</div>
+          <h3 style="font-family:'DM Serif Display',serif; font-size:22px; color:#2B3A2E; margin-bottom:10px;">Export as PDF</h3>
+          <p style="font-size:13px; color:#7A776E; line-height:1.6;">When you're ready, download your resume as a PDF — ready to send to employers.</p>
+        </div>
+
+        <!-- Dots -->
+        <div style="display:flex; justify-content:center; gap:6px; margin:24px 0 20px;">
+          <div id="dot-1" style="width:7px;height:7px;border-radius:50%;background:#4A6350;transform:scale(1.3);transition:all 0.2s;"></div>
+          <div id="dot-2" style="width:7px;height:7px;border-radius:50%;background:#D4CFC4;transition:all 0.2s;"></div>
+          <div id="dot-3" style="width:7px;height:7px;border-radius:50%;background:#D4CFC4;transition:all 0.2s;"></div>
+          <div id="dot-4" style="width:7px;height:7px;border-radius:50%;background:#D4CFC4;transition:all 0.2s;"></div>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+          <button id="backBtn" onclick="prevTut()" style="display:none; height:44px; padding:0 18px; background:none; border:1.5px solid #D4CFC4; border-radius:10px; font-family:'DM Sans',sans-serif; font-size:14px; color:#7A776E; cursor:pointer;">← Back</button>
+          <button id="tutNextBtn" onclick="nextTut()" style="flex:1; height:44px; background:linear-gradient(135deg,#2B3A2E,#3d5241); color:#F0EDE5; border:none; border-radius:10px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; cursor:pointer;">Next →</button>
+        </div>
+        <button onclick="closeWelcome()" style="display:block; width:100%; margin-top:12px; background:none; border:none; font-family:'DM Sans',sans-serif; font-size:12px; color:#7A776E; cursor:pointer; padding:4px;">Skip tutorial</button>
+      </div>
+
+    </div>
+  </div>
+
+  <style>
+    @keyframes popIn {
+      from { opacity:0; transform:scale(0.92) translateY(16px); }
+      to   { opacity:1; transform:scale(1) translateY(0); }
+    }
+    .tut-step { text-align:center; padding:8px 0; }
+  </style>
+
   <header class="site-header">
     <a class="logo" href="/index.html">Pro<span>File</span></a>
-
     <nav class="site-nav">
       <a class="nav-link" href="#features">Features</a>
       <a class="nav-link" href="#templates">Templates</a>
       <a class="nav-link" href="#how-it-works">How It Works</a>
     </nav>
-
     <div class="header-actions">
       <a class="btn-ghost" href="form.html?template=1">Start Building</a>
+      <a class="btn-ghost" href="my-resume.html">Saved Resumes</a>
       <button onclick="logout()" class="btn-reset">Sign Out</button>
     </div>
   </header>
@@ -33,73 +112,63 @@
       <div class="hero-ribbon hero-ribbon-b"></div>
 
       <section class="hero">
-  <div class="hero-copy">
-    <div class="hero-eyebrow">ATS-first resume builder</div>
-    <h1>Build a resume that looks sharp and scans clean.</h1>
-    <p>
-      Choose a layout, fill in your details, and generate a polished resume without wrestling with formatting.
-    </p>
-
-    <div class="hero-actions">
-      <a class="btn-primary" href="form.html?template=1">Create Resume</a>
-      <a class="btn-secondary" href="#templates">Browse Templates</a>
-    </div>
-
-    <div class="hero-stats">
-      <div class="stat-card">
-        <span class="stat-label">Templates</span>
-        <strong>4 layouts</strong>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">Export</span>
-        <strong>PDF ready</strong>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">Workflow</span>
-        <strong>Form-driven</strong>
-      </div>
-    </div>
-  </div>
-
-  <div class="hero-visual" aria-hidden="true">
-    <div class="laptop-scene">
-      <div class="laptop-glow"></div>
-
-      <div class="laptop">
-        <div class="laptop-screen">
-          <div class="screen-topbar"></div>
-          <div class="resume-ui">
-            <div class="resume-sidebar"></div>
-            <div class="resume-main">
-              <div class="resume-name"></div>
-              <div class="resume-role"></div>
-              <div class="resume-rule"></div>
-
-              <div class="resume-section"></div>
-              <div class="resume-line w-92"></div>
-              <div class="resume-line w-76"></div>
-              <div class="resume-line w-68"></div>
-
-              <div class="resume-section"></div>
-              <div class="resume-line w-88"></div>
-              <div class="resume-line w-72"></div>
-
-              <div class="resume-section"></div>
-              <div class="resume-line w-84"></div>
-              <div class="resume-line w-66"></div>
+        <div class="hero-copy">
+          <div class="hero-eyebrow">ATS-first resume builder</div>
+          <h1>Build a resume that looks sharp and scans clean.</h1>
+          <p>Choose a layout, fill in your details, and generate a polished resume without wrestling with formatting.</p>
+          <div class="hero-actions">
+            <a class="btn-primary" href="form.html?template=1">Create Resume</a>
+            <a class="btn-secondary" href="#templates">Browse Templates</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-card">
+              <span class="stat-label">Templates</span>
+              <strong>4 layouts</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Export</span>
+              <strong>PDF ready</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Workflow</span>
+              <strong>Form-driven</strong>
             </div>
           </div>
         </div>
 
-        <div class="laptop-base"></div>
-        <div class="laptop-trackpad"></div>
-      </div>
-        <div class="scene-line w-74"></div>
-      </div>
-    </div>
-  </div>
-</section>
-</section>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="laptop-scene">
+            <div class="laptop-glow"></div>
+            <div class="laptop">
+              <div class="laptop-screen">
+                <div class="screen-topbar"></div>
+                <div class="resume-ui">
+                  <div class="resume-sidebar"></div>
+                  <div class="resume-main">
+                    <div class="resume-name"></div>
+                    <div class="resume-role"></div>
+                    <div class="resume-rule"></div>
+                    <div class="resume-section"></div>
+                    <div class="resume-line w-92"></div>
+                    <div class="resume-line w-76"></div>
+                    <div class="resume-line w-68"></div>
+                    <div class="resume-section"></div>
+                    <div class="resume-line w-88"></div>
+                    <div class="resume-line w-72"></div>
+                    <div class="resume-section"></div>
+                    <div class="resume-line w-84"></div>
+                    <div class="resume-line w-66"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="laptop-base"></div>
+              <div class="laptop-trackpad"></div>
+            </div>
+            <div class="scene-line w-74"></div>
+          </div>
+        </div>
+      </section>
+    </section>
 
     <section class="info-band" id="features">
       <div class="info-card">
@@ -204,7 +273,6 @@
           <h2 class="section-title">Three steps, no layout wrestling</h2>
         </div>
       </div>
-
       <div class="workflow-grid">
         <div class="workflow-card">
           <span class="step-no">01</span>
@@ -228,12 +296,129 @@
   <footer class="site-footer">ProFile Beta - Resume builder for focused, ATS-friendly applications.</footer>
 
   <script>
+    // ── Template search ──
     function filterTemplates() {
       const q = document.getElementById('searchInput').value.toLowerCase()
       document.querySelectorAll('.template-card').forEach(card => {
         card.style.display = (card.dataset.name || '').includes(q) ? '' : 'none'
       })
     }
+
+    // ── Welcome modal logic ──
+    let selectedRole = null
+    let currentTut   = 1
+    const totalTut   = 4
+
+    async function checkOnboarding() {
+      try {
+        const res = await fetch('/auth/me', {
+          headers: { 'Authorization': 'Bearer ' + localStorage.getItem('profile_token') }
+        })
+        const user = await res.json()
+        if (!user.onboarded) {
+          document.getElementById('welcomeOverlay').style.display = 'flex'
+        }
+      } catch(e) {
+        // Fallback: use localStorage if backend not wired yet
+        const userStr = localStorage.getItem('profile_user')
+        if (userStr) {
+          const user = JSON.parse(userStr)
+          if (!localStorage.getItem('profile_onboarded_' + user.id)) {
+            document.getElementById('welcomeOverlay').style.display = 'flex'
+         } catch(e) {
+    const userStr = localStorage.getItem('profile_user')
+    if (userStr) {
+      const user = JSON.parse(userStr)
+      if (!localStorage.getItem('profile_onboarded_' + user.id)) {
+        document.getElementById('welcomeOverlay').style.display = 'flex'
+        // ✅ Mark as onboarded immediately so it never shows again
+        localStorage.setItem('profile_onboarded_' + user.id, '1')
+      }
+    }
+
+          }
+        }
+      }
+    }
+
+    function selectRole(role) {
+      selectedRole = role
+      document.getElementById('btn-student').style.borderColor   = role === 'student'    ? '#4A6350' : '#D4CFC4'
+      document.getElementById('btn-jobseeker').style.borderColor = role === 'job_seeker'  ? '#4A6350' : '#D4CFC4'
+      document.getElementById('btn-student').style.background    = role === 'student'    ? '#EBF3EE' : '#F7F5F0'
+      document.getElementById('btn-jobseeker').style.background  = role === 'job_seeker'  ? '#EBF3EE' : '#F7F5F0'
+      const btn = document.getElementById('continueBtn')
+      btn.disabled = false
+      btn.style.opacity = '1'
+      btn.style.cursor  = 'pointer'
+    }
+
+    function goToStep2() {
+      if (!selectedRole) return
+      // Save role locally
+      const userStr = localStorage.getItem('profile_user')
+      if (userStr) {
+        const user = JSON.parse(userStr)
+        user.userType = selectedRole
+        localStorage.setItem('profile_user', JSON.stringify(user))
+      }
+      // Also try saving to backend
+      fetch('/api/onboard', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('profile_token')
+        },
+        body: JSON.stringify({ user_type: selectedRole })
+      }).catch(() => {}) // silent fail if not wired yet
+
+      document.getElementById('step1').style.display = 'none'
+      document.getElementById('step2').style.display = 'block'
+    }
+
+    function nextTut() {
+      if (currentTut < totalTut) {
+        document.getElementById('tut-' + currentTut).style.display = 'none'
+        document.getElementById('dot-' + currentTut).style.background = '#D4CFC4'
+        document.getElementById('dot-' + currentTut).style.transform  = 'scale(1)'
+        currentTut++
+        document.getElementById('tut-' + currentTut).style.display = 'block'
+        document.getElementById('dot-' + currentTut).style.background = '#4A6350'
+        document.getElementById('dot-' + currentTut).style.transform  = 'scale(1.3)'
+        document.getElementById('backBtn').style.display = 'block'
+        if (currentTut === totalTut) {
+          document.getElementById('tutNextBtn').textContent = 'Get started →'
+        }
+      } else {
+        closeWelcome()
+      }
+    }
+
+    function prevTut() {
+      if (currentTut > 1) {
+        document.getElementById('tut-' + currentTut).style.display = 'none'
+        document.getElementById('dot-' + currentTut).style.background = '#D4CFC4'
+        document.getElementById('dot-' + currentTut).style.transform  = 'scale(1)'
+        currentTut--
+        document.getElementById('tut-' + currentTut).style.display = 'block'
+        document.getElementById('dot-' + currentTut).style.background = '#4A6350'
+        document.getElementById('dot-' + currentTut).style.transform  = 'scale(1.3)'
+        document.getElementById('tutNextBtn').textContent = 'Next →'
+        if (currentTut === 1) document.getElementById('backBtn').style.display = 'none'
+      }
+    }
+
+    function closeWelcome() {
+      const userStr = localStorage.getItem('profile_user')
+      if (userStr) {
+        const user = JSON.parse(userStr)
+        localStorage.setItem('profile_onboarded_' + user.id, '1')
+      }
+      document.getElementById('welcomeOverlay').style.display = 'none'
+    }
+
+    // Run on load
+    checkOnboarding()
   </script>
 </body>
 </html>

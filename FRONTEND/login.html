@@ -8,170 +8,424 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #EDEAE3; --surface: #F7F5F0; --border: #D4CFC4;
-      --accent: #2B3A2E; --accent-lt: #4A6350; --sage: #8FB89A;
-      --text: #1A1A18; --muted: #7A776E;
-    }
-    body {
-      font-family: "DM Sans", sans-serif;
-      background: var(--bg);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-    .card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 48px 40px;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 4px 40px rgba(0,0,0,0.08);
-      animation: slideUp 0.4s ease both;
-    }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .logo {
-      font-family: "DM Serif Display", serif;
-      font-size: 28px;
-      color: var(--accent);
-      text-align: center;
-      margin-bottom: 6px;
-    }
-    .logo span { color: var(--sage); }
-    .subtitle {
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 36px;
-    }
-    .field { margin-bottom: 16px; }
-    .field label {
-      display: block;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-    .field input {
-      width: 100%;
-      height: 40px;
-      padding: 0 12px;
-      font-family: "DM Sans", sans-serif;
-      font-size: 14px;
-      color: var(--text);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      outline: none;
-      transition: border-color 0.12s, box-shadow 0.12s;
-    }
-    .field input:focus {
-      border-color: var(--accent-lt);
-      box-shadow: 0 0 0 3px rgba(143,184,154,0.15);
-      background: white;
-    }
-    .btn {
-      width: 100%;
-      height: 42px;
-      background: var(--accent);
-      color: #EDE9DF;
-      border: none;
-      border-radius: 8px;
-      font-family: "DM Sans", sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      margin-top: 8px;
-      transition: background 0.12s, transform 0.1s;
-    }
-    .btn:hover  { background: var(--accent-lt); }
-    .btn:active { transform: scale(0.98); }
-    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-    .divider {
-      text-align: center;
-      font-size: 12px;
-      color: var(--muted);
-      margin: 20px 0;
-      position: relative;
-    }
-    .divider::before, .divider::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      width: 40%;
-      height: 1px;
-      background: var(--border);
-    }
-    .divider::before { left: 0; }
-    .divider::after  { right: 0; }
-    .link-row {
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .link-row a {
-      color: var(--accent-lt);
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .link-row a:hover { text-decoration: underline; }
-    .error {
-      background: #FCEBEB;
-      color: #A32D2D;
-      border: 1px solid #F7C1C1;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 13px;
-      margin-bottom: 16px;
-      display: none;
-      animation: shake 0.3s ease;
-    }
-    @keyframes shake {
-      0%,100% { transform: translateX(0); }
-      25%      { transform: translateX(-6px); }
-      75%      { transform: translateX(6px); }
-    }
-    .spinner {
-      display: inline-block;
-      width: 14px; height: 14px;
-      border: 2px solid rgba(237,233,223,0.4);
-      border-top-color: #EDE9DF;
-      border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-      vertical-align: middle;
-      margin-right: 6px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #EDEAE3; --surface: #F7F5F0; --border: #D4CFC4;
+  --accent: #2B3A2E; --accent-lt: #4A6350; --sage: #8FB89A;
+  --text: #1A1A18; --muted: #7A776E;
+  --panel: #2B3A2E;
+}
+body {
+  font-family: "DM Sans", sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: stretch;
+}
+
+/* ── Left panel ── */
+.left-panel {
+  width: 45%;
+  background: var(--panel);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 30% 20%, rgba(143,184,154,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 75% 85%, rgba(107,158,120,0.12) 0%, transparent 55%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px 44px;
+  position: relative;
+  overflow: hidden;
+}
+.left-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%238FB89A' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.panel-brand {
+  font-family: "DM Serif Display", serif;
+  font-size: 26px;
+  color: #EAE6DC;
+  position: relative;
+  z-index: 1;
+}
+.panel-brand span { color: var(--sage); }
+
+.resume-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+/* Resume card mockups */
+.resume-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 16px 18px;
+  backdrop-filter: blur(4px);
+  transition: transform 0.3s ease;
+}
+.resume-card:nth-child(1) { transform: rotate(-1.5deg) translateX(-8px); }
+.resume-card:nth-child(2) { transform: rotate(0.5deg); }
+.resume-card:nth-child(3) { transform: rotate(-0.8deg) translateX(6px); }
+.resume-card:hover { transform: rotate(0deg) translateY(-2px) !important; }
+
+.rc-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.rc-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sage), #4A6350);
+  flex-shrink: 0;
+}
+.rc-avatar-2 { background: linear-gradient(135deg, #A8C5B0, #6B9E78); }
+.rc-avatar-3 { background: linear-gradient(135deg, #7EB08A, #3d5241); }
+.rc-name-block { display: flex; flex-direction: column; gap: 4px; }
+.rc-bar {
+  height: 7px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.15);
+}
+.rc-bar.w-24 { width: 96px; }
+.rc-bar.w-16 { width: 64px; background: rgba(255,255,255,0.08); }
+.rc-lines { display: flex; flex-direction: column; gap: 6px; }
+.rc-line {
+  height: 5px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.08);
+}
+.rc-line.w-full { width: 100%; }
+.rc-line.w-3q   { width: 75%; }
+.rc-line.w-half { width: 50%; }
+.rc-line.w-2q   { width: 60%; background: rgba(143,184,154,0.2); }
+.rc-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+  margin: 10px 0;
+}
+.rc-tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.rc-tag {
+  padding: 3px 8px;
+  border-radius: 99px;
+  font-size: 9px;
+  font-weight: 500;
+  background: rgba(143,184,154,0.15);
+  color: var(--sage);
+  border: 1px solid rgba(143,184,154,0.2);
+}
+
+.panel-tagline {
+  position: relative;
+  z-index: 1;
+}
+.panel-tagline h2 {
+  font-family: "DM Serif Display", serif;
+  font-size: 22px;
+  color: #EAE6DC;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+.panel-tagline p {
+  font-size: 13px;
+  color: rgba(234,230,220,0.5);
+  line-height: 1.6;
+}
+
+/* ── Right panel (form) ── */
+.right-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(143,184,154,0.09) 0%, transparent 55%);
+}
+.form-box {
+  width: 100%;
+  max-width: 380px;
+  animation: fadeIn 0.4s ease both;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.form-title {
+  font-family: "DM Serif Display", serif;
+  font-size: 26px;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.form-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+.form-sub a {
+  color: var(--accent-lt);
+  text-decoration: none;
+  font-weight: 500;
+}
+.form-sub a:hover { text-decoration: underline; }
+
+.field { margin-bottom: 18px; }
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 7px;
+}
+.field input {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field input:focus {
+  border-color: var(--accent-lt);
+  box-shadow: 0 0 0 3px rgba(143,184,154,0.18);
+}
+.field input::placeholder { color: #C4C0B8; }
+.field input.input-error { border-color: #E07070; box-shadow: 0 0 0 3px rgba(224,112,112,0.1); }
+.field input.input-ok    { border-color: #6dbf90; box-shadow: 0 0 0 3px rgba(109,191,144,0.1); }
+.hint { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+.btn {
+  width: 100%;
+  height: 46px;
+  background: linear-gradient(135deg, #2B3A2E 0%, #3d5241 100%);
+  color: #F0EDE5;
+  border: none;
+  border-radius: 10px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 14px rgba(43,58,46,0.22);
+  transition: opacity 0.12s, transform 0.1s, box-shadow 0.12s;
+}
+.btn:hover  { opacity: 0.9; box-shadow: 0 6px 20px rgba(43,58,46,0.28); }
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+
+.divider {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin: 22px 0;
+  position: relative;
+}
+.divider::before, .divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 44%;
+  height: 1px;
+  background: var(--border);
+}
+.divider::before { left: 0; }
+.divider::after  { right: 0; }
+.link-row {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+.link-row a {
+  color: var(--accent-lt);
+  text-decoration: none;
+  font-weight: 500;
+}
+.link-row a:hover { text-decoration: underline; }
+
+.error {
+  background: #FDF0F0;
+  color: #A32D2D;
+  border: 1px solid #F5C6C6;
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 13px;
+  margin-bottom: 18px;
+  display: none;
+  animation: shake 0.3s ease;
+}
+.success {
+  background: #E8F7F1;
+  color: #0F6E56;
+  border: 1px solid #A8E4CE;
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 13px;
+  margin-bottom: 18px;
+  display: none;
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25%      { transform: translateX(-5px); }
+  75%      { transform: translateX(5px); }
+}
+.spinner {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(240,237,229,0.3);
+  border-top-color: #F0EDE5;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Password strength (register only) ── */
+.strength-wrap { margin-top: 8px; }
+.strength-bars { display: flex; gap: 4px; margin-bottom: 6px; }
+.strength-bar {
+  flex: 1; height: 3px;
+  border-radius: 99px;
+  background: var(--border);
+  transition: background 0.25s;
+}
+.strength-bar.active-weak   { background: #E07070; }
+.strength-bar.active-fair   { background: #E0A840; }
+.strength-bar.active-strong { background: #6dbf90; }
+.strength-label { font-size: 11px; font-weight: 500; color: var(--muted); }
+.strength-label.weak   { color: #c0392b; }
+.strength-label.fair   { color: #c07800; }
+.strength-label.strong { color: #2e8b57; }
+.rules { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+.rule { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+.rule .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); flex-shrink: 0; transition: background 0.2s; }
+.rule.met { color: #2e8b57; }
+.rule.met .dot { background: #6dbf90; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  body { flex-direction: column; }
+  .left-panel { width: 100%; min-height: 220px; padding: 32px 28px; }
+  .resume-stack { flex-direction: row; padding: 20px 0; gap: 10px; overflow: hidden; }
+  .resume-card { min-width: 160px; transform: none !important; }
+  .panel-tagline { display: none; }
+  .right-panel { padding: 36px 24px; }
+}
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="logo">Pro<span>File</span></div>
-    <p class="subtitle">Sign in to build your resume</p>
+ <body>
+  <div class="left-panel">
+    <div class="panel-brand">Pro<span>File</span></div>
 
-    <div class="error" id="errorMsg"></div>
+    <div class="resume-stack">
+      <!-- Resume card 1 -->
+      <div class="resume-card">
+        <div class="rc-header">
+          <div class="rc-avatar"></div>
+          <div class="rc-name-block">
+            <div class="rc-bar w-24"></div>
+            <div class="rc-bar w-16"></div>
+          </div>
+        </div>
+        <div class="rc-lines">
+          <div class="rc-line w-full"></div>
+          <div class="rc-line w-3q"></div>
+          <div class="rc-line w-2q"></div>
+        </div>
+        <div class="rc-divider"></div>
+        <div class="rc-tag-row">
+          <div class="rc-tag">Design</div>
+          <div class="rc-tag">Figma</div>
+          <div class="rc-tag">UI/UX</div>
+        </div>
+      </div>
 
-    <div class="field">
-      <label>Username</label>
-      <input type="text" id="username" placeholder="e.g. juandelacruz" autocomplete="username">
+      <!-- Resume card 2 -->
+      <div class="resume-card">
+        <div class="rc-header">
+          <div class="rc-avatar rc-avatar-2"></div>
+          <div class="rc-name-block">
+            <div class="rc-bar w-24"></div>
+            <div class="rc-bar w-16"></div>
+          </div>
+        </div>
+        <div class="rc-lines">
+          <div class="rc-line w-full"></div>
+          <div class="rc-line w-half"></div>
+          <div class="rc-line w-3q"></div>
+        </div>
+        <div class="rc-divider"></div>
+        <div class="rc-tag-row">
+          <div class="rc-tag">React</div>
+          <div class="rc-tag">Node.js</div>
+          <div class="rc-tag">SQL</div>
+        </div>
+      </div>
+
+      <!-- Resume card 3 -->
+      <div class="resume-card">
+        <div class="rc-header">
+          <div class="rc-avatar rc-avatar-3"></div>
+          <div class="rc-name-block">
+            <div class="rc-bar w-24"></div>
+            <div class="rc-bar w-16"></div>
+          </div>
+        </div>
+        <div class="rc-lines">
+          <div class="rc-line w-3q"></div>
+          <div class="rc-line w-full"></div>
+          <div class="rc-line w-half"></div>
+        </div>
+        <div class="rc-divider"></div>
+        <div class="rc-tag-row">
+          <div class="rc-tag">Marketing</div>
+          <div class="rc-tag">SEO</div>
+        </div>
+      </div>
     </div>
-    <div class="field">
-      <label>Password</label>
-      <input type="password" id="password" placeholder="Your password" autocomplete="current-password">
+
+    <div class="panel-tagline">
+      <h2>Your resume,<br>professionally done.</h2>
+      <p>Build, customize, and export<br>job-ready resumes in minutes.</p>
     </div>
+  </div>
 
-    <button class="btn" id="loginBtn" onclick="doLogin()">Sign In</button>
+  <div class="right-panel">
+    <div class="form-box">
+      <h1 class="form-title">Welcome back</h1>
+      <p class="form-sub">Don't have an account? <a href="/register.html">Create one</a></p>
 
-    <div class="divider">or</div>
-    <div class="link-row">
-      Don't have an account? <a href="/register.html">Create one</a>
+      <div class="error" id="errorMsg"></div>
+
+      <div class="field">
+        <label>Username</label>
+        <input type="text" id="username" placeholder="e.g. juandelacruz" autocomplete="username">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Your password" autocomplete="current-password">
+      </div>
+
+      <button class="btn" id="loginBtn" onclick="doLogin()">Sign In</button>
     </div>
   </div>
 
@@ -217,7 +471,12 @@
 
         localStorage.setItem("profile_token", data.token)
         localStorage.setItem("profile_user",  JSON.stringify({ id: data.id, username: data.username, role: data.role }))
-        window.location.href = data.role === "admin" ? "/admin.html" : "/index.html"
+        if (data.role === "admin") {
+        window.location.href = "/admin.html"
+          } else {
+        const isNew = !localStorage.getItem("profile_onboarded_" + data.id)
+           window.location.href =  "/index.html"
+          }
 
       } catch(e) {
         showError("Could not connect to server.")

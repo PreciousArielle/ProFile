@@ -76,6 +76,20 @@ body {
   gap: 10px;
 }
 
+.btn-danger {
+  background: #c0392b;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-danger:hover {
+  background: #a93226;
+}
+
 .btn-reset,
 .btn-ghost,
 .btn-primary,
@@ -635,6 +649,7 @@ body {
 }
 
 .template-card {
+  max-width: 320;
   border-radius: 18px;
   overflow: hidden;
   text-decoration: none;

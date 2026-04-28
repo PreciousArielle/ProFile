@@ -8,13 +8,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
 </head>
 <body>
   <script src="auth-guard.js"></script>
   <header class="header">
     <div class="header-logo">Pro<span>File</span> <span style="font-size:11px;opacity:0.5;font-family:'DM Sans',sans-serif;font-weight:300;letter-spacing:0.1em;"></span></div>
     <div class="header-right">
-      <a href="form.html?template=1" style="font-size:12px;color:rgba(237,233,223,0.5);text-decoration:none;padding:5px 10px;border:1px solid rgba(237,233,223,0.15);border-radius:6px;margin-right:4px;">← Edit Form</a>
+      <a class="btn-ghost" href="my-resume.html">Saved Resumes</a>
       <button class="btn-download" onclick="generatePDF()">↓ Download PDF</button>
       <button onclick="logout()" class="btn-reset">Sign Out</button>
     </div>

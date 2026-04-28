@@ -18,7 +18,7 @@ initResumeEditor({
     // Diagonal clipped band
     buildHtmlElement({
       left: 0, top: 0, width: 794,
-      html: `<div style="width:794px;height:180px;background:#4A5568;clip-path:polygon(0 0,100% 0,100% 75%,0 100%);"></div>`
+      html: `<div style="width:900px;height:180px;background:#4A5568;clip-path:polygon(0 0,100% 0,100% 75%,0 100%);"></div>`
     })
 
     // ── PHOTO ──────────────────────────────────────────

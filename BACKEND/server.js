@@ -163,6 +163,19 @@ app.get('/auth/me', requireAuth, async (req, res) => {
   }
 })
 
+app.post('/api/onboard', requireAuth, async (req, res) => {
+  try {
+    const { user_type } = req.body;
+    await db.execute(
+      'UPDATE users SET user_type = ?, onboarded = TRUE WHERE id = ?',
+      [user_type, req.user.id]
+    );
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to save profile' });
+  }
+});
+
 // ── RESUME ROUTES ─────────────────────────────
 
 // Save new resume
@@ -240,6 +253,24 @@ app.delete('/api/resumes/:id', requireAuth, async (req, res) => {
 })
 
 // ── ADMIN ROUTES ──────────────────────────────
+
+// GET SYSTEM STATS
+app.get('/admin/stats', requireAdmin, async (req, res) => {
+  try {
+    const [u] = await db.execute('SELECT COUNT(*) as count FROM users');
+    const [r] = await db.execute('SELECT COUNT(*) as count FROM resumes');
+    const [l] = await db.execute('SELECT COUNT(*) as count FROM audit_logs');
+    
+    res.json({
+      userCount: u[0].count,
+      resumeCount: r[0].count,
+      logCount: l[0].count
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch stats' });
+  }
+});
 
 // Get all users
 app.get('/admin/users', requireAdmin, async (req, res) => {
