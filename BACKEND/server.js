@@ -153,7 +153,7 @@ app.post('/auth/logout', requireAuth, async (req, res) => {
 app.get('/auth/me', requireAuth, async (req, res) => {
   try {
     const [rows] = await db.execute(
-      'SELECT id, full_name, username, role, created_at FROM users WHERE id = ?',
+      'SELECT id, full_name, username, role, onboarded, created_at FROM users WHERE id = ?',
       [req.user.id]
     )
     if (!rows.length) return res.status(404).json({ error: 'User not found' })
