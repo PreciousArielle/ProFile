@@ -309,37 +309,27 @@
     let currentTut   = 1
     const totalTut   = 4
 
-    async function checkOnboarding() {
-      try {
-        const res = await fetch('/auth/me', {
-          headers: { 'Authorization': 'Bearer ' + localStorage.getItem('profile_token') }
-        })
-        const user = await res.json()
-        if (!user.onboarded) {
-          document.getElementById('welcomeOverlay').style.display = 'flex'
-        }
-      } catch(e) {
-        // Fallback: use localStorage if backend not wired yet
-        const userStr = localStorage.getItem('profile_user')
-        if (userStr) {
-          const user = JSON.parse(userStr)
-          if (!localStorage.getItem('profile_onboarded_' + user.id)) {
-            document.getElementById('welcomeOverlay').style.display = 'flex'
-         } catch(e) {
+   async function checkOnboarding() {
+  try {
+    const res = await fetch('/auth/me', {
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('profile_token') }
+    })
+    const user = await res.json()
+    if (!user.onboarded) {
+      document.getElementById('welcomeOverlay').style.display = 'flex'
+      localStorage.setItem('profile_onboarded_' + user.id, '1')
+    }
+  } catch(e) {
     const userStr = localStorage.getItem('profile_user')
     if (userStr) {
       const user = JSON.parse(userStr)
       if (!localStorage.getItem('profile_onboarded_' + user.id)) {
         document.getElementById('welcomeOverlay').style.display = 'flex'
-        // ✅ Mark as onboarded immediately so it never shows again
         localStorage.setItem('profile_onboarded_' + user.id, '1')
       }
     }
-
-          }
-        }
-      }
-    }
+  }
+}
 
     function selectRole(role) {
       selectedRole = role
