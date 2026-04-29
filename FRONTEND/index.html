@@ -323,9 +323,9 @@
     const userStr = localStorage.getItem('profile_user')
     if (userStr) {
       const user = JSON.parse(userStr)
-      if (!localStorage.getItem('profile_onboarded_' + user.id)) {
+      if (!localStorage.getItem('profile_onboarded_' + user.id || user.username)) {
         document.getElementById('welcomeOverlay').style.display = 'flex'
-        localStorage.setItem('profile_onboarded_' + user.id, '1')
+        localStorage.setItem(key, '1')
       }
     }
   }
