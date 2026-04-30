@@ -362,7 +362,15 @@ app.post('/generate-pdf', requireAuth, async (req, res) => {
 
     const browser = await puppeteer.launch({
       headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || null,
+      args: [
+       '--no-sandbox',
+       '--disable-setuid-sandbox',
+       '--disable-dev-shm-usage',
+       '--disable-gpu',
+        '--no-zygote',
+        '--single-process'
+       ]
     })
     const page = await browser.newPage()
     await page.setViewport({ width: pdfW, height: pdfH })
