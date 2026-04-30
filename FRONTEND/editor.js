@@ -1,8 +1,4 @@
-/* =============================================
-   ProFile — editor.js  (view-only, no editing)
-   Renders form data onto resume canvas.
-   PDF download only — no drag/resize/text edit.
-   ============================================= */
+
 
 function initResumeEditor({ templateNum, storageKey, renderFromFormData }) {
 
@@ -26,7 +22,7 @@ function initResumeEditor({ templateNum, storageKey, renderFromFormData }) {
 
   const resume = document.getElementById('resume')
 
-  /* ── BUILD TEXT ELEMENT (view only) ── */
+  // BUILD TEXT ELEMENT
   function buildTextElement(opts = {}) {
     const el = document.createElement('div')
     el.className = 'text'
@@ -88,7 +84,7 @@ function initResumeEditor({ templateNum, storageKey, renderFromFormData }) {
     return el
   }
 
-  /* ── LOAD FROM FORM DATA ── */
+  // LOAD FROM FORM DATA 
   function loadFormData() {
     const raw = localStorage.getItem('profile_form_data')
     if (!raw) return false
@@ -96,14 +92,12 @@ function initResumeEditor({ templateNum, storageKey, renderFromFormData }) {
       const data = JSON.parse(raw)
       localStorage.removeItem('profile_form_data')
       applyPaperSize(data.paperSize || 'a4')
-      // Remove all dynamic elements AND clear static placeholder content
+
       document.querySelectorAll('#resume .text').forEach(el => el.remove())
-      // Clear any static text content in structural elements (sidebar, header-bar etc)
-      // so they don't ghost behind the rendered content
       const resume = document.getElementById('resume')
       Array.from(resume.children).forEach(child => {
         if (!child.classList.contains('text')) {
-          // Keep structural divs but clear any lingering text
+  
           child.querySelectorAll('.text').forEach(el => el.remove())
         }
       })
@@ -115,7 +109,7 @@ function initResumeEditor({ templateNum, storageKey, renderFromFormData }) {
     }
   }
 
-  /* ── LOAD FROM DRAFT (returning from form) ── */
+  // LOAD FROM DRAFT 
   function loadFromDraft() {
     const raw = localStorage.getItem('profile_form_draft')
     if (!raw) return false
@@ -130,7 +124,7 @@ function initResumeEditor({ templateNum, storageKey, renderFromFormData }) {
     }
   }
 
-  /* ── RESET ── */
+  //RESET 
   window.resetSession = function() {
     if (!confirm('Clear this resume? You\'ll go back to the form.')) return
     localStorage.removeItem('profile_form_draft')
@@ -141,7 +135,7 @@ function initResumeEditor({ templateNum, storageKey, renderFromFormData }) {
     window.location.href = 'form.html?template=' + templateNum
   }
 
-  /* ── PDF EXPORT ── */
+  //PDF EXPORT 
   window.generatePDF = async function() {
     const sizeKey = localStorage.getItem(PAPER_KEY) || 'a4'
     const size    = PAPER_SIZES[sizeKey]
@@ -170,7 +164,6 @@ function initResumeEditor({ templateNum, storageKey, renderFromFormData }) {
     }
   }
 
-  /* ── INIT ── */
   applyPaperSize(localStorage.getItem(PAPER_KEY) || 'a4')
   if (!loadFormData()) loadFromDraft()
 }

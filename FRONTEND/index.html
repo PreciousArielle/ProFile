@@ -55,12 +55,12 @@
         <div id="tut-3" class="tut-step" style="display:none;">
           <div style="font-size:48px; margin-bottom:16px;">👁️</div>
           <h3 style="font-family:'DM Serif Display',serif; font-size:22px; color:#2B3A2E; margin-bottom:10px;">Preview in real time</h3>
-          <p style="font-size:13px; color:#7A776E; line-height:1.6;">See exactly how your resume looks as you type. No surprises when you download.</p>
+          <p style="font-size:13px; color:#7A776E; line-height:1.6;">See exactly how your resume looks as you type.</p>
         </div>
         <div id="tut-4" class="tut-step" style="display:none;">
           <div style="font-size:48px; margin-bottom:16px;">📄</div>
           <h3 style="font-family:'DM Serif Display',serif; font-size:22px; color:#2B3A2E; margin-bottom:10px;">Export as PDF</h3>
-          <p style="font-size:13px; color:#7A776E; line-height:1.6;">When you're ready, download your resume as a PDF — ready to send to employers.</p>
+          <p style="font-size:13px; color:#7A776E; line-height:1.6;">When you're ready, download your resume as a PDF!</p>
         </div>
 
         <!-- Dots -->
@@ -172,8 +172,8 @@
 
     <section class="info-band" id="features">
       <div class="info-card">
-        <span class="info-kicker">Clean structure</span>
-        <h2>Built for hiring workflows, not design chaos.</h2>
+        <span class="info-kicker">Clean Designs!</span>
+        <h2>Built for hiring workflows.</h2>
       </div>
       <div class="info-list">
         <div class="info-item">
@@ -293,10 +293,10 @@
     </section>
   </main>
 
-  <footer class="site-footer">ProFile Beta - Resume builder for focused, ATS-friendly applications.</footer>
+  <footer class="site-footer">ProFile - A Resume builder for focused, ATS-friendly applications.</footer>
 
   <script>
-    // ── Template search ──
+    //  Template search 
     function filterTemplates() {
       const q = document.getElementById('searchInput').value.toLowerCase()
       document.querySelectorAll('.template-card').forEach(card => {
@@ -304,7 +304,7 @@
       })
     }
 
-    // ── Welcome modal logic ──
+    // Welcome modal logic
     let selectedRole = null
     let currentTut   = 1
     const totalTut   = 4
@@ -352,7 +352,7 @@
         user.userType = selectedRole
         localStorage.setItem('profile_user', JSON.stringify(user))
       }
-      // Also try saving to backend
+      // saving to backend
       fetch('/api/onboard', {
         method: 'POST',
         headers: {
@@ -360,7 +360,7 @@
           'Authorization': 'Bearer ' + localStorage.getItem('profile_token')
         },
         body: JSON.stringify({ user_type: selectedRole })
-      }).catch(() => {}) // silent fail if not wired yet
+      }).catch(() => {}) 
 
       document.getElementById('step1').style.display = 'none'
       document.getElementById('step2').style.display = 'block'

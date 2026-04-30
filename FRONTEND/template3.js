@@ -100,11 +100,11 @@ initResumeEditor({
     if (data.photo) {
   buildImageElement({
     src: data.photo,
-    left: 670,       // Exact position from T2
-    top: 20,        // Exact position from T2
-    width: 100,     // Exact width from T2
-    height: 100,    // Exact height from T2
-    borderRadius: '6px' // The slight rounded corner from T2
+    left: 670,     
+    top: 20,        
+    width: 100,    
+    height: 100,  
+    borderRadius: '6px' 
   })
     }
 

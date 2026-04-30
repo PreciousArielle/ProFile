@@ -22,7 +22,6 @@ body {
   color: var(--text); min-height: 100vh;
 }
 
-/* ── HEADER ── */
 .header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 28px; height: 52px;
@@ -32,7 +31,6 @@ body {
 .header-logo span { color: #8FB89A; }
 .header-right { display: flex; align-items: center; gap: 10px; }
 
-/* ── TOOLBAR ── */
 .toolbar {
   display: flex; align-items: center; justify-content: center;
   gap: 4px; padding: 0 20px; height: 44px;
@@ -78,25 +76,24 @@ body {
 .btn-download:hover  { background: #A5CCAF; }
 .btn-download:active { transform: scale(0.97); }
 
-/* ── CANVAS ── */
 .canvas-area {
   display: flex; justify-content: center;
   padding: 36px 24px 60px; min-height: calc(100vh - 96px);
 }
 
-/* ── RESUME ── */
+
 #resume {
   width: 794px; height: 1123px;
   background: white; position: relative;
   box-shadow: var(--shadow); overflow: hidden; flex-shrink: 0;
 }
 
-/* ── TWO COLUMN STRUCTURE ── */
+
 .left-col-bg {
   position: absolute;
   left: 0; top: 0;
   width: var(--col-l-w); height: 100%;
-  background: #F2EFE8; /* slightly warmer than white */
+  background: #F2EFE8;
 }
 
 .left-col-accent {
@@ -106,7 +103,7 @@ body {
   background: var(--sage);
 }
 
-/* ── TEXT BOXES ── */
+
 .text {
   position: absolute; min-width: 80px; min-height: 28px;
   background: transparent; user-select: none;
@@ -134,7 +131,7 @@ body {
 }
 .text.selected .resize-grip { opacity: 1; }
 
-/* ── PRESET POSITIONS ── */
+
 .name { left: 22px; top: 26px; width: 260px; }
 .name .text-content {
   font-family: 'DM Serif Display', serif;
@@ -158,7 +155,7 @@ body {
   font-size: 12px; color: var(--text); line-height: 1.6;
 }
 
-/* ── CONTEXT MENU ── */
+
 #ctx-menu {
   position: absolute; display: none; background: white;
   border: 1px solid var(--border); border-radius: 8px; padding: 4px;
@@ -170,10 +167,9 @@ body {
 }
 #ctx-menu div:hover { background: var(--bg); }
 
-/* ── TOOLBAR HIDDEN (editing removed) ── */
+
 .toolbar { display: none !important; }
 
-/* ── TEXT CONTENT — drag/resize only ── */
 .text-content {
   cursor: default !important;
   user-select: none !important;

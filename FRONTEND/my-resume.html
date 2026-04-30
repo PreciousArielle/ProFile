@@ -8,7 +8,7 @@
 <body>
   <script src="auth-guard.js"></script>
 
-  <!-- SAME HEADER AS HOME -->
+
   <header class="site-header">
     <a class="logo" href="index.html">Pro<span>File</span></a>
 
@@ -35,7 +35,7 @@
     </div>
 
     <div id="resumeList" class="resume-grid">
-      <!-- JS will inject cards here -->
+
     </div>
   </main>
 <style>
@@ -178,7 +178,7 @@
     color: var(--muted);
   }
 
-  /* ── Template preview mockups (ported from home.css) ── */
+  
   .template-preview {
     position: relative;
     width: 100%;
@@ -188,7 +188,7 @@
     border-radius: 4px;
   }
 
-  /* Shared placeholder element styles */
+
   .p-sidebar {
     position: absolute;
     left: 0; top: 0;
@@ -222,7 +222,6 @@
     background: #ccc;
   }
 
-  /* Lines for main content area */
   .p-line, .p-line-r {
     position: absolute;
     height: 2%;
@@ -234,31 +233,28 @@
   .p-line-3 { left: 28%; top: 36%; width: 55%; }
   .p-line-6 { left: 28%; top: 58%; width: 50%; }
 
-  /* Two-column right-side lines */
+
   .p-line-r { left: auto; }
   .p-line-r.p-line-6 { right: 4%; top: 42%; width: 25%; }
 
-  /* Template-specific overrides */
 
-  /* T1: Classic Sidebar — dark left panel, lines shifted right */
   .preview-t1 .p-name { left: 28%; background: #fff; }
   .preview-t1 .p-sub  { left: 28%; background: rgba(255,255,255,0.5); }
 
-  /* T2: Modern Header — diagonal header, white text */
+
   .preview-t2 .p-name { left: 6%; top: 5%;  background: #fff; opacity: 0.9; }
   .preview-t2 .p-sub  { left: 6%; top: 13%; background: rgba(255,255,255,0.5); }
   .preview-t2 .p-line-4 { left: 6%; top: 30%; width: 55%; }
   .preview-t2 .p-line-5 { left: 6%; top: 36%; width: 44%; }
   .preview-t2 .p-line-6 { left: 6%; top: 44%; width: 50%; }
 
-  /* T3: Minimal — no sidebar, centered-ish, ruled divider */
+
   .preview-t3 .p-name { left: 6%; top: 6%; background: #1A1A18; }
   .preview-t3 .p-sub  { left: 6%; top: 14%; background: #9a9690; }
   .preview-t3 .p-line-4 { left: 6%; top: 26%; width: 70%; }
   .preview-t3 .p-line-5 { left: 6%; top: 32%; width: 55%; }
   .preview-t3 .p-line-6 { left: 6%; top: 40%; width: 62%; }
 
-  /* T4: Two Column — left tinted panel + right content */
   .preview-t4 .p-name { left: 40%; top: 6%; background: #1A1A18; }
   .preview-t4 .p-sub  { left: 40%; top: 14%; background: #9a9690; }
   .preview-t4 .p-line-1 { left: 40%; top: 24%; width: 52%; }
@@ -305,8 +301,7 @@ function getTemplateMockup(templateNum) {
                 <div class="p-line-r p-line-4"></div><div class="p-line-r p-line-5"></div>
             </div>`
     };
-    
-    // Logic fix: Only one return statement. Defaults to Template 1 if number is weird.
+
     return mocks[templateNum] || mocks[1];
 }
 
@@ -381,6 +376,6 @@ async function deleteResume(id) {
     }
 }
 
-// Kick off the load
+
 loadResumes();
 </script>

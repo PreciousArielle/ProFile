@@ -8,19 +8,19 @@ initResumeEditor({
     const MAIN_W    = 495
     const PAGE_H    = 1123
 
-    // ── 1. SIDEBAR BACKGROUND (rendered first) ──
+    // SIDEBAR BACKGROUND 
     buildHtmlElement({
       left: 0, top: 0, width: SIDEBAR_W,
       html: `<div style="width:${SIDEBAR_W}px;height:${PAGE_H}px;background:#EDEAE3;"></div>`
     })
 
-    // ── 2. MAIN BACKGROUND (rendered second) ──
+    //  MAIN BACKGROUND 
     buildHtmlElement({
       left: MAIN_L, top: 0, width: MAIN_W,
       html: `<div style="width:${MAIN_W}px;height:${PAGE_H}px;background:#FFFFFF;"></div>`
     })
 
-    // ── 3. SIDEBAR CONTENT ──
+    // SIDEBAR CONTENT 
     let sidebarHTML = `<div style="font-family:'DM Sans',sans-serif;box-sizing:border-box;width:${SIDEBAR_W}px;">`
 
     // Photo
@@ -93,7 +93,7 @@ initResumeEditor({
 
     buildHtmlElement({ left: 0, top: 0, width: SIDEBAR_W, html: sidebarHTML })
 
-    // ── 4. MAIN CONTENT ──
+    // MAIN CONTENT 
     buildTextElement({
       left: MAIN_L + 20, top: 30, width: MAIN_W - 40,
       text: (data.name || 'Your Name').toUpperCase(),

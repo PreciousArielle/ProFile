@@ -434,14 +434,14 @@
  function setPaper(size) {
     paperSize = size;
     
-    // 1. Update Buttons
+    // Update Buttons
     document.getElementById('btn-a4').classList.toggle('active', size === 'a4');
     document.getElementById('btn-letter').classList.toggle('active', size === 'letter');
     
     const resumeEl = document.getElementById('previewResume');
     const outerEl = document.getElementById('previewOuter');
 
-    // 2. Correct Specs
+    // Correct Specs
     const specs = {
         a4:     { w: 794, h: 1123 },
         letter: { w: 816, h: 1056 }
@@ -449,24 +449,20 @@
 
     const d = specs[size];
 
-    // 3. Apply dimensions to the resume
+    // the dimensions to the resume!!!
     resumeEl.style.width = d.w + 'px';
     resumeEl.style.height = d.h + 'px';
 
-    // 4. FIX THE GREY BLOCK: 
-    // We need to calculate the scale based on the current width of the panel
     const currentPanelWidth = outerEl.offsetWidth;
     const scaleFactor = currentPanelWidth / d.w;
 
-    // Apply the scale to the resume
+
     resumeEl.style.transform = `scale(${scaleFactor})`;
 
-    // FORCE the outer container to be exactly the scaled height
-    // This cuts off the grey "ghost" area
     outerEl.style.height = (d.h * scaleFactor) + 'px';
 
     localStorage.setItem('profile_paper_size', size);
-  // Re-run the scaling logic if you have any, or just update the preview
+
   if (typeof updatePreview === 'function') updatePreview();
 }
   function toggleSection(id) {
@@ -753,8 +749,7 @@
       ? JSON.parse(resume.resume_data)
       : resume.resume_data;
 
-    // Stamp template from the saved resume, not just the URL
-    // (optional but safer)
+
     localStorage.setItem('profile_form_data', JSON.stringify(data));
     loadSavedForm(); // now it reads the data you just set
 
@@ -764,7 +759,7 @@
   }
 }
 
-// Replace the bare loadSavedForm() call at the bottom with:
+
 loadResumeFromServer();
 
   function loadSavedForm() {
@@ -879,7 +874,7 @@ loadResumeFromServer();
       if (mainName) mainName.textContent = (name || 'YOUR NAME').toUpperCase()
       if (mainJob)  mainJob.textContent  = jobtitle || 'Job Title'
 
-      // Photo
+      // Photo! Man,,, this one was hard
       const t1photoWrap = document.getElementById('prev-t1-photo-wrap')
       const t1photoImg  = document.getElementById('prev-t1-photo-img')
       if (t1photoWrap && t1photoImg) {
@@ -900,7 +895,7 @@ loadResumeFromServer();
       if (location) contactHTML += `<div style="margin-bottom:3px;">📍 ${location}</div>`
       document.getElementById('prev-contact').innerHTML = contactHTML
 
-      // SIDEBAR: Education — styled per template (year, course bold, school italic, divider after)
+      // SIDEBArs stuff
       const eduSideData = Array.from(document.querySelectorAll('#edu-entries .entry-card')).map(entry => {
         const inputs = entry.querySelectorAll('input')
         return { school: inputs[0]?.value, course: inputs[1]?.value, year: inputs[2]?.value }
@@ -922,7 +917,7 @@ loadResumeFromServer();
         eduWrap1.style.display = 'none'
       }
 
-      // SIDEBAR: Skills — bullet style with divider after
+      // SIDEBAR: Skills 
       let skillsHTML = ''
       if (skills.trim()) {
         const list = skills.split(',').map(s => s.trim()).filter(Boolean)
@@ -932,7 +927,7 @@ loadResumeFromServer();
       }
       document.getElementById('prev-skills-section').innerHTML = skillsHTML
 
-      // SIDEBAR: Languages — with divider after
+      // SIDEBAR: Languages, electric boogaloo
       const langSideData = Array.from(document.querySelectorAll('#lang-entries .entry-card')).map(entry => ({
         name: entry.querySelector('input')?.value, level: entry.querySelector('select')?.value
       }))
@@ -949,7 +944,7 @@ loadResumeFromServer();
         langWrap1.style.display = 'none'
       }
 
-      // MAIN: Summary — with section header
+  
       const summaryWrap1 = document.getElementById('prev-t1-summary-wrap')
       if (summary.trim()) {
         document.getElementById('prev-summary').textContent = summary
@@ -958,7 +953,7 @@ loadResumeFromServer();
         summaryWrap1.style.display = 'none'
       }
 
-      // MAIN: Work — timeline dot style
+      // MAIN: Work 
       const workWrap1 = document.getElementById('prev-work-wrap')
       let workHTML = ''
       document.querySelectorAll('#work-entries .entry-card').forEach(entry => {
@@ -1008,7 +1003,7 @@ loadResumeFromServer();
         certWrap1.style.display = 'none'
       }
 
-      // MAIN: Awards — 2-column card grid
+      // MAIN: Awards 
       const awardWrap1 = document.getElementById('prev-award-wrap')
       const awardData1 = Array.from(document.querySelectorAll('#award-entries .entry-card')).map(entry => {
         const inputs = entry.querySelectorAll('input')
@@ -1035,7 +1030,7 @@ loadResumeFromServer();
       document.getElementById('prev-t2-name').textContent = name
       document.getElementById('prev-t2-job').textContent  = jobtitle
 
-      // LEFT: Personal Profile (summary)
+      // LEFT: Personal Profile
       const sumWrap2 = document.getElementById('prev-t2-summary-wrap')
       if (summary.trim()) {
         document.getElementById('prev-t2-summary').textContent = summary
@@ -1305,7 +1300,7 @@ loadResumeFromServer();
         summaryWrap.style.display = 'none'
       }
 
-      // MAIN: Work Experience — dot timeline style
+      // MAIN: Work Experience 
       const workWrap = document.getElementById('prev-t4-work-wrap')
       let workHTML = ''
       document.querySelectorAll('#work-entries .entry-card').forEach(entry => {
@@ -1364,7 +1359,6 @@ loadResumeFromServer();
 
     // Save to profile_form_data for the template to consume
     localStorage.setItem('profile_form_data', JSON.stringify(formData))
-    // ALSO save a persistent draft so coming back to form restores everything
     localStorage.setItem('profile_form_draft_t' + templateNum, JSON.stringify(formData))
     localStorage.removeItem('profile_canvas_state')
     localStorage.removeItem('profile_canvas_state_t2')
@@ -1393,7 +1387,7 @@ loadResumeFromServer();
 
 
 
-  // Scale preview — set maxScale to 1.0 for full size with scroll
+  // Scale preview 
   function scalePreview() {
     const outer  = document.getElementById('previewOuter')
     const inner  = document.getElementById('previewResume')

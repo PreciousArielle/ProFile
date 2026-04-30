@@ -9,19 +9,19 @@ initResumeEditor({
     const COL_R_W = 514 // right column width
     const BODY_T = HDR_H + 20
 
-    // ── HEADER BAR ──
-    // Solid rect seals the top-right triangle the clip-path would leave white
+    // HEADER BAR 
+  
     buildHtmlElement({
       left: 0, top: 0, width: 794,
       html: `<div style="width:794px;height:135px;background:#4A5568;"></div>`
     })
-    // Diagonal clipped band
+
     buildHtmlElement({
       left: 0, top: 0, width: 794,
       html: `<div style="width:900px;height:180px;background:#4A5568;clip-path:polygon(0 0,100% 0,100% 75%,0 100%);"></div>`
     })
 
-    // ── PHOTO ──────────────────────────────────────────
+    // PHOTO
     if (data.photo) {
       buildImageElement({
         src: data.photo,
@@ -31,7 +31,7 @@ initResumeEditor({
       })
     }
 
-    // Name + title over header
+    // Name
     buildTextElement({
       left: 20, top: 30, width: 580,
       text: data.name || 'Your Name',
@@ -43,7 +43,7 @@ initResumeEditor({
       fontSize: '13px', color: 'rgba(255,255,255,0.75)', fontFamily: "'DM Sans', sans-serif"
     })
 
-    // ── LEFT COLUMN ───────────────────────────────
+    // LEFT COLUMN 
     function leftSection(title, content) {
       if (!content) return ''
       return `<div style="margin-bottom:14px;">
@@ -101,7 +101,7 @@ initResumeEditor({
       html: `<div style="width:1px;height:900px;background:#D4CFC4;"></div>`
     })
 
-    // ── RIGHT COLUMN ──────────────────────────────
+    // RIGHT COLUMN
     function rightSection(title, content) {
       if (!content) return ''
       return `<div style="margin-bottom:14px;">
@@ -113,7 +113,7 @@ initResumeEditor({
 
     let rightHTML = `<div style="font-family:'DM Sans',sans-serif;font-size:11.5px;color:#1A1A18;line-height:1.55;box-sizing:border-box;padding-right:20px;">`
 
-    // Skills — bullet list
+    // Skills 
     if (data.skills && data.skills.trim()) {
       const skillList = data.skills.split(',').map(s => s.trim()).filter(Boolean)
       let skillsHTML = '<ul style="list-style:none;padding:0;margin:0;columns:2;gap:10px;">'

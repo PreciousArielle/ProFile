@@ -7,16 +7,16 @@ initResumeEditor({
     const MAIN_L    = 240
     const MAIN_W    = 530
 
-    // ── SIDEBAR BACKGROUND (rendered by JS so PDF is clean) ──
+    // SIDEBAR BACKGROUND
     buildHtmlElement({
       left: 0, top: 0, width: SIDEBAR_W,
       html: `<div style="width:100%;height:1123px;background:#2C2C2C;position:absolute;top:0;left:0;"></div>`
     })
 
-    // ── SIDEBAR CONTENT ──────────────────────────────────
+    // SIDEBAR CONTENT 
     let sidebarHTML = `<div style="font-family:'DM Sans',sans-serif;box-sizing:border-box;width:100%;background:#2C2C2C;padding:0;">`
 
-    // Photo — full bleed at top, NO circular placeholder below it
+    // Photo ...
    if (data.photo) {
   sidebarHTML += `
     <div style="width:100%; height:200px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
@@ -28,7 +28,7 @@ initResumeEditor({
 
     sidebarHTML += `<div style="padding:16px 14px;">`
 
-    // Divider — no name here, name is in main content only
+    // Divider
 
     // Education
     const eduData = data.edu || data.education || [];
@@ -79,8 +79,8 @@ initResumeEditor({
 
     buildHtmlElement({ left: 0, top: 0, width: SIDEBAR_W, html: sidebarHTML })
 
-    // ── MAIN CONTENT ─────────────────────────────
-    // Name + title (large, at top)
+    // MAIN CONTENT 
+    
     buildTextElement({
       left: MAIN_L, top: 30, width: MAIN_W,
       text: (data.name || 'Your Name').toUpperCase(),
@@ -105,13 +105,13 @@ initResumeEditor({
 
     let mainHTML = `<div style="font-family:'DM Sans',sans-serif;font-size:12px;color:#1A1A18;line-height:1.55;box-sizing:border-box;">`
 
-    // Profile / Summary
+    // Profile
     if (data.summary && data.summary.trim()) {
       mainHTML += sectionHead('Profile Info')
       mainHTML += `<div style="font-size:11.5px;color:#333;line-height:1.6;margin-bottom:14px;">${data.summary}</div>`
     }
 
-    // Work Experience — timeline dots style
+    // Work Experience 
     if (data.work && data.work.some(j => j.title || j.company)) {
       mainHTML += sectionHead('Experience')
       data.work.forEach(job => {
@@ -143,7 +143,7 @@ initResumeEditor({
       })
     }
 
-    // Awards — two column grid like reference
+    // Awards 
     if (data.awards && data.awards.some(a => a.name || a.issuer)) {
       mainHTML += sectionHead('Achievement')
       mainHTML += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">`

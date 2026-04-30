@@ -18,7 +18,7 @@
 
 body { margin:0; padding:0; background:var(--bg); font-family:'DM Sans',sans-serif; color:var(--text); min-height:100vh; }
 
-/* ── APP HEADER ── */
+
 .header {
   display:flex; align-items:center; justify-content:space-between;
   padding:0 28px; height:52px; background:var(--accent);
@@ -51,20 +51,19 @@ body { margin:0; padding:0; background:var(--bg); font-family:'DM Sans',sans-ser
   padding:36px 24px 60px; min-height:calc(100vh - 52px);
 }
 
-/* ── RESUME ── */
 #resume {
   width:794px; height:1123px; background:white;
   position:relative; box-shadow:var(--shadow); overflow:hidden; flex-shrink:0;
 }
 
-/* ── SIDEBAR ── */
+
 .sidebar {
   position:absolute; left:0; top:0;
   width:var(--sidebar-w); height:100%;
   background:var(--sidebar-bg);
 }
 
-/* ── TEXT BOXES ── */
+
 .text {
   position:absolute; min-width:80px; min-height:28px;
   background:transparent; user-select:none;
