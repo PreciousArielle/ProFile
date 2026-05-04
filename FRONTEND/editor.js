@@ -2,7 +2,9 @@
 
 function initResumeEditor({ templateNum, storageKey, renderFromFormData }) {
 
-  const SERVER    = 'http://localhost:3000'
+  const SERVER = window.location.hostname === 'localhost'
+  ? 'http://localhost:3000'
+  : 'https://profile-07v0.onrender.com'
   const PAPER_KEY = 'profile_paper_size'
 
   const PAPER_SIZES = {
