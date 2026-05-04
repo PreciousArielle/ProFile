@@ -363,17 +363,17 @@ app.post('/generate-pdf', requireAuth, async (req, res) => {
     const browser = await puppeteer.connect({
       browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BROWSERLESS_TOKEN}`,
     })
-    
+
     const page = await browser.newPage()
     await page.setViewport({ width: pdfW, height: pdfH })
-    await page.setContent(fullHTML, { waitUntil: 'networkidle0', timeout: 30000 })
+    await page.setContent(fullHTML, { waitUntil: 'load', timeout: 30000 })
     await page.evaluate(() => document.fonts ? document.fonts.ready : Promise.resolve())
 
     const pdfBuffer = await page.pdf({
       width: pdfW + 'px', height: pdfH + 'px',
       printBackground: true, pageRanges: '1'
     })
-    await browser.close()
+    await browser.disconnect()
 
     await auditLog(req.user.id, 'RESUME_DOWNLOADED', `Template: ${templateNum}`)
 
