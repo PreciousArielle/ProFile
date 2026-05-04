@@ -360,18 +360,10 @@ app.post('/generate-pdf', requireAuth, async (req, res) => {
       '</body></html>'
     ].join('\n')
 
-    const browser = await puppeteer.launch({
-      headless: 'new',
-      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || null,
-      args: [
-       '--no-sandbox',
-       '--disable-setuid-sandbox',
-       '--disable-dev-shm-usage',
-       '--disable-gpu',
-        '--no-zygote',
-        '--single-process'
-       ]
+    const browser = await puppeteer.connect({
+      browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BROWSERLESS_TOKEN}`,
     })
+    
     const page = await browser.newPage()
     await page.setViewport({ width: pdfW, height: pdfH })
     await page.setContent(fullHTML, { waitUntil: 'networkidle0', timeout: 30000 })
