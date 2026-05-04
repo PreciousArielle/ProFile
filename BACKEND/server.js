@@ -2,7 +2,7 @@ require('dotenv').config()   // ← must be first line
 
 const express    = require('express')
 const bodyParser = require('body-parser')
-const puppeteer  = require('puppeteer')
+const puppeteer  = require('puppeteer-core')
 const cors       = require('cors')
 const fs         = require('fs')
 const path       = require('path')
@@ -33,7 +33,6 @@ async function auditLog(userId, action, details = '') {
 }
 
 // ── SEED DEFAULT ADMIN ────────────────────────
-// Creates admin account on first run if no users exist
 
 async function seedAdmin() {
   try {
@@ -77,7 +76,6 @@ function requireAdmin(req, res, next) {
 
 // ── AUTH ROUTES ───────────────────────────────
 
-// REGISTER
 app.post('/auth/register', async (req, res) => {
   try {
     const { fullname, username, password } = req.body
@@ -106,7 +104,6 @@ app.post('/auth/register', async (req, res) => {
   }
 })
 
-// LOGIN
 app.post('/auth/login', async (req, res) => {
   try {
     const { username, password } = req.body
@@ -143,13 +140,11 @@ app.post('/auth/login', async (req, res) => {
   }
 })
 
-// LOGOUT
 app.post('/auth/logout', requireAuth, async (req, res) => {
   await auditLog(req.user.id, 'LOGOUT', `Username: ${req.user.username}`)
   res.json({ ok: true })
 })
 
-// GET CURRENT USER
 app.get('/auth/me', requireAuth, async (req, res) => {
   try {
     const [rows] = await db.execute(
@@ -165,20 +160,19 @@ app.get('/auth/me', requireAuth, async (req, res) => {
 
 app.post('/api/onboard', requireAuth, async (req, res) => {
   try {
-    const { user_type } = req.body;
+    const { user_type } = req.body
     await db.execute(
       'UPDATE users SET user_type = ?, onboarded = TRUE WHERE id = ?',
       [user_type, req.user.id]
-    );
-    res.json({ ok: true });
+    )
+    res.json({ ok: true })
   } catch (err) {
-    res.status(500).json({ error: 'Failed to save profile' });
+    res.status(500).json({ error: 'Failed to save profile' })
   }
-});
+})
 
 // ── RESUME ROUTES ─────────────────────────────
 
-// Save new resume
 app.post('/api/resumes', requireAuth, async (req, res) => {
   try {
     const { title, template_num, resume_data } = req.body
@@ -194,7 +188,6 @@ app.post('/api/resumes', requireAuth, async (req, res) => {
   }
 })
 
-// Get all resumes for logged-in user
 app.get('/api/resumes', requireAuth, async (req, res) => {
   try {
     const [rows] = await db.execute(
@@ -207,7 +200,6 @@ app.get('/api/resumes', requireAuth, async (req, res) => {
   }
 })
 
-// Get one resume
 app.get('/api/resumes/:id', requireAuth, async (req, res) => {
   try {
     const [rows] = await db.execute(
@@ -223,7 +215,6 @@ app.get('/api/resumes/:id', requireAuth, async (req, res) => {
   }
 })
 
-// Update existing resume
 app.put('/api/resumes/:id', requireAuth, async (req, res) => {
   try {
     const { title, template_num, resume_data } = req.body
@@ -238,7 +229,6 @@ app.put('/api/resumes/:id', requireAuth, async (req, res) => {
   }
 })
 
-// Delete resume
 app.delete('/api/resumes/:id', requireAuth, async (req, res) => {
   try {
     await db.execute(
@@ -254,25 +244,18 @@ app.delete('/api/resumes/:id', requireAuth, async (req, res) => {
 
 // ── ADMIN ROUTES ──────────────────────────────
 
-// GET SYSTEM STATS
 app.get('/admin/stats', requireAdmin, async (req, res) => {
   try {
-    const [u] = await db.execute('SELECT COUNT(*) as count FROM users');
-    const [r] = await db.execute('SELECT COUNT(*) as count FROM resumes');
-    const [l] = await db.execute('SELECT COUNT(*) as count FROM audit_logs');
-    
-    res.json({
-      userCount: u[0].count,
-      resumeCount: r[0].count,
-      logCount: l[0].count
-    });
+    const [u] = await db.execute('SELECT COUNT(*) as count FROM users')
+    const [r] = await db.execute('SELECT COUNT(*) as count FROM resumes')
+    const [l] = await db.execute('SELECT COUNT(*) as count FROM audit_logs')
+    res.json({ userCount: u[0].count, resumeCount: r[0].count, logCount: l[0].count })
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Failed to fetch stats' });
+    console.error(err)
+    res.status(500).json({ error: 'Failed to fetch stats' })
   }
-});
+})
 
-// Get all users
 app.get('/admin/users', requireAdmin, async (req, res) => {
   try {
     const [rows] = await db.execute(
@@ -284,7 +267,6 @@ app.get('/admin/users', requireAdmin, async (req, res) => {
   }
 })
 
-// Delete a user
 app.delete('/admin/users/:id', requireAdmin, async (req, res) => {
   try {
     const [rows] = await db.execute('SELECT * FROM users WHERE id = ?', [req.params.id])
@@ -299,7 +281,6 @@ app.delete('/admin/users/:id', requireAdmin, async (req, res) => {
   }
 })
 
-// Get audit logs — last 100, newest first, with username joined
 app.get('/admin/audit', requireAdmin, async (req, res) => {
   try {
     const [rows] = await db.execute(
@@ -334,6 +315,9 @@ const cssMap = {}
 })
 
 app.post('/generate-pdf', requireAuth, async (req, res) => {
+  let browser = null
+  let page    = null
+
   try {
     const resumeHTML  = req.body.html
     const pdfW        = req.body.width    || 794
@@ -360,20 +344,26 @@ app.post('/generate-pdf', requireAuth, async (req, res) => {
       '</body></html>'
     ].join('\n')
 
-    const browser = await puppeteer.connect({
+    // Connect to Browserless — Chrome runs on their servers, not on Render
+    browser = await puppeteer.connect({
       browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BROWSERLESS_TOKEN}`,
     })
 
-    const page = await browser.newPage()
+    page = await browser.newPage()
     await page.setViewport({ width: pdfW, height: pdfH })
+
+    // 'load' waits for fonts without hanging like networkidle0
     await page.setContent(fullHTML, { waitUntil: 'load', timeout: 30000 })
+
+    // Extra wait for fonts to finish rendering
     await page.evaluate(() => document.fonts ? document.fonts.ready : Promise.resolve())
 
     const pdfBuffer = await page.pdf({
-      width: pdfW + 'px', height: pdfH + 'px',
-      printBackground: true, pageRanges: '1'
+      width:           pdfW + 'px',
+      height:          pdfH + 'px',
+      printBackground: true,
+      pageRanges:      '1'
     })
-    await browser.disconnect()
 
     await auditLog(req.user.id, 'RESUME_DOWNLOADED', `Template: ${templateNum}`)
 
@@ -386,6 +376,11 @@ app.post('/generate-pdf', requireAuth, async (req, res) => {
   } catch (err) {
     console.error('PDF error:', err)
     res.status(500).send('PDF generation failed: ' + err.message)
+
+  } finally {
+    // Always clean up — even if an error occurred
+    try { if (page)    await page.close()        } catch (_) {}
+    try { if (browser) await browser.disconnect() } catch (_) {}
   }
 })
 
