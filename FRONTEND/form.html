@@ -178,6 +178,206 @@
       font-weight: 500;
     }
     .btn-add-entry:hover { text-decoration: underline; }
+
+    /* ── AI Assist Button ── */
+    .btn-ai-assist {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      background: linear-gradient(135deg, #2B3A2E 0%, #4A6350 100%);
+      color: #F0EDE5;
+      border: none;
+      border-radius: 20px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: opacity 0.15s, transform 0.1s;
+      flex-shrink: 0;
+    }
+    .btn-ai-assist:hover { opacity: 0.88; transform: translateY(-1px); }
+    .ai-sparkle { font-size: 10px; }
+
+    /* ── AI Assist Panel ── */
+    .ai-assist-panel {
+      background: #F7F5F0;
+      border: 1.5px solid #8FB89A;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 16px rgba(43,58,46,0.10);
+      animation: aiPanelIn 0.18s ease;
+    }
+    @keyframes aiPanelIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .ai-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 14px;
+      background: linear-gradient(135deg, #2B3A2E 0%, #4A6350 100%);
+    }
+    .ai-panel-title {
+      font-family: "DM Sans", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #F0EDE5;
+      letter-spacing: 0.04em;
+    }
+    .ai-panel-close {
+      background: none;
+      border: none;
+      color: rgba(240,237,229,0.7);
+      font-size: 13px;
+      cursor: pointer;
+      padding: 0 2px;
+      line-height: 1;
+      transition: color 0.12s;
+    }
+    .ai-panel-close:hover { color: #F0EDE5; }
+    .ai-panel-body { padding: 12px 14px 10px; }
+    .ai-panel-hint {
+      font-family: "DM Sans", sans-serif;
+      font-size: 11px;
+      color: #7A776E;
+      margin: 0 0 10px;
+      line-height: 1.5;
+    }
+    .ai-prompt-textarea {
+      width: 100%;
+      min-height: 64px;
+      padding: 8px 10px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 12px;
+      border: 1.5px solid #D4CFC4;
+      border-radius: 8px;
+      outline: none;
+      resize: vertical;
+      color: #1A1A18;
+      background: white;
+      line-height: 1.5;
+      box-sizing: border-box;
+      transition: border-color 0.15s;
+    }
+    .ai-prompt-textarea:focus { border-color: #4A6350; box-shadow: 0 0 0 3px rgba(143,184,154,0.15); }
+    .ai-panel-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+    .ai-shortcut-hint {
+      font-family: "DM Sans", sans-serif;
+      font-size: 10px;
+      color: #B0ADA4;
+    }
+    .btn-ai-generate {
+      padding: 6px 16px;
+      background: linear-gradient(135deg, #2B3A2E 0%, #4A6350 100%);
+      color: #F0EDE5;
+      border: none;
+      border-radius: 8px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      min-width: 100px;
+    }
+    .btn-ai-generate:hover { opacity: 0.88; }
+    .btn-ai-generate:disabled { opacity: 0.5; cursor: not-allowed; }
+    .ai-loading-dots::after {
+      content: '';
+      animation: aiDots 1.2s steps(4, end) infinite;
+    }
+    @keyframes aiDots {
+      0%   { content: ''; }
+      25%  { content: '.'; }
+      50%  { content: '..'; }
+      75%  { content: '...'; }
+      100% { content: ''; }
+    }
+    .ai-result-area {
+      border-top: 1px solid #D4CFC4;
+      padding: 12px 14px;
+      background: white;
+      animation: aiPanelIn 0.18s ease;
+    }
+    .ai-result-label {
+      font-family: "DM Sans", sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      color: #7A776E;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 7px;
+    }
+    .ai-result-text {
+      font-family: "DM Sans", sans-serif;
+      font-size: 12px;
+      color: #1A1A18;
+      line-height: 1.65;
+      white-space: pre-wrap;
+      background: #F7F5F0;
+      border: 1px solid #D4CFC4;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      min-height: 40px;
+    }
+    .ai-result-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn-ai-accept {
+      padding: 6px 14px;
+      background: #2B3A2E;
+      color: #F0EDE5;
+      border: none;
+      border-radius: 7px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .btn-ai-accept:hover { background: #4A6350; }
+    .btn-ai-regen {
+      padding: 6px 14px;
+      background: none;
+      color: #4A6350;
+      border: 1.5px solid #8FB89A;
+      border-radius: 7px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .btn-ai-regen:hover { background: #EDF5EF; }
+    .btn-ai-discard {
+      padding: 6px 10px;
+      background: none;
+      color: #B0ADA4;
+      border: 1px solid #D4CFC4;
+      border-radius: 7px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .btn-ai-discard:hover { color: #c0392b; border-color: #c0392b; }
+    .ai-error-area {
+      border-top: 1px solid #f5c6c6;
+      padding: 10px 14px;
+      background: #fff5f5;
+      font-family: "DM Sans", sans-serif;
+      font-size: 11px;
+      color: #c0392b;
+    }
   </style>
 </head>
 <body>
@@ -323,7 +523,56 @@
         </div>
         <div class="section-body" id="body-sec-summary">
           <div class="field">
-            <label>Brief summary about yourself</label>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+              <label style="margin-bottom:0;">Brief summary about yourself</label>
+              <button class="btn-ai-assist" id="btnAiAssist" onclick="toggleAiPanel()">
+                <span class="ai-sparkle">✦</span> AI Assist
+              </button>
+            </div>
+
+            <!-- AI ASSIST PANEL -->
+            <div class="ai-assist-panel" id="aiAssistPanel" style="display:none;">
+              <div class="ai-panel-header">
+                <span class="ai-panel-title">✦ AI Summary Generator</span>
+                <button class="ai-panel-close" onclick="toggleAiPanel()">✕</button>
+              </div>
+              <div class="ai-panel-body">
+                <p class="ai-panel-hint">
+                  Describe yourself or what you want — AI will read your filled-in job title, skills, and work experience automatically.
+                </p>
+                <textarea
+                  id="aiPromptInput"
+                  class="ai-prompt-textarea"
+                  rows="3"
+                  placeholder="e.g. Make it sound professional and confident. Focus on my frontend skills."
+                  onkeydown="if(event.key==='Enter'&&(event.ctrlKey||event.metaKey))runAiGenerate()"
+                ></textarea>
+                <div class="ai-panel-actions">
+                  <span class="ai-shortcut-hint">Ctrl+Enter to generate</span>
+                  <button class="btn-ai-generate" id="btnGenerate" onclick="runAiGenerate()">
+                    <span id="generateBtnText">✦ Generate</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- RESULT AREA -->
+              <div class="ai-result-area" id="aiResultArea" style="display:none;">
+                <div class="ai-result-label">Generated summary:</div>
+                <div class="ai-result-text" id="aiResultText"></div>
+                <div class="ai-result-actions">
+                  <button class="btn-ai-accept" onclick="acceptAiResult()">✓ Use This</button>
+                  <button class="btn-ai-regen" onclick="runAiGenerate()">↻ Regenerate</button>
+                  <button class="btn-ai-discard" onclick="discardAiResult()">✕ Discard</button>
+                </div>
+              </div>
+
+              <!-- ERROR AREA -->
+              <div class="ai-error-area" id="aiErrorArea" style="display:none;">
+                <span id="aiErrorText"></span>
+              </div>
+            </div>
+            <!-- END AI ASSIST PANEL -->
+
             <textarea id="f-summary" rows="4" placeholder="e.g. A passionate web developer with 2 years of experience..." oninput="updatePreview()"></textarea>
           </div>
         </div>
@@ -1456,6 +1705,113 @@
   })
 
   loadSavedForm()
+
+  // ── AI Assist ──
+  let aiLastResult = ''
+
+  function toggleAiPanel() {
+    const panel = document.getElementById('aiAssistPanel')
+    const isHidden = panel.style.display === 'none'
+    panel.style.display = isHidden ? 'block' : 'none'
+    if (isHidden) {
+      setTimeout(() => document.getElementById('aiPromptInput').focus(), 50)
+      document.getElementById('aiResultArea').style.display = 'none'
+      document.getElementById('aiErrorArea').style.display  = 'none'
+    }
+  }
+
+  async function runAiGenerate() {
+    const promptInput = document.getElementById('aiPromptInput')
+    const userPrompt  = promptInput.value.trim()
+    const btn         = document.getElementById('btnGenerate')
+    const btnText     = document.getElementById('generateBtnText')
+    const resultArea  = document.getElementById('aiResultArea')
+    const resultText  = document.getElementById('aiResultText')
+    const errorArea   = document.getElementById('aiErrorArea')
+
+    // Collect form context
+    const name     = document.getElementById('f-name').value.trim()
+    const jobtitle = document.getElementById('f-jobtitle').value.trim()
+    const location = document.getElementById('f-location').value.trim()
+    const skills   = document.getElementById('f-skills').value.trim()
+
+    const workEntries = []
+    document.querySelectorAll('#work-entries .entry-card').forEach(entry => {
+      const inputs  = entry.querySelectorAll('input')
+      const title   = inputs[0]?.value.trim()
+      const company = inputs[1]?.value.trim()
+      const dur     = inputs[2]?.value.trim()
+      const desc    = entry.querySelector('textarea')?.value.trim()
+      if (title || company) workEntries.push(`${title}${company?' at '+company:''}${dur?' ('+dur+')':''}${desc?': '+desc:''}`)
+    })
+
+    let contextParts = []
+    if (name)               contextParts.push(`Name: ${name}`)
+    if (jobtitle)           contextParts.push(`Job Title: ${jobtitle}`)
+    if (location)           contextParts.push(`Location: ${location}`)
+    if (skills)             contextParts.push(`Skills: ${skills}`)
+    if (workEntries.length) contextParts.push(`Work Experience:\n${workEntries.map(e=>'- '+e).join('\n')}`)
+
+    const contextBlock = contextParts.length
+      ? `Here is the candidate's information:\n${contextParts.join('\n')}\n\n`
+      : ''
+
+    const instruction = userPrompt
+      ? `Additional instruction from the user: "${userPrompt}"\n\n`
+      : ''
+
+const fullPrompt = `Name: ${name}. Job: ${jobtitle}. Skills: ${skills.slice(0,100)}. ${workEntries[0]||''}. Write a 2-3 sentence professional resume summary in first person. ${userPrompt}`
+
+    // Loading state
+    btn.disabled = true
+    btnText.className = 'ai-loading-dots'
+    btnText.textContent = 'Generating'
+    resultArea.style.display = 'none'
+    errorArea.style.display  = 'none'
+
+    try {
+      const response = await fetch('/api/ai/summary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: fullPrompt })
+      })
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}))
+        throw new Error(err?.error?.message || `API error ${response.status}`)
+      }
+
+      const data   = await response.json()
+      const result = data.result
+
+      if (!result) throw new Error('Empty response from AI.')
+
+      aiLastResult = result
+      resultText.textContent   = result
+      resultArea.style.display = 'block'
+
+    } catch (err) {
+      errorArea.innerHTML     = `⚠ ${err.message || 'Something went wrong. Please try again.'}`
+      errorArea.style.display = 'block'
+    } finally {
+      btn.disabled        = false
+      btnText.className   = ''
+      btnText.textContent = '✦ Generate'
+    }
+  }
+
+  function acceptAiResult() {
+    if (!aiLastResult) return
+    document.getElementById('f-summary').value = aiLastResult
+    updatePreview()
+    document.getElementById('aiAssistPanel').style.display = 'none'
+    aiLastResult = ''
+  }
+
+  function discardAiResult() {
+    document.getElementById('aiResultArea').style.display = 'none'
+    aiLastResult = ''
+  }
 </script>
 </body>
 </html>

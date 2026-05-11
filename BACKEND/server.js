@@ -242,6 +242,44 @@ app.delete('/api/resumes/:id', requireAuth, async (req, res) => {
   }
 })
 
+// ── AI SUMMARY ROUTE ──────────────────────────
+
+app.post('/api/ai/summary', async (req, res) => {
+  try {
+    const { prompt } = req.body
+    if (!prompt) return res.status(400).json({ error: 'Missing prompt' })
+
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        max_tokens: 200,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    })
+
+    const data = await response.json()
+    console.log('GROQ RAW:', JSON.stringify(data))
+
+    if (!response.ok) {
+      return res.status(response.status).json({ error: data?.error?.message || 'Groq API error' })
+    }
+
+    const text = data.choices?.[0]?.message?.content?.trim()
+    if (!text) return res.status(500).json({ error: 'Empty response' })
+
+    res.json({ result: text })
+
+  } catch (err) {
+    console.error('AI proxy error:', err)
+    res.status(500).json({ error: 'Internal server error' })
+  }
+})
+
 // ── ADMIN ROUTES ──────────────────────────────
 
 app.get('/admin/stats', requireAdmin, async (req, res) => {
