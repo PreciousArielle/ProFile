@@ -374,7 +374,7 @@ body {
         localStorage.setItem("profile_user",  JSON.stringify({ id: data.id, username: data.username, role: data.role }))
         if (data.role === "admin") {
           window.location.href = "/admin.html"
-        } else {
+        } else {d
           window.location.href = "/index.html"
         }
 
