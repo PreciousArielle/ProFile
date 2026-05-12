@@ -874,6 +874,11 @@ function applyCustomizations() {
   #prev-t4-summary-wrap, #prev-t4-work-wrap, #prev-t4-award-wrap, #prev-t4-custom-main {
     zoom: 1.4;
   }
+  #prev-t3-summary, #prev-t3-work, #prev-t3-edu, #prev-t3-custom,
+  #prev-t3-contact {
+    zoom: 1.4;
+    line-height: 1.8 !important;
+  }
 `
 
   saveDraft()
@@ -1777,7 +1782,7 @@ function applyCustomizations() {
 
       const t4sidebar = document.getElementById('prev-t4-custom-sidebar')
       const t4main    = document.getElementById('prev-t4-custom-main')
-      if (t4sidebar) t4sidebar.innerHTML = customLight
+      if (t4sidebar) t4sidebar.innerHTML = ''
       if (t4main)    t4main.innerHTML    = customLight
     }
 
