@@ -867,31 +867,22 @@ function applyAccentColor(dark, light, el) {
     document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'))
     if (el) el.classList.add('active')
 
-    // Template 1 — sidebar background (keep sidebar text colors intact)
-    const t1bg      = document.querySelector('#prev-t1 > div:first-child')
-    const t1sidebar = document.querySelector('#prev-t1 > div:nth-child(2)')
-    if (t1bg)      t1bg.style.background      = dark
-    if (t1sidebar) t1sidebar.style.background = dark
+    // Template 1 — dark sidebar only
+    const t1bg = document.getElementById('prev-t1').querySelector('div:first-child')
+    if (t1bg) t1bg.style.background = dark
 
-    // Template 2 — header bar both layers
-    const t2bar1 = document.querySelector('#prev-t2 > div:nth-child(1)')
-    const t2bar2 = document.querySelector('#prev-t2 > div:nth-child(2)')
-    if (t2bar1) t2bar1.style.background = dark
-    if (t2bar2) t2bar2.style.background = dark
+    // Template 2 — header bars only
+    const t2 = document.getElementById('prev-t2')
+    if (t2) {
+      const bars = t2.querySelectorAll('div:nth-child(1), div:nth-child(2)')
+      bars.forEach(b => b.style.background = dark)
+    }
+    
+    // Template 4 — left sidebar only (the EDEAE3 beige panel)
+    const t4left = document.getElementById('prev-t4').querySelector('div:first-child')
+    if (t4left) t4left.style.background = dark
 
-    // Template 3 — top accent line only
-    const t3line = document.querySelector('#prev-t3 > div:first-child')
-    if (t3line) t3line.style.background = dark
-
-   // Template 4 — left sidebar background + content area
-    const t4bg      = document.querySelector('#prev-t4 > div:first-child')
-    const t4content = document.querySelector('#prev-t4 > div:nth-child(3)')
-    const t4second  = document.querySelector('#prev-t4 > div:nth-child(2)')
-    if (t4bg)      t4bg.style.background      = dark
-    if (t4second)  t4second.style.background  = dark
-    if (t4content) t4content.style.background = dark
-
-    // Update accent highlight colors (bullets, section labels) across all templates
+    // Accent highlights — only target known accent color elements
     let accentStyle = document.getElementById('accent-color-style')
     if (!accentStyle) {
       accentStyle = document.createElement('style')
@@ -899,16 +890,9 @@ function applyAccentColor(dark, light, el) {
       document.head.appendChild(accentStyle)
     }
     accentStyle.textContent = `
-      #prev-t1 [style*="color:#8FB89A"] { color: ${light} !important; }
-      #prev-t1 [style*="border-left:2.5px solid #8FB89A"] { border-color: ${light} !important; }
-      #prev-t4 [style*="color:#8FB89A"] { color: ${light} !important; }
-      #prev-t4 [style*="border-bottom:1px solid #D4CFC4"] { border-color: ${light} !important; }
-      #prev-t4 [style*="color:#2B3A2E"] { color: ${light} !important; }
-      #prev-t4 [style*="color:#7A776E"] { color: #ccc !important; }
-      #prev-t4 [style*="color:#1A1A18"] { color: #fff !important; }
-      #prev-t4 [style*="color:#8FB89A"] { color: ${light} !important; }
-      #prev-t2 [style*="color:#4A5568"] { color: ${dark} !important; }
-      #prev-t3 [style*="color:#2B3A2E"] { color: ${dark} !important; }
+      #prev-t1 .ai-sparkle,
+      #prev-skills-section > div:first-child { color: ${light} !important; }
+      #prev-t3 > div:first-child { background: ${dark} !important; }
     `
 
     saveDraft()
