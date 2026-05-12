@@ -27,6 +27,18 @@
       color: #7A776E;
       font-family: "DM Sans", sans-serif;
     }
+
+    .color-swatch {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.1s, border-color 0.1s;
+      flex-shrink: 0;
+    }
+.color-swatch:hover { transform: scale(1.2); }
+.color-swatch.active { border-color: white; outline: 2px solid #4A6350; }
     .customize-group label { font-weight: 500; white-space: nowrap; }
     .customize-group select,
     .customize-group input[type="range"] {
@@ -621,6 +633,18 @@
           <input type="range" id="fontSize" min="9" max="16" value="13" step="1" oninput="applyCustomizations()">
           <span class="size-val" id="fontSizeVal">13px</span>
             <div style="font-size:10px;color:#B0ADA4;font-family:'DM Sans',sans-serif;width:100%;">Font size applies to final resume</div>
+        <div class="customize-group">
+        <label>Color</label>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <div class="color-swatch active" data-color="#2C2C2C" style="background:#2C2C2C;" onclick="applyAccentColor('#2C2C2C', '#8FB89A', this)"></div>
+            <div class="color-swatch" data-color="#1B3A5C" style="background:#1B3A5C;" onclick="applyAccentColor('#1B3A5C', '#7EB5D6', this)"></div>
+            <div class="color-swatch" data-color="#2B3A2E" style="background:#2B3A2E;" onclick="applyAccentColor('#2B3A2E', '#8FB89A', this)"></div>
+            <div class="color-swatch" data-color="#4A2040" style="background:#4A2040;" onclick="applyAccentColor('#4A2040', '#C48AB0', this)"></div>
+            <div class="color-swatch" data-color="#3B2A1A" style="background:#3B2A1A;" onclick="applyAccentColor('#3B2A1A', '#C4A882', this)"></div>
+            <div class="color-swatch" data-color="#1A3A3A" style="background:#1A3A3A;" onclick="applyAccentColor('#1A3A3A', '#7EC4C4', this)"></div>
+            <div class="color-swatch" data-color="#2C2C4A" style="background:#2C2C4A;" onclick="applyAccentColor('#2C2C4A', '#9898D6', this)"></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -831,6 +855,30 @@ function applyCustomizations() {
     #prev-t1 *, #prev-t2 *, #prev-t3 *, #prev-t4 * {
       font-family: ${font} !important;
     }
+  `
+
+  saveDraft()
+}
+
+function applyAccentColor(dark, light, el) {
+  // Update active swatch
+  document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'))
+  el.classList.add('active')
+
+  let styleTag = document.getElementById('preview-accent-style')
+  if (!styleTag) {
+    styleTag = document.createElement('style')
+    styleTag.id = 'preview-accent-style'
+    document.head.appendChild(styleTag)
+  }
+
+  styleTag.textContent = `
+    #prev-t1 > div:first-child,
+    #prev-t1 > div:nth-child(2) { background: ${dark} !important; }
+    #prev-skills-section > div:first-child,
+    #prev-t1-edu-wrap > div:first-child,
+    #prev-t1-lang-wrap > div:first-child { color: ${light} !important; }
+    #prev-t1-edu span, #prev-skills-section div span { color: ${light} !important; }
   `
 
   saveDraft()
