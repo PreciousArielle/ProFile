@@ -862,8 +862,7 @@ function applyCustomizations() {
 }
 
 
-   // Original colors per template
-  const TEMPLATE_DEFAULTS = {
+     const TEMPLATE_DEFAULTS = {
     '1': { dark: '#2C2C2C', light: '#8FB89A' },
     '2': { dark: '#4A5568', light: '#7EB5D6' },
     '3': { dark: '#2B3A2E', light: '#8FB89A' },
@@ -872,8 +871,9 @@ function applyCustomizations() {
 
   function resetAccentColor() {
     const defaults = TEMPLATE_DEFAULTS[templateNum]
-    const firstSwatch = document.querySelector('.color-swatch')
     applyAccentColor(defaults.dark, defaults.light, null)
+    const accentStyle = document.getElementById('accent-color-style')
+    if (accentStyle) accentStyle.textContent = ''
     document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'))
   }
 
@@ -899,7 +899,7 @@ function applyCustomizations() {
     const t3 = document.getElementById('prev-t3')
     if (t3) t3.querySelector('div:first-child').style.background = dark
 
-    // Template 4 — only first background div
+    // Template 4 — only first background div (beige sidebar)
     const t4 = document.getElementById('prev-t4')
     if (t4) t4.children[0].style.background = dark
 
@@ -909,16 +909,36 @@ function applyCustomizations() {
       accentStyle.id = 'accent-color-style'
       document.head.appendChild(accentStyle)
     }
+
+    // Check if dark color is light enough to keep dark text (like the default beige #EDEAE3)
+    const isLight = dark === '#EDEAE3' || dark === '#F0EDE5'
+
     accentStyle.textContent = `
       #prev-t1 [style*="color:#8FB89A"] { color: ${light} !important; }
       #prev-t1 [style*="border:2px solid #8FB89A"] { border-color: ${light} !important; }
+
       #prev-t4 [style*="color:#8FB89A"] { color: ${light} !important; }
       #prev-t4 [style*="border-bottom:1.5px solid #8FB89A"] { border-color: ${light} !important; }
+      #prev-t4 > div:nth-child(3) [style*="color:#7A776E"] { color: ${isLight ? '#7A776E' : '#ccc'} !important; }
+      #prev-t4 > div:nth-child(3) [style*="color:#2B3A2E"] { color: ${isLight ? '#2B3A2E' : '#fff'} !important; }
+      #prev-t4 > div:nth-child(3) [style*="color:#1A1A18"] { color: ${isLight ? '#1A1A18' : '#fff'} !important; }
+      #prev-t4 > div:nth-child(3) [style*="font-weight:700"] { color: ${isLight ? '#2B3A2E' : '#fff'} !important; }
+      #prev-t4 > div:nth-child(3) [style*="border-bottom:1px solid #D4CFC4"] { border-color: ${isLight ? '#D4CFC4' : '#555'} !important; }
+
       #prev-t2 [style*="color:#4A5568"][style*="font-weight:700"] { color: ${dark} !important; }
       #prev-t2 [style*="border-left:3px solid #4A5568"] { border-color: ${dark} !important; }
+      #prev-t2 [style*="border-bottom:1px solid #D4CFC4"][style*="font-weight:700"] { color: ${dark} !important; }
+
+      #prev-t3 > div:first-child { background: ${dark} !important; }
     `
 
     saveDraft()
+  }
+
+  function loadAccentColor(dark, light) {
+    const swatch = Array.from(document.querySelectorAll('.color-swatch'))
+      .find(s => s.dataset.dark === dark)
+    applyAccentColor(dark, light, swatch || null)
   }
 
   // ── Email validation ──
