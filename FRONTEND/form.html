@@ -832,6 +832,9 @@
 <script>
   const templateNum = new URLSearchParams(window.location.search).get('template') || '1'
 
+  window.currentAccentDark  = '#2C2C2C'
+  window.currentAccentLight = '#8FB89A'
+
   let photoBase64 = null
   let workCount = 0, eduCount = 0, certCount = 0, awardCount = 0, langCount = 0
   let paperSize = 'a4'
@@ -1406,6 +1409,7 @@ function applyCustomizations() {
     if (!(data.work||[]).length) addEntry('work')
     if (!(data.edu||[]).length)  addEntry('edu')
 
+    if (data.accentDark) loadAccentColor(data.accentDark, data.accentLight)
     applyCustomizations()
     updatePreview()
   }
