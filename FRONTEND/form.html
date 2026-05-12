@@ -814,18 +814,21 @@
 
   // ── Font / Size customization ──
   function applyCustomizations() {
-    const font = document.getElementById('fontFamily').value
-    const size = document.getElementById('fontSize').value
-    document.getElementById('fontSizeVal').textContent = size + 'px'
-    const resume = document.getElementById('previewResume')
-    resume.style.fontFamily = font
-    resume.style.fontSize = size + 'px'
-    ;['prev-t1','prev-t2','prev-t3','prev-t4'].forEach(id => {
-      const el = document.getElementById(id)
-      if (el) el.style.fontFamily = font
-    })
-    saveDraft()
-  }
+  const font = document.getElementById('fontFamily').value
+  const size = document.getElementById('fontSize').value
+  document.getElementById('fontSizeVal').textContent = size + 'px'
+  const resume = document.getElementById('previewResume')
+  resume.style.fontFamily = font
+  resume.style.fontSize = size + 'px'
+  ;['prev-t1','prev-t2','prev-t3','prev-t4'].forEach(id => {
+    const el = document.getElementById(id)
+    if (el) {
+      el.style.fontFamily = font
+      el.style.fontSize = size + 'px'
+    }
+  })
+  saveDraft()
+}
 
   // ── Email validation ──
   function validateEmail(input) {
