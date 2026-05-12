@@ -813,8 +813,7 @@
   let customSectionCount = 0
 
   // ── Font / Size customization ──
-  
-  function applyCustomizations() {
+function applyCustomizations() {
   const font = document.getElementById('fontFamily').value
   const size = parseInt(document.getElementById('fontSize').value)
   document.getElementById('fontSizeVal').textContent = size + 'px'
@@ -826,17 +825,21 @@
     document.head.appendChild(styleTag)
   }
 
-  styleTag.textContent = `
-    #previewResume * { font-family: ${font} !important; }
-  `
+  // Base size is 13, so we scale relative to that
+  const ratio = size / 13
 
-  // Scale font size on the actual resume element
-  const resume = document.getElementById('previewResume')
-  resume.style.fontSize = size + 'px'
+  styleTag.textContent = `
+    #prev-t1, #prev-t2, #prev-t3, #prev-t4 {
+      font-family: ${font} !important;
+      zoom: ${ratio};
+    }
+    #prev-t1 *, #prev-t2 *, #prev-t3 *, #prev-t4 * {
+      font-family: ${font} !important;
+    }
+  `
 
   saveDraft()
 }
-
   // ── Email validation ──
   function validateEmail(input) {
     const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)
