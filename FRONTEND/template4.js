@@ -11,10 +11,21 @@ initResumeEditor({
     const fontFamily = data.fontFamily || "'DM Sans', sans-serif"
     const fontSize   = parseFloat(data.fontSize) || 12
 
+    // Accent colors from saved data
+    const accentDark  = data.accentDark  || '#EDEAE3'
+    const accentLight = data.accentLight || '#8FB89A'
+
+    // Determine if sidebar is dark (needs light text) or light (keep dark text)
+    const isDark = accentDark !== '#EDEAE3' && accentDark !== '#F0EDE5'
+    const sidebarText    = isDark ? '#ccc'     : '#7A776E'
+    const sidebarLabel   = isDark ? '#fff'     : '#2B3A2E'
+    const sidebarBorder  = isDark ? 'rgba(255,255,255,0.2)' : '#D4CFC4'
+    const sidebarSubtext = isDark ? '#aaa'     : '#7A776E'
+
     // SIDEBAR BACKGROUND
     buildHtmlElement({
       left: 0, top: 0, width: SIDEBAR_W,
-      html: `<div style="width:${SIDEBAR_W}px;height:${PAGE_H}px;background:#EDEAE3;"></div>`
+      html: `<div style="width:${SIDEBAR_W}px;height:${PAGE_H}px;background:${accentDark};"></div>`
     })
 
     // MAIN BACKGROUND
@@ -33,13 +44,13 @@ initResumeEditor({
           <img src="${data.photo}" style="width:160px;height:160px;object-fit:cover;display:block;border-radius:4px;">
         </div>`
     } else {
-      sidebarHTML += `<div style="width:100%;height:180px;background:#D4CFC4;"></div>`
+      sidebarHTML += `<div style="width:100%;height:180px;background:${isDark ? 'rgba(255,255,255,0.08)' : '#D4CFC4'};"></div>`
     }
 
     sidebarHTML += `<div style="padding:10px 18px 20px;">`
 
     function sidebarSection(title, content) {
-      return `<div style="font-size:${fontSize - 3}px;font-weight:700;color:#2B3A2E;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #D4CFC4;padding-bottom:3px;margin-bottom:8px;margin-top:10px;">${title}</div>${content}`
+      return `<div style="font-size:${fontSize - 3}px;font-weight:700;color:${sidebarLabel};letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid ${sidebarBorder};padding-bottom:3px;margin-bottom:8px;margin-top:10px;">${title}</div>${content}`
     }
 
     // Education
@@ -49,9 +60,9 @@ initResumeEditor({
       eduData.forEach(edu => {
         if (!edu.school && !edu.course) return
         eduHTML += `<div style="margin-bottom:10px;">`
-        if (edu.year)   eduHTML += `<div style="font-size:${fontSize - 3}px;color:#7A776E;margin-bottom:2px;">${edu.year}</div>`
-        if (edu.course) eduHTML += `<div style="font-size:${fontSize - 2}px;font-weight:600;color:#1A1A18;line-height:1.3;">${edu.course}</div>`
-        if (edu.school) eduHTML += `<div style="font-size:${fontSize - 2}px;color:#7A776E;font-style:italic;">${edu.school}</div>`
+        if (edu.year)   eduHTML += `<div style="font-size:${fontSize - 3}px;color:${sidebarSubtext};margin-bottom:2px;">${edu.year}</div>`
+        if (edu.course) eduHTML += `<div style="font-size:${fontSize - 2}px;font-weight:600;color:${sidebarLabel};line-height:1.3;">${edu.course}</div>`
+        if (edu.school) eduHTML += `<div style="font-size:${fontSize - 2}px;color:${sidebarText};font-style:italic;">${edu.school}</div>`
         eduHTML += `</div>`
       })
       sidebarHTML += sidebarSection('Education', eduHTML)
@@ -61,8 +72,8 @@ initResumeEditor({
     if (data.skills && data.skills.trim()) {
       let skillsHTML = ''
       data.skills.split(',').map(s => s.trim()).filter(Boolean).forEach(skill => {
-        skillsHTML += `<div style="font-size:${fontSize - 2}px;color:#7A776E;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
-          <span style="color:#8FB89A;font-size:${fontSize}px;">•</span>${skill}
+        skillsHTML += `<div style="font-size:${fontSize - 2}px;color:${sidebarText};margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+          <span style="color:${accentLight};font-size:${fontSize}px;">•</span>${skill}
         </div>`
       })
       sidebarHTML += sidebarSection('Skills', skillsHTML)
@@ -73,8 +84,8 @@ initResumeEditor({
       let langHTML = ''
       data.languages.forEach(lang => {
         if (!lang.name) return
-        langHTML += `<div style="font-size:${fontSize - 2}px;color:#7A776E;margin-bottom:4px;">
-          <span style="color:#1A1A18;font-weight:600;">${lang.name}</span>${lang.level ? ` <span style="color:#7A776E;font-size:${fontSize - 3}px;">(${lang.level})</span>` : ''}
+        langHTML += `<div style="font-size:${fontSize - 2}px;color:${sidebarText};margin-bottom:4px;">
+          <span style="color:${sidebarLabel};font-weight:600;">${lang.name}</span>${lang.level ? ` <span style="color:${sidebarSubtext};font-size:${fontSize - 3}px;">(${lang.level})</span>` : ''}
         </div>`
       })
       sidebarHTML += sidebarSection('Languages', langHTML)
@@ -86,9 +97,9 @@ initResumeEditor({
       data.certifications.forEach(cert => {
         if (!cert.name && !cert.org) return
         certHTML += `<div style="margin-bottom:6px;">
-          <div style="font-size:${fontSize - 2}px;font-weight:600;color:#1A1A18;">${cert.name || ''}</div>
-          ${cert.org  ? `<div style="font-size:${fontSize - 3}px;color:#7A776E;">${cert.org}</div>`  : ''}
-          ${cert.date ? `<div style="font-size:${fontSize - 3}px;color:#7A776E;">${cert.date}</div>` : ''}
+          <div style="font-size:${fontSize - 2}px;font-weight:600;color:${sidebarLabel};">${cert.name || ''}</div>
+          ${cert.org  ? `<div style="font-size:${fontSize - 3}px;color:${sidebarText};">${cert.org}</div>`  : ''}
+          ${cert.date ? `<div style="font-size:${fontSize - 3}px;color:${sidebarSubtext};">${cert.date}</div>` : ''}
         </div>`
       })
       sidebarHTML += sidebarSection('Certifications', certHTML)
@@ -96,9 +107,9 @@ initResumeEditor({
 
     // Contact
     let contactHTML = ''
-    if (data.email)    contactHTML += `<div style="font-size:${fontSize - 2.5}px;color:#7A776E;margin-bottom:4px;word-break:break-all;">📧 ${data.email}</div>`
-    if (data.phone)    contactHTML += `<div style="font-size:${fontSize - 2.5}px;color:#7A776E;margin-bottom:4px;">📞 ${data.phone}</div>`
-    if (data.location) contactHTML += `<div style="font-size:${fontSize - 2.5}px;color:#7A776E;margin-bottom:4px;">📍 ${data.location}</div>`
+    if (data.email)    contactHTML += `<div style="font-size:${fontSize - 2.5}px;color:${sidebarText};margin-bottom:4px;word-break:break-all;">📧 ${data.email}</div>`
+    if (data.phone)    contactHTML += `<div style="font-size:${fontSize - 2.5}px;color:${sidebarText};margin-bottom:4px;">📞 ${data.phone}</div>`
+    if (data.location) contactHTML += `<div style="font-size:${fontSize - 2.5}px;color:${sidebarText};margin-bottom:4px;">📍 ${data.location}</div>`
     if (contactHTML) sidebarHTML += sidebarSection('Contact', contactHTML)
 
     // Custom sections in sidebar
@@ -108,7 +119,7 @@ initResumeEditor({
         if (!items.length) return
         let customHTML = ''
         items.forEach(item => {
-          customHTML += `<div style="font-size:${fontSize - 2}px;color:#7A776E;margin-bottom:3px;line-height:1.5;">• ${item}</div>`
+          customHTML += `<div style="font-size:${fontSize - 2}px;color:${sidebarText};margin-bottom:3px;line-height:1.5;">• ${item}</div>`
         })
         sidebarHTML += sidebarSection(sec.name, customHTML)
       })
@@ -126,7 +137,7 @@ initResumeEditor({
     buildTextElement({
       left: MAIN_L + 20, top: 76, width: MAIN_W - 40,
       text: data.jobtitle || 'Job Title',
-      fontSize: `${fontSize}px`, color: '#8FB89A', fontFamily: fontFamily
+      fontSize: `${fontSize}px`, color: accentLight, fontFamily: fontFamily
     })
     buildHtmlElement({
       left: MAIN_L + 20, top: 98, width: MAIN_W - 40,
@@ -135,7 +146,7 @@ initResumeEditor({
 
     function sectionHead(title) {
       return `<div style="font-size:${fontSize - 2}px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-        color:#2B3A2E;border-bottom:1.5px solid #8FB89A;padding-bottom:3px;margin-bottom:8px;margin-top:14px;">${title}</div>`
+        color:#2B3A2E;border-bottom:1.5px solid ${accentLight};padding-bottom:3px;margin-bottom:8px;margin-top:14px;">${title}</div>`
     }
 
     let mainHTML = `<div style="font-family:${fontFamily};font-size:${fontSize}px;color:#1A1A18;line-height:1.55;box-sizing:border-box;padding:0 20px;">`
@@ -150,7 +161,7 @@ initResumeEditor({
       data.work.forEach(job => {
         if (!job.title && !job.company) return
         mainHTML += `<div style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-start;">
-          <div style="flex-shrink:0;width:8px;height:8px;border-radius:50%;background:#2B3A2E;border:2px solid #8FB89A;margin-top:4px;"></div>
+          <div style="flex-shrink:0;width:8px;height:8px;border-radius:50%;background:#2B3A2E;border:2px solid ${accentLight};margin-top:4px;"></div>
           <div style="flex:1;">
             <div style="display:flex;justify-content:space-between;align-items:baseline;">
               <div style="font-weight:700;font-size:${fontSize}px;">${job.title || ''}</div>
@@ -168,7 +179,7 @@ initResumeEditor({
       mainHTML += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">`
       data.awards.forEach(award => {
         if (!award.name && !award.issuer) return
-        mainHTML += `<div style="background:#F7F5F0;padding:8px 10px;border-left:3px solid #8FB89A;">
+        mainHTML += `<div style="background:#F7F5F0;padding:8px 10px;border-left:3px solid ${accentLight};">
           ${award.year   ? `<div style="font-size:${fontSize - 3}px;color:#7A776E;">${award.year}</div>` : ''}
           <div style="font-weight:600;font-size:${fontSize - 1}px;">${award.name || ''}</div>
           ${award.issuer ? `<div style="font-size:${fontSize - 2}px;color:#555;">${award.issuer}</div>` : ''}
@@ -177,7 +188,6 @@ initResumeEditor({
       mainHTML += `</div>`
     }
 
-    // Custom sections in main
     if (data.customSections && data.customSections.length) {
       data.customSections.forEach(sec => {
         const items = (sec.entries || []).filter(e => e && e.trim())
@@ -186,7 +196,7 @@ initResumeEditor({
         mainHTML += `<div style="margin-bottom:12px;">`
         items.forEach(item => {
           mainHTML += `<div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:4px;">
-            <span style="color:#8FB89A;flex-shrink:0;">•</span>
+            <span style="color:${accentLight};flex-shrink:0;">•</span>
             <div style="font-size:${fontSize - 1}px;color:#444;line-height:1.5;">${item}</div>
           </div>`
         })

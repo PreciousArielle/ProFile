@@ -12,14 +12,18 @@ initResumeEditor({
     const fontFamily = data.fontFamily || "'DM Sans', sans-serif"
     const fontSize   = parseFloat(data.fontSize) || 12
 
+    // Accent colors from saved data
+    const accentDark  = data.accentDark  || '#4A5568'
+    const accentLight = data.accentLight || '#7EB5D6'
+
     // HEADER
     buildHtmlElement({
       left: 0, top: 0, width: 794,
-      html: `<div style="width:794px;height:135px;background:#4A5568;"></div>`
+      html: `<div style="width:794px;height:135px;background:${accentDark};"></div>`
     })
     buildHtmlElement({
       left: 0, top: 0, width: 794,
-      html: `<div style="width:900px;height:180px;background:#4A5568;clip-path:polygon(0 0,100% 0,100% 75%,0 100%);"></div>`
+      html: `<div style="width:900px;height:180px;background:${accentDark};clip-path:polygon(0 0,100% 0,100% 75%,0 100%);"></div>`
     })
 
     // PHOTO
@@ -44,7 +48,7 @@ initResumeEditor({
       if (!content) return ''
       return `<div style="margin-bottom:14px;">
         <div style="font-size:${fontSize - 3}px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
-          color:#4A5568;border-left:3px solid #4A5568;padding-left:6px;margin-bottom:7px;">${title}</div>
+          color:${accentDark};border-left:3px solid ${accentDark};padding-left:6px;margin-bottom:7px;">${title}</div>
         ${content}
       </div>`
     }
@@ -57,9 +61,9 @@ initResumeEditor({
     }
 
     let contactHTML = ''
-    if (data.email)    contactHTML += `<div style="margin-bottom:3px;display:flex;gap:5px;align-items:center;"><span style="color:#4A5568;">✉</span> <span style="word-break:break-all;">${data.email}</span></div>`
-    if (data.phone)    contactHTML += `<div style="margin-bottom:3px;display:flex;gap:5px;"><span style="color:#4A5568;">📞</span> ${data.phone}</div>`
-    if (data.location) contactHTML += `<div style="margin-bottom:3px;display:flex;gap:5px;"><span style="color:#4A5568;">📍</span> ${data.location}</div>`
+    if (data.email)    contactHTML += `<div style="margin-bottom:3px;display:flex;gap:5px;align-items:center;"><span style="color:${accentDark};">✉</span> <span style="word-break:break-all;">${data.email}</span></div>`
+    if (data.phone)    contactHTML += `<div style="margin-bottom:3px;display:flex;gap:5px;"><span style="color:${accentDark};">📞</span> ${data.phone}</div>`
+    if (data.location) contactHTML += `<div style="margin-bottom:3px;display:flex;gap:5px;"><span style="color:${accentDark};">📍</span> ${data.location}</div>`
     if (contactHTML) leftHTML += leftSection('Contact', contactHTML)
 
     if (data.edu && data.edu.some(e => e.school || e.course)) {
@@ -84,7 +88,6 @@ initResumeEditor({
       leftHTML += leftSection('Languages', langHTML)
     }
 
-    // Custom sections in left column
     if (data.customSections && data.customSections.length) {
       data.customSections.forEach(sec => {
         const items = (sec.entries || []).filter(e => e && e.trim())
@@ -111,7 +114,7 @@ initResumeEditor({
       if (!content) return ''
       return `<div style="margin-bottom:14px;">
         <div style="font-size:${fontSize - 3}px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
-          color:#4A5568;border-bottom:1px solid #D4CFC4;padding-bottom:4px;margin-bottom:8px;">${title}</div>
+          color:${accentDark};border-bottom:1px solid #D4CFC4;padding-bottom:4px;margin-bottom:8px;">${title}</div>
         ${content}
       </div>`
     }
@@ -123,7 +126,7 @@ initResumeEditor({
       let skillsHTML = '<ul style="list-style:none;padding:0;margin:0;columns:2;gap:10px;">'
       skillList.forEach(s => {
         skillsHTML += `<li style="margin-bottom:4px;display:flex;gap:5px;align-items:flex-start;break-inside:avoid;">
-          <span style="color:#4A5568;flex-shrink:0;">•</span> ${s}
+          <span style="color:${accentDark};flex-shrink:0;">•</span> ${s}
         </li>`
       })
       skillsHTML += '</ul>'
@@ -139,7 +142,7 @@ initResumeEditor({
             <div style="font-weight:700;font-size:${fontSize}px;">${job.title || ''}</div>
             ${job.duration ? `<div style="font-size:${fontSize - 2}px;color:#7A776E;white-space:nowrap;">${job.duration}</div>` : ''}
           </div>
-          ${job.company ? `<div style="font-size:${fontSize - 1}px;color:#4A5568;font-style:italic;margin-bottom:4px;">${job.company}</div>` : ''}
+          ${job.company ? `<div style="font-size:${fontSize - 1}px;color:${accentDark};font-style:italic;margin-bottom:4px;">${job.company}</div>` : ''}
           ${job.desc ? `<ul style="list-style:disc;padding-left:16px;font-size:${fontSize - 1}px;color:#444;line-height:1.5;">
             ${job.desc.split('\n').filter(Boolean).map(l => `<li>${l}</li>`).join('') || `<li>${job.desc}</li>`}
           </ul>` : ''}
