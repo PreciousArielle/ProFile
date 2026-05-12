@@ -855,11 +855,26 @@ function applyCustomizations() {
   }
 
   styleTag.textContent = `
-    #prev-t1, #prev-t2, #prev-t3, #prev-t4,
-    #prev-t1 *, #prev-t2 *, #prev-t3 *, #prev-t4 * {
-      font-family: ${font} !important;
-    }
-  `
+  #prev-t1 *, #prev-t2 *, #prev-t3 *, #prev-t4 * {
+    font-family: ${font} !important;
+  }
+  #prev-t2-summary-wrap, #prev-t2-contact-wrap, #prev-t2-edu-wrap,
+  #prev-t2-lang-wrap, #prev-t2-custom-left, #prev-t2-skills-wrap,
+  #prev-t2-work-wrap, #prev-t2-cert-wrap, #prev-t2-award-wrap,
+  #prev-t2-custom-right {
+    zoom: 1.4;
+  }
+  #prev-t1-edu-wrap, #prev-skills-section, #prev-t1-lang-wrap,
+  #prev-contact, #prev-t1-custom, #prev-t1-summary-wrap,
+  #prev-work-wrap, #prev-cert-wrap, #prev-award-wrap, #prev-t1-main-custom {
+    zoom: 1.4;
+  }
+  #prev-t4-edu-wrap, #prev-t4-skills-wrap, #prev-t4-lang-wrap,
+  #prev-t4-cert-sidebar-wrap, #prev-t4-contact, #prev-t4-custom-sidebar,
+  #prev-t4-summary-wrap, #prev-t4-work-wrap, #prev-t4-award-wrap, #prev-t4-custom-main {
+    zoom: 1.4;
+  }
+`
 
   saveDraft()
 }
