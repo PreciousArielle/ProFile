@@ -1800,7 +1800,7 @@ function applyCustomizations() {
     const inner = document.getElementById('previewResume')
     if (!outer || !inner) return
     const panelW   = outer.parentElement.clientWidth - 32
-    const fitScale = panelW / 794
+    const fitScale = panelW / 700
     const scale    = Math.min(fitScale, 1.0)
     inner.style.transform = `scale(${scale})`
     inner.style.transformOrigin = 'top left'
