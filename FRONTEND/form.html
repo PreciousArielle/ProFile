@@ -861,28 +861,53 @@ function applyCustomizations() {
 }
 
 function applyAccentColor(dark, light, el) {
-  // Update active swatch
-  document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'))
-  el.classList.add('active')
+    window.currentAccentDark  = dark
+    window.currentAccentLight = light
 
-  let styleTag = document.getElementById('preview-accent-style')
-  if (!styleTag) {
-    styleTag = document.createElement('style')
-    styleTag.id = 'preview-accent-style'
-    document.head.appendChild(styleTag)
+    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'))
+    if (el) el.classList.add('active')
+
+    // Template 1 — sidebar background (keep sidebar text colors intact)
+    const t1bg      = document.querySelector('#prev-t1 > div:first-child')
+    const t1sidebar = document.querySelector('#prev-t1 > div:nth-child(2)')
+    if (t1bg)      t1bg.style.background      = dark
+    if (t1sidebar) t1sidebar.style.background = dark
+
+    // Template 2 — header bar both layers
+    const t2bar1 = document.querySelector('#prev-t2 > div:nth-child(1)')
+    const t2bar2 = document.querySelector('#prev-t2 > div:nth-child(2)')
+    if (t2bar1) t2bar1.style.background = dark
+    if (t2bar2) t2bar2.style.background = dark
+
+    // Template 3 — top accent line only
+    const t3line = document.querySelector('#prev-t3 > div:first-child')
+    if (t3line) t3line.style.background = dark
+
+    // Template 4 — left sidebar background only
+    const t4bg      = document.querySelector('#prev-t4 > div:first-child')
+    const t4sidebar = document.querySelector('#prev-t4 > div:nth-child(3)')
+    if (t4bg)      t4bg.style.background      = dark
+    if (t4sidebar) t4sidebar.style.background = dark
+
+    // Update accent highlight colors (bullets, section labels) across all templates
+    let accentStyle = document.getElementById('accent-color-style')
+    if (!accentStyle) {
+      accentStyle = document.createElement('style')
+      accentStyle.id = 'accent-color-style'
+      document.head.appendChild(accentStyle)
+    }
+    accentStyle.textContent = `
+      #prev-t1 [style*="color:#8FB89A"] { color: ${light} !important; }
+      #prev-t1 [style*="border-left:2.5px solid #8FB89A"] { border-color: ${light} !important; }
+      #prev-t4 [style*="color:#8FB89A"] { color: ${light} !important; }
+      #prev-t4 [style*="border-left:2.5px solid #8FB89A"] { border-color: ${light} !important; }
+      #prev-t4 [style*="color:#8FB89A"] { color: ${light} !important; }
+      #prev-t2 [style*="color:#4A5568"] { color: ${dark} !important; }
+      #prev-t3 [style*="color:#2B3A2E"] { color: ${dark} !important; }
+    `
+
+    saveDraft()
   }
-
-  styleTag.textContent = `
-    #prev-t1 > div:first-child,
-    #prev-t1 > div:nth-child(2) { background: ${dark} !important; }
-    #prev-skills-section > div:first-child,
-    #prev-t1-edu-wrap > div:first-child,
-    #prev-t1-lang-wrap > div:first-child { color: ${light} !important; }
-    #prev-t1-edu span, #prev-skills-section div span { color: ${light} !important; }
-  `
-
-  saveDraft()
-}
 
   // ── Email validation ──
   function validateEmail(input) {
