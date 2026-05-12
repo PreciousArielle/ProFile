@@ -883,11 +883,13 @@ function applyAccentColor(dark, light, el) {
     const t3line = document.querySelector('#prev-t3 > div:first-child')
     if (t3line) t3line.style.background = dark
 
-    // Template 4 — left sidebar background only
+   // Template 4 — left sidebar background + content area
     const t4bg      = document.querySelector('#prev-t4 > div:first-child')
-    const t4sidebar = document.querySelector('#prev-t4 > div:nth-child(3)')
+    const t4content = document.querySelector('#prev-t4 > div:nth-child(3)')
+    const t4second  = document.querySelector('#prev-t4 > div:nth-child(2)')
     if (t4bg)      t4bg.style.background      = dark
-    if (t4sidebar) t4sidebar.style.background = dark
+    if (t4second)  t4second.style.background  = dark
+    if (t4content) t4content.style.background = dark
 
     // Update accent highlight colors (bullets, section labels) across all templates
     let accentStyle = document.getElementById('accent-color-style')
@@ -900,7 +902,10 @@ function applyAccentColor(dark, light, el) {
       #prev-t1 [style*="color:#8FB89A"] { color: ${light} !important; }
       #prev-t1 [style*="border-left:2.5px solid #8FB89A"] { border-color: ${light} !important; }
       #prev-t4 [style*="color:#8FB89A"] { color: ${light} !important; }
-      #prev-t4 [style*="border-left:2.5px solid #8FB89A"] { border-color: ${light} !important; }
+      #prev-t4 [style*="border-bottom:1px solid #D4CFC4"] { border-color: ${light} !important; }
+      #prev-t4 [style*="color:#2B3A2E"] { color: ${light} !important; }
+      #prev-t4 [style*="color:#7A776E"] { color: #ccc !important; }
+      #prev-t4 [style*="color:#1A1A18"] { color: #fff !important; }
       #prev-t4 [style*="color:#8FB89A"] { color: ${light} !important; }
       #prev-t2 [style*="color:#4A5568"] { color: ${dark} !important; }
       #prev-t3 [style*="color:#2B3A2E"] { color: ${dark} !important; }
