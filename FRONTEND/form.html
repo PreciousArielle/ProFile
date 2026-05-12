@@ -1774,10 +1774,8 @@ function applyCustomizations() {
     const formData = collectFormData()
     localStorage.setItem('profile_form_data', JSON.stringify(formData))
     localStorage.setItem('profile_form_draft_t' + templateNum, JSON.stringify(formData))
-    localStorage.removeItem('profile_canvas_state')
-    localStorage.removeItem('profile_canvas_state_t2')
-    localStorage.removeItem('profile_canvas_state_t3')
-    localStorage.removeItem('profile_canvas_state_t4')
+    localStorage.setItem('profile_accent_dark', window.currentAccentDark || '#2C2C2C')
+    localStorage.setItem('profile_accent_light', window.currentAccentLight || '#8FB89A')
 
     const token = localStorage.getItem('profile_token')
     if (token) {

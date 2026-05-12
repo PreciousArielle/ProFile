@@ -11,8 +11,8 @@ initResumeEditor({
     const fontSize   = parseFloat(data.fontSize) || 12
 
     // Accent colors from saved data
-    const accentDark  = data.accentDark  || '#2C2C2C'
-    const accentLight = data.accentLight || '#8FB89A'
+   const accentDark  = data.accentDark  || localStorage.getItem('profile_accent_dark')  || '#2C2C2C'
+   const accentLight = data.accentLight || localStorage.getItem('profile_accent_light') || '#8FB89A'
 
     // SIDEBAR BACKGROUND
     buildHtmlElement({
