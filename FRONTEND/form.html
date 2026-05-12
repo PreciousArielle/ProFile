@@ -813,12 +813,12 @@
   let customSectionCount = 0
 
   // ── Font / Size customization ──
+  
   function applyCustomizations() {
   const font = document.getElementById('fontFamily').value
   const size = parseInt(document.getElementById('fontSize').value)
   document.getElementById('fontSizeVal').textContent = size + 'px'
 
-  // Inject a style tag that overrides all text inside the preview
   let styleTag = document.getElementById('preview-custom-style')
   if (!styleTag) {
     styleTag = document.createElement('style')
@@ -826,19 +826,14 @@
     document.head.appendChild(styleTag)
   }
 
- 
   styleTag.textContent = `
-  #previewResume * {
-    font-family: ${font} !important;
-  }
-  #previewResume div:not(#prev-t1-name-main):not(#prev-t2-name):not(#prev-t3-name):not(#prev-t4-name),
-  #previewResume span, #previewResume p {
-    font-size: ${size * 0.65}px !important;
-  }
-  #previewResume b, #previewResume strong {
-    font-size: ${size * 0.65}px !important;
-  }
-`
+    #previewResume * { font-family: ${font} !important; }
+  `
+
+  // Scale font size on the actual resume element
+  const resume = document.getElementById('previewResume')
+  resume.style.fontSize = size + 'px'
+
   saveDraft()
 }
 
