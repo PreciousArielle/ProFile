@@ -79,19 +79,6 @@ initResumeEditor({
     if (data.phone)    sidebarHTML += `<div style="font-size:${fontSize - 2.5}px;color:#ccc;margin-bottom:4px;">📞 ${data.phone}</div>`
     if (data.location) sidebarHTML += `<div style="font-size:${fontSize - 2.5}px;color:#ccc;margin-bottom:4px;">📍 ${data.location}</div>`
 
-    // Custom sections in sidebar
-    if (data.customSections && data.customSections.length) {
-      data.customSections.forEach(sec => {
-        const items = (sec.entries || []).filter(e => e && e.trim())
-        if (!items.length) return
-        sidebarHTML += `<div style="height:1px;background:rgba(255,255,255,0.15);margin:14px 0;"></div>`
-        sidebarHTML += `<div style="font-size:${fontSize - 3}px;font-weight:600;color:${accentLight};letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;">${sec.name}</div>`
-        items.forEach(item => {
-          sidebarHTML += `<div style="font-size:${fontSize - 2}px;color:#ccc;margin-bottom:4px;line-height:1.5;">• ${item}</div>`
-        })
-      })
-    }
-
     sidebarHTML += `</div></div>`
     buildHtmlElement({ left: 0, top: 0, width: SIDEBAR_W, html: sidebarHTML })
 
