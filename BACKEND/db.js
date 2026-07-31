@@ -1,34 +1,29 @@
 require('dotenv').config()
-const mysql = require('mysql2')
+const { Pool } = require('pg')
 
-const pool = mysql.createPool({
-  // This looks at Render first, then uses localhost if Render isn't there
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'profile_db',
-  
-
-  port: process.env.DB_PORT || 3306, 
-
-
-  ssl: {
-    rejectUnauthorized: false
-  },
-
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
 })
 
-// Test the connection on startup
-pool.getConnection((err, connection) => {
+pool.connect((err, client, release) => {
   if (err) {
-    console.error('✗ MySQL connection failed:', err.message)
+    console.error('✗ PostgreSQL connection failed:', err.message)
     return
   }
-  console.log('✓ MySQL connected successfully')
-  connection.release()
+  console.log('✓ PostgreSQL connected successfully')
+  release()
 })
 
-module.exports = pool.promise()
+module.exports = {
+  execute: async (sql, params = []) => {
+    let i = 0
+    const pgSql = sql.replace(/\?/g, () => `$${++i}`)
+    const result = await pool.query(pgSql, params)
+    return [result.rows, result.fields]
+  },
+  query: async (sql, params = []) => {
+    const result = await pool.query(sql, params)
+    return [result.rows, result.fields]
+  }
+}
