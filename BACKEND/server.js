@@ -37,7 +37,7 @@ async function auditLog(userId, action, details = '') {
 async function seedAdmin() {
   try {
     const [rows] = await db.execute('SELECT COUNT(*) as count FROM users')
-    if (rows[0].count === 0) {
+    if (parseInt(rows[0].count) === 0) {
       const hashed = await bcrypt.hash('admin123', 10)
       await db.execute(
         'INSERT INTO users (full_name, username, password, role) VALUES (?, ?, ?, ?)',
@@ -89,15 +89,14 @@ app.post('/auth/register', async (req, res) => {
 
     const hashed = await bcrypt.hash(password, 10)
     const [result] = await db.execute(
-      'INSERT INTO users (full_name, username, password, role) VALUES (?, ?, ?, ?)',
+      'INSERT INTO users (full_name, username, password, role) VALUES (?, ?, ?, ?) RETURNING id',
       [fullname, username, hashed, 'user']
     )
-
-    await auditLog(result.insertId, 'REGISTER', `Username: ${username}`)
+    await auditLog(result[0]?.id, 'REGISTER', `Username: ${username}`)
     res.json({ ok: true })
 
   } catch (err) {
-    if (err.code === 'ER_DUP_ENTRY')
+    if (err.code === '23505')
       return res.status(409).json({ error: 'Username already taken' })
     console.error('Register error:', err)
     res.status(500).json({ error: 'Server error' })
@@ -177,10 +176,10 @@ app.post('/api/resumes', requireAuth, async (req, res) => {
   try {
     const { title, template_num, resume_data } = req.body
     const [result] = await db.execute(
-      'INSERT INTO resumes (user_id, title, template_num, resume_data) VALUES (?, ?, ?, ?)',
+      'INSERT INTO resumes (user_id, title, template_num, resume_data) VALUES (?, ?, ?, ?) RETURNING id',
       [req.user.id, title || 'Untitled Resume', template_num || 1, JSON.stringify(resume_data)]
     )
-    await auditLog(req.user.id, 'RESUME_CREATED', `Resume ID: ${result.insertId} | Title: ${title}`)
+    await auditLog(req.user.id, 'RESUME_CREATED', `Resume ID: ${result[0]?.id} | Title: ${title}`)
     res.json({ ok: true, id: result.insertId })
   } catch (err) {
     console.error('Save resume error:', err)
