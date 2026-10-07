@@ -256,7 +256,7 @@ app.post('/api/ai/summary', async (req, res) => {
       },
       body: JSON.stringify({
         model: 'openai/gpt-oss-20b',
-        max_tokens: 200,
+        max_tokens: 500,
         messages: [{ role: 'user', content: prompt }]
       })
     })
