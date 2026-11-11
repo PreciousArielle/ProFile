@@ -64,7 +64,7 @@ jobs:
           check "/api/resumes" 200 "$(status "$SITE/api/resumes" -H "$AUTH")"
           check "normal user blocked from admin" 403 "$(status "$SITE/admin/stats" -H "$AUTH")"
 
-          check "AI summary" 200 "$(status -X POST "$SITE/api/ai/summary" \
+          check "AI summary" 200 "$(status -X POST "$SITE/api/ai/generate-summary" \
             -H "$AUTH" -H 'Content-Type: application/json' \
             -d '{"jobTitle":"Web Developer","skills":"HTML, CSS","tone":"Professional"}')"
 
