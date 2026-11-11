@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      SITE: https://profile-07v0.onrender.com ${{ secrets.SITE_URL }}
-      SMOKE_USER: smoketest ${{ secrets.SMOKE_USER }}
-      SMOKE_PASS: Smoke1234! ${{ secrets.SMOKE_PASS }}
+      SITE: ${{ secrets.SITE_URL }}
+      SMOKE_USER: ${{ secrets.SMOKE_USER }}
+      SMOKE_PASS: ${{ secrets.SMOKE_PASS }}
     steps:
       - name: Wait for Render to deploy
         if: github.event_name == 'push'
@@ -31,9 +31,8 @@ jobs:
           done
           echo "Server never came up"; exit 1
 
-      
-          - name: Run smoke tests
-          run: |
+      - name: Run smoke tests
+        run: |
           SITE="$(printf '%s' "$SITE" | tr -d '[:space:]')"; SITE="${SITE%/}"
           echo "Testing: [$SITE]"
           FAILED=0
