@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProFile Beta — Minimal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-logo">Pro<span>File</span> <span style="font-size:11px;opacity:0.5;font-family:'DM Sans',sans-serif;font-weight:300;letter-spacing:0.1em;">BETA</span></div>
+    <div class="header-right">
+      <a href="/" style="font-size:12px;color:rgba(237,233,223,0.5);text-decoration:none;padding:5px 10px;border:1px solid rgba(237,233,223,0.15);border-radius:6px;margin-right:4px;">← Back</a>
+      <button id="modeSwitchBtn" onclick="setMode(editMode ? 'preview' : 'edit')" class="btn-reset">✏️ Edit</button>
+      <button class="btn-reset" onclick="resetSession()" title="Clear canvas and start over">Reset</button>
+      <button class="btn-download" onclick="generatePDF()">↓ Download PDF</button>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <button onclick="formatText('bold')" title="Bold"><b style="font-size:14px;">B</b></button>
+    <button onclick="formatText('italic')" title="Italic"><i style="font-size:14px;">I</i></button>
+    <button onclick="formatText('underline')" title="Underline"><u style="font-size:14px;">U</u></button>
+    <div class="toolbar-sep"></div>
+    <select onchange="changeFont(this.value)" title="Font">
+      <option value="">Font</option>
+      <option value="'DM Sans', sans-serif">DM Sans</option>
+      <option value="'DM Serif Display', serif">DM Serif</option>
+      <option value="Georgia, serif">Georgia</option>
+      <option value="'Times New Roman', serif">Times New Roman</option>
+      <option value="'Courier New', monospace">Courier</option>
+    </select>
+    <div class="toolbar-sep"></div>
+    <input list="fontSizes" id="fontSizeInput" placeholder="Size" title="Font size" oninput="applyFontSize()">
+    <datalist id="fontSizes">
+      <option value="10"><option value="11"><option value="12"><option value="13">
+      <option value="14"><option value="16"><option value="18"><option value="20">
+      <option value="24"><option value="28"><option value="32"><option value="40"><option value="48">
+    </datalist>
+    <div class="toolbar-sep"></div>
+    <input type="color" onchange="changeColor(this.value)" title="Text color" value="#1a1a18">
+  </div>
+
+  <div class="canvas-area">
+    <div id="resume">
+
+      <!-- Thin top rule accent -->
+      <div class="top-rule"></div>
+
+      <div class="text name">
+        <div class="drag-handle"></div>
+        <div class="text-content" contenteditable="true">Your Name</div>
+        <div class="resize-grip"></div>
+      </div>
+
+      <div class="text jobtitle">
+        <div class="drag-handle"></div>
+        <div class="text-content" contenteditable="true">Job Title · Location</div>
+        <div class="resize-grip"></div>
+      </div>
+
+      <!-- Full-width divider rule -->
+      <div class="divider-rule"></div>
+
+      <div class="text contact-line">
+        <div class="drag-handle"></div>
+        <div class="text-content" contenteditable="true">email@example.com  ·  +63 912 345 6789</div>
+        <div class="resize-grip"></div>
+      </div>
+
+      <div class="text main-body">
+        <div class="drag-handle"></div>
+        <div class="text-content" contenteditable="true">Summary: A passionate professional with experience in...</div>
+        <div class="resize-grip"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="ctx-menu">
+    <div id="addTextOption">+ Add text box</div>
+  </div>
+
+  <script src="script3.js"></script>
+</body>
+</html>

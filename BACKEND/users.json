@@ -1,0 +1,19 @@
+[
+  {
+    "id": "d0fd0b86-5504-4ce1-b542-403ef74582f1",
+    "fullname": "Administrator",
+    "username": "admin",
+    "password": "9f3899dddc7f1c3557972432680366e6e13fec41948919e01f77f9b0e4b258f1",
+    "role": "admin",
+    "createdAt": "2026-04-19T17:05:23.792Z"
+  },
+  {
+    "id": "b5599599-9bf2-4660-887c-09a071da134f",
+    "fullname": "Precious Arielle",
+    "username": "preciousdeleon2",
+    "password": "242b0ce7ba155483faedfde529cd7ecee39499a14cde7877bf1f556db11f0fde",
+    "role": "user",
+    "createdAt": "2026-04-20T01:32:18.048Z",
+    "token": "bc6451bfa8d71315c1f71f844fb542ffab2cc18155e1a983371ce8ca11c28005"
+  }
+]
