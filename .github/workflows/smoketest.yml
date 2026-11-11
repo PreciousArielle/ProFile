@@ -20,8 +20,11 @@ jobs:
 
       - name: Wake the server (cold start)
         run: |
+          SITE="$(printf '%s' "$SITE" | tr -d '[:space:]')"
+          SITE="${SITE%/}"
+          echo "Testing: [$SITE]"
           for i in $(seq 1 20); do
-            code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "$SITE/")
+            code=$(curl -sL -o /dev/null -w "%{http_code}" --max-time 30 "$SITE/login.html" || true)
             echo "Attempt $i: $code"
             [ "$code" = "200" ] && exit 0
             sleep 15
