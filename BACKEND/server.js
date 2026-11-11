@@ -14,7 +14,7 @@ if (!process.env.JWT_SECRET) {
   console.error('✗ JWT_SECRET is missing in .env')
   process.exit(1)
 }
-if (!process.env.GROQ_API_KEY) console.warn('! GROQ_API_KEY missing, AI summary will be disabled')
+if (!process.env.GROQ_API_KEY) console.warn('! GROQ_API_KEY missing, AI summary will be disabled!!')
 if (!process.env.BROWSERLESS_TOKEN) console.warn('! BROWSERLESS_TOKEN missing, PDF export will fail')
 
 const app = express()
@@ -192,7 +192,7 @@ app.post('/api/onboard', requireAuth, async (req, res) => {
 })
 
 // ── AI SUMMARY (Groq) ──
-app.post('/api/generate-summary', requireAuth, aiLimiter, async (req, res) => {
+app.post(['/api/generate-summary', '/api/ai/summary'], requireAuth, aiLimiter, async (req, res) => {
   if (!process.env.GROQ_API_KEY) return res.status(503).json({ error: 'AI is not configured' })
 
   const jobTitle   = clean(req.body.jobTitle, 80)
