@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      SITE: https://profile-07v0.onrender.com
-      SMOKE_USER: smoketest
-      SMOKE_PASS: Smoke1234!
+      SITE: "https://profile-07v0.onrender.com"
+      SMOKE_USER: "smoketest1"
+      SMOKE_PASS: "Smoke1234#"
     steps:
       - name: Wait for Render to deploy
         if: github.event_name == 'push'
