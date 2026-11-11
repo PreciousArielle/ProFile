@@ -31,8 +31,9 @@ jobs:
           done
           echo "Server never came up"; exit 1
 
-           - name: Run smoke tests
-        run: |
+      
+          - name: Run smoke tests
+          run: |
           SITE="$(printf '%s' "$SITE" | tr -d '[:space:]')"; SITE="${SITE%/}"
           echo "Testing: [$SITE]"
           FAILED=0
