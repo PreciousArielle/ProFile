@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      SITE: ${{ secrets.SITE_URL }}
+      SITE: https://profile-07v0.onrender.com
       SMOKE_USER: ${{ secrets.SMOKE_USER }}
       SMOKE_PASS: ${{ secrets.SMOKE_PASS }}
     steps:
