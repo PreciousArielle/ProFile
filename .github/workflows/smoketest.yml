@@ -11,8 +11,8 @@ jobs:
     timeout-minutes: 15
     env:
       SITE: https://profile-07v0.onrender.com
-      SMOKE_USER: ${{ secrets.SMOKE_USER }}
-      SMOKE_PASS: ${{ secrets.SMOKE_PASS }}
+      SMOKE_USER: smoketest
+      SMOKE_PASS: Smoke1234!
     steps:
       - name: Wait for Render to deploy
         if: github.event_name == 'push'
