@@ -1,0 +1,77 @@
+name: Smoke test
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SITE: "https://profile-07v0.onrender.com"
+      SMOKE_USER: "smoketest1"
+      SMOKE_PASS: "Smoke1234#"
+    steps:
+      - name: Wait for Render to deploy
+        if: github.event_name == 'push'
+        run: sleep 120
+
+      - name: Wake the server (cold start)
+        run: |
+          SITE="$(printf '%s' "$SITE" | tr -d '[:space:]')"
+          SITE="${SITE%/}"
+          echo "Testing: [$SITE]"
+          for i in $(seq 1 20); do
+            code=$(curl -sL -o /dev/null -w "%{http_code}" --max-time 30 "$SITE/login.html" || true)
+            echo "Attempt $i: $code"
+            [ "$code" = "200" ] && exit 0
+            sleep 15
+          done
+          echo "Server never came up"; exit 1
+
+      - name: Run smoke tests
+        run: |
+          SITE="$(printf '%s' "$SITE" | tr -d '[:space:]')"; SITE="${SITE%/}"
+          echo "Testing: [$SITE]"
+          FAILED=0
+          check() {
+            if [ "$2" = "$3" ]; then echo "PASS  $1"; else echo "FAIL  $1 (expected $2, got $3)"; FAILED=1; fi
+          }
+          status() { curl -s -o /dev/null -w "%{http_code}" --max-time 60 "$@" || true; }
+
+          for page in login.html register.html index.html admin-login.html; do
+            check "page $page" 200 "$(status "$SITE/$page")"
+          done
+
+          check "login rejects bad password" 401 "$(status -X POST "$SITE/auth/login" \
+            -H 'Content-Type: application/json' \
+            -d '{"username":"nobody","password":"wrongpass"}')"
+
+          check "no token blocked" 401 "$(status "$SITE/auth/me")"
+          check "admin route blocked without token" 401 "$(status "$SITE/admin/stats")"
+
+          LOGIN=$(curl -s --max-time 60 -X POST "$SITE/auth/login" \
+            -H 'Content-Type: application/json' \
+            -d "{\"username\":\"$SMOKE_USER\",\"password\":\"$SMOKE_PASS\"}" || true)
+          TOKEN=$(echo "$LOGIN" | jq -r '.token // empty')
+          if [ -z "$TOKEN" ]; then echo "FAIL  real login (no token)"; echo "$LOGIN"; exit 1; fi
+          echo "PASS  real login"
+
+          AUTH="Authorization: Bearer $TOKEN"
+          check "/auth/me" 200 "$(status "$SITE/auth/me" -H "$AUTH")"
+          check "/api/resumes" 200 "$(status "$SITE/api/resumes" -H "$AUTH")"
+          check "normal user blocked from admin" 403 "$(status "$SITE/admin/stats" -H "$AUTH")"
+
+          check "AI summary" 200 "$(status -X POST "$SITE/api/ai/generate-summary" \
+            -H "$AUTH" -H 'Content-Type: application/json' \
+            -d '{"jobTitle":"Web Developer","skills":"HTML, CSS","tone":"Professional"}')"
+
+          curl -s --max-time 90 -X POST "$SITE/generate-pdf" \
+            -H "$AUTH" -H 'Content-Type: application/json' \
+            -d '{"html":"<div id=\"resume\"><h1>Smoke test</h1></div>","width":794,"height":1123,"template":1}' \
+            -o out.pdf || true
+          if head -c 4 out.pdf | grep -q '%PDF'; then echo "PASS  PDF generation"; else echo "FAIL  PDF generation"; head -c 300 out.pdf; FAILED=1; fi
+
+          exit $FAILED
