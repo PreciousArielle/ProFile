@@ -31,13 +31,15 @@ jobs:
           done
           echo "Server never came up"; exit 1
 
-      - name: Run smoke tests
+           - name: Run smoke tests
         run: |
+          SITE="$(printf '%s' "$SITE" | tr -d '[:space:]')"; SITE="${SITE%/}"
+          echo "Testing: [$SITE]"
           FAILED=0
           check() {
             if [ "$2" = "$3" ]; then echo "PASS  $1"; else echo "FAIL  $1 (expected $2, got $3)"; FAILED=1; fi
           }
-          status() { curl -s -o /dev/null -w "%{http_code}" --max-time 60 "$@"; }
+          status() { curl -s -o /dev/null -w "%{http_code}" --max-time 60 "$@" || true; }
 
           for page in login.html register.html index.html admin-login.html; do
             check "page $page" 200 "$(status "$SITE/$page")"
@@ -52,7 +54,7 @@ jobs:
 
           LOGIN=$(curl -s --max-time 60 -X POST "$SITE/auth/login" \
             -H 'Content-Type: application/json' \
-            -d "{\"username\":\"$SMOKE_USER\",\"password\":\"$SMOKE_PASS\"}")
+            -d "{\"username\":\"$SMOKE_USER\",\"password\":\"$SMOKE_PASS\"}" || true)
           TOKEN=$(echo "$LOGIN" | jq -r '.token // empty')
           if [ -z "$TOKEN" ]; then echo "FAIL  real login (no token)"; echo "$LOGIN"; exit 1; fi
           echo "PASS  real login"
@@ -69,7 +71,7 @@ jobs:
           curl -s --max-time 90 -X POST "$SITE/generate-pdf" \
             -H "$AUTH" -H 'Content-Type: application/json' \
             -d '{"html":"<div id=\"resume\"><h1>Smoke test</h1></div>","width":794,"height":1123,"template":1}' \
-            -o out.pdf
+            -o out.pdf || true
           if head -c 4 out.pdf | grep -q '%PDF'; then echo "PASS  PDF generation"; else echo "FAIL  PDF generation"; head -c 300 out.pdf; FAILED=1; fi
 
           exit $FAILED
