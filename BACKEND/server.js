@@ -192,7 +192,7 @@ app.post('/api/onboard', requireAuth, async (req, res) => {
 })
 
 // ── AI SUMMARY (Groq) ──
-app.post(['/api/generate-summary', '/api/ai/summary'], requireAuth, aiLimiter, async (req, res) => {
+app.post(['/api/generate-summary', '/api/ai/summary', '/api/ai/generate-summary'], requireAuth, aiLimiter, async (req, res) => {
   if (!process.env.GROQ_API_KEY) return res.status(503).json({ error: 'AI is not configured' })
 
   const jobTitle   = clean(req.body.jobTitle, 80)
