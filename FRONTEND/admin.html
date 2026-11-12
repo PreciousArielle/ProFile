@@ -64,23 +64,20 @@
 
 <script>
 
-/* 🔐 CHECK ACCESS */
-const token = localStorage.getItem("token");
-const role = localStorage.getItem("role");
+const token = localStorage.getItem("profile_token");
+const user  = JSON.parse(localStorage.getItem("profile_user") || "null");
 
-if(!token){
-  alert("Not logged in");
-  window.location.href = "login.html";
-}
-
-if(role !== "admin"){
+if (!token || !user) {
+  window.location.href = "admin-login.html";
+} else if (user.role !== "admin") {
   alert("Admins only");
-  window.location.href = "home.html";
+  window.location.href = "index.html";
 }
 
-/* 🔙 BACK BUTTON */
 function goBack(){
-  window.location.href = "home.html";
+  localStorage.removeItem("profile_token");
+  localStorage.removeItem("profile_user");
+  window.location.href = "admin-login.html";
 }
 
 /* 📜 LOAD AUDIT LOGS */
