@@ -1905,17 +1905,28 @@ const fullPrompt = `Name: ${name}. Job: ${jobtitle}. Skills: ${skills.slice(0,10
     try {
       const response = await fetch('/api/ai/summary', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: fullPrompt })
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('profile_token')
+        },
+        body: JSON.stringify({
+          name:       document.getElementById('f-name')?.value.trim() || '',
+          jobTitle:   document.getElementById('f-jobtitle')?.value.trim() || '',
+          skills:     document.getElementById('f-skills')?.value.trim() || '',
+          experience: '',
+          tone:       'Professional'
+        })
       })
 
       if (!response.ok) {
         const err = await response.json().catch(() => ({}))
-        throw new Error(err?.error?.message || `API error ${response.status}`)
+        throw new Error(
+          (typeof err.error === 'string' ? err.error : err?.error?.message) || `API error ${response.status}`
+        )
       }
 
       const data   = await response.json()
-      const result = data.result
+      const result = data.summary
 
       if (!result) throw new Error('Empty response from AI.')
 
