@@ -84,32 +84,46 @@ function goBack(){
 async function loadLogs(){
   try{
     const res = await fetch("/admin/audit", {
-      headers:{
-        "Authorization": "Bearer " + token
-      }
+      headers:{ "Authorization": "Bearer " + token }
     });
 
-    const data = await res.json();
+    const data = await res.json().catch(() => ({}));
+
+    if (res.status === 401) {
+      alert("Session expired, please log in again");
+      localStorage.removeItem("profile_token");
+      localStorage.removeItem("profile_user");
+      window.location.href = "admin-login.html";
+      return;
+    }
+
+    if (!res.ok || !Array.isArray(data)) {
+      alert("Error " + res.status + ": " + (data.error || "unexpected response"));
+      return;
+    }
 
     const table = document.getElementById("logsTable");
     table.innerHTML = "";
 
     data.forEach(log=>{
       const row = document.createElement("tr");
-
-      row.innerHTML = `
-        <td>${log.username || log.user_id}</td>
-        <td>${log.action}</td>
-        <td>${log.details}</td>
-        <td>${new Date(log.created_at).toLocaleString()}</td>
-      `;
-
+      const cells = [
+        log.username || log.user_id,
+        log.action,
+        log.details,
+        new Date(log.created_at).toLocaleString()
+      ];
+      cells.forEach(text => {
+        const td = document.createElement("td");
+        td.textContent = text ?? "";
+        row.appendChild(td);
+      });
       table.appendChild(row);
     });
 
   }catch(err){
     console.error(err);
-    alert("Failed to load logs");
+    alert("Failed to load logs: " + err.message);
   }
 }
 
