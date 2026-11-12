@@ -213,7 +213,8 @@ app.post(['/api/generate-summary', '/api/ai/summary', '/api/ai/generate-summary'
       body: JSON.stringify({
         model: GROQ_MODEL,
         temperature: 0.7,
-        max_tokens: 200,
+        max_tokens: 600,
+        reasoning_effort: 'low',
         messages: [
           {
             role: 'system',
