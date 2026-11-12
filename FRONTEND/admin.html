@@ -83,7 +83,7 @@ function goBack(){
 /* 📜 LOAD AUDIT LOGS */
 async function loadLogs(){
   try{
-    const res = await fetch("http://localhost:3000/api/admin/logs", {
+    const res = await fetch("/admin/audit", {
       headers:{
         "Authorization": "Bearer " + token
       }
