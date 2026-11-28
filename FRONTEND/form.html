@@ -1865,7 +1865,7 @@
       updatePreview()
     }
 
-    // Draws templates 5-12 in the live preview using the exact renderFromFormData
+    // Draws the selected template in the live preview using the exact renderFromFormData
     // from templateN.js, so the preview and the built resume can never drift apart.
     function renderTemplatePreview() {
       const root = document.getElementById('prev-t' + templateNum)
@@ -1961,14 +1961,9 @@
           if (el) el.style.display = String(i + 1) === templateNum ? 'block' : 'none'
         })
 
-      // Template 1-4 (Keep as is)
-      if (templateNum === '1') { /* ... existing t1 code ... */ }
-      if (templateNum === '2') { /* ... existing t2 code ... */ }
-      if (templateNum === '3') { /* ... existing t3 code ... */ }
-      if (templateNum === '4') { /* ... existing t4 code ... */ }
-
-      // ── TEMPLATES 5-12: drawn by the SAME renderer as the built resume (templateN.js) ──
-      if (parseInt(templateNum) >= 5) renderTemplatePreview()
+      // All 12 templates use the same renderFromFormData function as the final resume.
+      // The selected template script registers its renderer before this is called.
+      renderTemplatePreview()
 
       saveDraft()
     }
@@ -2035,12 +2030,14 @@
     }
     document.getElementById('templateLabel').textContent = templateNames[templateNum] || 'Classic Sidebar'
 
-    if (parseInt(templateNum) >= 5) {
-      const s = document.createElement('script')
-      s.src = 'template' + templateNum + '.js'
-      s.onload = () => updatePreview()
-      document.head.appendChild(s)
-    }
+    // Load the selected template's renderer for the live preview.
+    // This must include templates 1-4 too; they register through initResumeEditor
+    // just like templates 5-12.
+    const templateScript = document.createElement('script')
+    templateScript.src = 'template' + templateNum + '.js'
+    templateScript.onload = () => updatePreview()
+    templateScript.onerror = () => console.error('Could not load preview renderer:', templateScript.src)
+    document.head.appendChild(templateScript)
 
     loadSavedForm()
 
