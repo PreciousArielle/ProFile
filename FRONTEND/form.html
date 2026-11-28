@@ -13,476 +13,69 @@
   <link rel="stylesheet" href="form.css">
   <script src="auth-guard.js"></script>
   <style>
-    .customize-bar {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 10px 16px;
-      background: #F7F5F0;
-      border-bottom: 1px solid #D4CFC4;
-      flex-wrap: wrap;
-    }
-
-    .customize-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      color: #7A776E;
-      font-family: "DM Sans", sans-serif;
-    }
-
-    .color-swatch {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: transform 0.1s, border-color 0.1s;
-      flex-shrink: 0;
-    }
-
-    .color-swatch:hover {
-      transform: scale(1.2);
-    }
-
-    .color-swatch.active {
-      border-color: white;
-      outline: 2px solid #4A6350;
-    }
-
-    .customize-group label {
-      font-weight: 500;
-      white-space: nowrap;
-    }
-
-    .customize-group select,
-    .customize-group input[type="range"] {
-      font-family: "DM Sans", sans-serif;
-      font-size: 12px;
-      border: 1px solid #D4CFC4;
-      border-radius: 6px;
-      padding: 4px 8px;
-      background: white;
-      color: #1A1A18;
-      cursor: pointer;
-    }
-
-    .customize-group input[type="range"] {
-      width: 80px;
-      padding: 0;
-      accent-color: #4A6350;
-    }
-
-    .customize-group .size-val {
-      font-size: 11px;
-      color: #4A6350;
-      font-weight: 500;
-      min-width: 28px;
-    }
-
-    .custom-section-builder {
-      background: #F7F5F0;
-      border: 1.5px dashed #D4CFC4;
-      border-radius: 10px;
-      padding: 16px;
-      margin-top: 8px;
-    }
-
-    .custom-section-builder h4 {
-      font-size: 13px;
-      font-weight: 500;
-      color: #2B3A2E;
-      margin-bottom: 12px;
-      font-family: "DM Sans", sans-serif;
-    }
-
-    .custom-section-name-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .custom-section-name-row input {
-      flex: 1;
-      height: 36px;
-      padding: 0 12px;
-      font-family: "DM Sans", sans-serif;
-      font-size: 13px;
-      border: 1.5px solid #D4CFC4;
-      border-radius: 8px;
-      outline: none;
-      color: #1A1A18;
-      background: white;
-    }
-
-    .custom-section-name-row input:focus {
-      border-color: #4A6350;
-      box-shadow: 0 0 0 3px rgba(143, 184, 154, 0.15);
-    }
-
-    .btn-add-custom-section {
-      height: 36px;
-      padding: 0 14px;
-      background: #2B3A2E;
-      color: #F0EDE5;
-      border: none;
-      border-radius: 8px;
-      font-family: "DM Sans", sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.12s;
-    }
-
-    .btn-add-custom-section:hover {
-      background: #4A6350;
-    }
-
-    .custom-section-card {
-      background: white;
-      border: 1px solid #D4CFC4;
-      border-radius: 10px;
-      margin-bottom: 12px;
-      overflow: hidden;
-    }
-
-    .custom-section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      background: #F7F5F0;
-      border-bottom: 1px solid #D4CFC4;
-      font-size: 13px;
-      font-weight: 500;
-      color: #2B3A2E;
-      font-family: "DM Sans", sans-serif;
-    }
-
-    .btn-remove-custom {
-      background: none;
-      border: none;
-      font-size: 11px;
-      color: #c0392b;
-      cursor: pointer;
-      font-family: "DM Sans", sans-serif;
-      padding: 2px 6px;
-    }
-
-    .custom-section-body {
-      padding: 12px 14px;
-    }
-
-    .custom-entry {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
-      align-items: flex-start;
-    }
-
-    .custom-entry textarea {
-      flex: 1;
-      min-height: 56px;
-      padding: 8px 10px;
-      font-family: "DM Sans", sans-serif;
-      font-size: 13px;
-      border: 1.5px solid #D4CFC4;
-      border-radius: 8px;
-      outline: none;
-      resize: vertical;
-      color: #1A1A18;
-      background: white;
-      line-height: 1.5;
-    }
-
-    .btn-remove-entry {
-      background: none;
-      border: 1px solid #D4CFC4;
-      border-radius: 6px;
-      padding: 4px 8px;
-      font-size: 11px;
-      color: #c0392b;
-      cursor: pointer;
-      font-family: "DM Sans", sans-serif;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .btn-add-entry {
-      font-size: 12px;
-      color: #4A6350;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-family: "DM Sans", sans-serif;
-      padding: 2px 0;
-      font-weight: 500;
-    }
-
-    .btn-ai-assist {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
-      background: linear-gradient(135deg, #2B3A2E 0%, #4A6350 100%);
-      color: #F0EDE5;
-      border: none;
-      border-radius: 20px;
-      font-family: "DM Sans", sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      cursor: pointer;
-      letter-spacing: 0.02em;
-      transition: opacity 0.15s, transform 0.1s;
-      flex-shrink: 0;
-    }
-
-    .btn-ai-assist:hover {
-      opacity: 0.88;
-      transform: translateY(-1px);
-    }
-
-    .ai-sparkle {
-      font-size: 10px;
-    }
-
-    .ai-assist-panel {
-      background: #F7F5F0;
-      border: 1.5px solid #8FB89A;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 10px;
-      box-shadow: 0 4px 16px rgba(43, 58, 46, 0.10);
-      animation: aiPanelIn 0.18s ease;
-    }
-
-    @keyframes aiPanelIn {
-      from {
-        opacity: 0;
-        transform: translateY(-6px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .ai-panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 9px 14px;
-      background: linear-gradient(135deg, #2B3A2E 0%, #4A6350 100%);
-    }
-
-    .ai-panel-title {
-      font-family: "DM Sans", sans-serif;
-      font-size: 12px;
-      font-weight: 600;
-      color: #F0EDE5;
-      letter-spacing: 0.04em;
-    }
-
-    .ai-panel-close {
-      background: none;
-      border: none;
-      color: rgba(240, 237, 229, 0.7);
-      font-size: 13px;
-      cursor: pointer;
-      padding: 0 2px;
-      line-height: 1;
-      transition: color 0.12s;
-    }
-
-    .ai-panel-body {
-      padding: 12px 14px 10px;
-    }
-
-    .ai-panel-hint {
-      font-family: "DM Sans", sans-serif;
-      font-size: 11px;
-      color: #7A776E;
-      margin: 0 0 10px;
-      line-height: 1.5;
-    }
-
-    .ai-prompt-textarea {
-      width: 100%;
-      min-height: 64px;
-      padding: 8px 10px;
-      font-family: "DM Sans", sans-serif;
-      font-size: 12px;
-      border: 1.5px solid #D4CFC4;
-      border-radius: 8px;
-      outline: none;
-      resize: vertical;
-      color: #1A1A18;
-      background: white;
-      line-height: 1.5;
-      box-sizing: border-box;
-      transition: border-color 0.15s;
-    }
-
-    .ai-panel-actions {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 8px;
-    }
-
-    .ai-shortcut-hint {
-      font-family: "DM Sans", sans-serif;
-      font-size: 10px;
-      color: #B0ADA4;
-    }
-
-    .btn-ai-generate {
-      padding: 6px 16px;
-      background: linear-gradient(135deg, #2B3A2E 0%, #4A6350 100%);
-      color: #F0EDE5;
-      border: none;
-      border-radius: 8px;
-      font-family: "DM Sans", sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: opacity 0.15s;
-      min-width: 100px;
-    }
-
-    .btn-ai-generate:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .ai-loading-dots::after {
-      content: '';
-      animation: aiDots 1.2s steps(4, end) infinite;
-    }
-
-    @keyframes aiDots {
-      0% {
-        content: '';
-      }
-
-      25% {
-        content: '.';
-      }
-
-      50% {
-        content: '..';
-      }
-
-      75% {
-        content: '...';
-      }
-
-      100% {
-        content: '';
-      }
-    }
-
-    .ai-result-area {
-      border-top: 1px solid #D4CFC4;
-      padding: 12px 14px;
-      background: white;
-      animation: aiPanelIn 0.18s ease;
-    }
-
-    .ai-result-label {
-      font-family: "DM Sans", sans-serif;
-      font-size: 10px;
-      font-weight: 600;
-      color: #7A776E;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 7px;
-    }
-
-    .ai-result-text {
-      font-family: "DM Sans", sans-serif;
-      font-size: 12px;
-      color: #1A1A18;
-      line-height: 1.65;
-      white-space: pre-wrap;
-      background: #F7F5F0;
-      border: 1px solid #D4CFC4;
-      border-radius: 6px;
-      padding: 10px 12px;
-      margin-bottom: 10px;
-      min-height: 40px;
-    }
-
-    .ai-result-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .btn-ai-accept {
-      padding: 6px 14px;
-      background: #2B3A2E;
-      color: #F0EDE5;
-      border: none;
-      border-radius: 7px;
-      font-family: "DM Sans", sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.12s;
-    }
-
-    .btn-ai-regen {
-      padding: 6px 14px;
-      background: none;
-      color: #4A6350;
-      border: 1.5px solid #8FB89A;
-      border-radius: 7px;
-      font-family: "DM Sans", sans-serif;
-      font-size: 12px;
-      cursor: pointer;
-      transition: background 0.12s;
-    }
-
-    .btn-ai-discard {
-      padding: 6px 10px;
-      background: none;
-      color: #B0ADA4;
-      border: 1px solid #D4CFC4;
-      border-radius: 7px;
-      font-family: "DM Sans", sans-serif;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    .ai-error-area {
-      border-top: 1px solid #f5c6c6;
-      padding: 10px 14px;
-      background: #fff5f5;
-      font-family: "DM Sans", sans-serif;
-      font-size: 11px;
-      color: #c0392b;
-    }
+    .customize-bar { display: flex; align-items: center; gap: 16px; padding: 10px 16px; background: #F7F5F0; border-bottom: 1px solid #D4CFC4; flex-wrap: wrap; }
+    .customize-group { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #7A776E; font-family: "DM Sans", sans-serif; }
+    .color-swatch { width: 18px; height: 18px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: transform 0.1s, border-color 0.1s; flex-shrink: 0; }
+    .color-swatch:hover { transform: scale(1.2); }
+    .color-swatch.active { border-color: white; outline: 2px solid #4A6350; }
+    .customize-group label { font-weight: 500; white-space: nowrap; }
+    .customize-group select, .customize-group input[type="range"] { font-family: "DM Sans", sans-serif; font-size: 12px; border: 1px solid #D4CFC4; border-radius: 6px; padding: 4px 8px; background: white; color: #1A1A18; cursor: pointer; }
+    .customize-group input[type="range"] { width: 80px; padding: 0; accent-color: #4A6350; }
+    .customize-group .size-val { font-size: 11px; color: #4A6350; font-weight: 500; min-width: 28px; }
+    .custom-section-builder { background: #F7F5F0; border: 1.5px dashed #D4CFC4; border-radius: 10px; padding: 16px; margin-top: 8px; }
+    .custom-section-builder h4 { font-size: 13px; font-weight: 500; color: #2B3A2E; margin-bottom: 12px; font-family: "DM Sans", sans-serif; }
+    .custom-section-name-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .custom-section-name-row input { flex: 1; height: 36px; padding: 0 12px; font-family: "DM Sans", sans-serif; font-size: 13px; border: 1.5px solid #D4CFC4; border-radius: 8px; outline: none; color: #1A1A18; background: white; }
+    .custom-section-name-row input:focus { border-color: #4A6350; box-shadow: 0 0 0 3px rgba(143, 184, 154, 0.15); }
+    .btn-add-custom-section { height: 36px; padding: 0 14px; background: #2B3A2E; color: #F0EDE5; border: none; border-radius: 8px; font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: background 0.12s; }
+    .btn-add-custom-section:hover { background: #4A6350; }
+    .custom-section-card { background: white; border: 1px solid #D4CFC4; border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+    .custom-section-head { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #F7F5F0; border-bottom: 1px solid #D4CFC4; font-size: 13px; font-weight: 500; color: #2B3A2E; font-family: "DM Sans", sans-serif; }
+    .btn-remove-custom { background: none; border: none; font-size: 11px; color: #c0392b; cursor: pointer; font-family: "DM Sans", sans-serif; padding: 2px 6px; }
+    .custom-section-body { padding: 12px 14px; }
+    .custom-entry { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
+    .custom-entry textarea { flex: 1; min-height: 56px; padding: 8px 10px; font-family: "DM Sans", sans-serif; font-size: 13px; border: 1.5px solid #D4CFC4; border-radius: 8px; outline: none; resize: vertical; color: #1A1A18; background: white; line-height: 1.5; }
+    .btn-remove-entry { background: none; border: 1px solid #D4CFC4; border-radius: 6px; padding: 4px 8px; font-size: 11px; color: #c0392b; cursor: pointer; font-family: "DM Sans", sans-serif; flex-shrink: 0; margin-top: 2px; }
+    .btn-add-entry { font-size: 12px; color: #4A6350; background: none; border: none; cursor: pointer; font-family: "DM Sans", sans-serif; padding: 2px 0; font-weight: 500; }
+    .btn-ai-assist { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; background: linear-gradient(135deg, #2B3A2E 0%, #4A6350 100%); color: #F0EDE5; border: none; border-radius: 20px; font-family: "DM Sans", sans-serif; font-size: 11px; font-weight: 500; cursor: pointer; letter-spacing: 0.02em; transition: opacity 0.15s, transform 0.1s; flex-shrink: 0; }
+    .btn-ai-assist:hover { opacity: 0.88; transform: translateY(-1px); }
+    .ai-sparkle { font-size: 10px; }
+    .ai-assist-panel { background: #F7F5F0; border: 1.5px solid #8FB89A; border-radius: 10px; overflow: hidden; margin-bottom: 10px; box-shadow: 0 4px 16px rgba(43, 58, 46, 0.10); animation: aiPanelIn 0.18s ease; }
+    @keyframes aiPanelIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+    .ai-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 9px 14px; background: linear-gradient(135deg, #2B3A2E 0%, #4A6350 100%); }
+    .ai-panel-title { font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 600; color: #F0EDE5; letter-spacing: 0.04em; }
+    .ai-panel-close { background: none; border: none; color: rgba(240, 237, 229, 0.7); font-size: 13px; cursor: pointer; padding: 0 2px; line-height: 1; transition: color 0.12s; }
+    .ai-panel-body { padding: 12px 14px 10px; }
+    .ai-panel-hint { font-family: "DM Sans", sans-serif; font-size: 11px; color: #7A776E; margin: 0 0 10px; line-height: 1.5; }
+    .ai-prompt-textarea { width: 100%; min-height: 64px; padding: 8px 10px; font-family: "DM Sans", sans-serif; font-size: 12px; border: 1.5px solid #D4CFC4; border-radius: 8px; outline: none; resize: vertical; color: #1A1A18; background: white; line-height: 1.5; box-sizing: border-box; transition: border-color 0.15s; }
+    .ai-panel-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+    .ai-shortcut-hint { font-family: "DM Sans", sans-serif; font-size: 10px; color: #B0ADA4; }
+    .btn-ai-generate { padding: 6px 16px; background: linear-gradient(135deg, #2B3A2E 0%, #4A6350 100%); color: #F0EDE5; border: none; border-radius: 8px; font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; transition: opacity 0.15s; min-width: 100px; }
+    .btn-ai-generate:disabled { opacity: 0.5; cursor: not-allowed; }
+    .ai-loading-dots::after { content: ''; animation: aiDots 1.2s steps(4, end) infinite; }
+    @keyframes aiDots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } 100% { content: ''; } }
+    .ai-result-area { border-top: 1px solid #D4CFC4; padding: 12px 14px; background: white; animation: aiPanelIn 0.18s ease; }
+    .ai-result-label { font-family: "DM Sans", sans-serif; font-size: 10px; font-weight: 600; color: #7A776E; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 7px; }
+    .ai-result-text { font-family: "DM Sans", sans-serif; font-size: 12px; color: #1A1A18; line-height: 1.65; white-space: pre-wrap; background: #F7F5F0; border: 1px solid #D4CFC4; border-radius: 6px; padding: 10px 12px; margin-bottom: 10px; min-height: 40px; }
+    .ai-result-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn-ai-accept { padding: 6px 14px; background: #2B3A2E; color: #F0EDE5; border: none; border-radius: 7px; font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; transition: background 0.12s; }
+    .btn-ai-regen { padding: 6px 14px; background: none; color: #4A6350; border: 1.5px solid #8FB89A; border-radius: 7px; font-family: "DM Sans", sans-serif; font-size: 12px; cursor: pointer; transition: background 0.12s; }
+    .btn-ai-discard { padding: 6px 10px; background: none; color: #B0ADA4; border: 1px solid #D4CFC4; border-radius: 7px; font-family: "DM Sans", sans-serif; font-size: 12px; cursor: pointer; }
+    .ai-error-area { border-top: 1px solid #f5c6c6; padding: 10px 14px; background: #fff5f5; font-family: "DM Sans", sans-serif; font-size: 11px; color: #c0392b; }
 
     /* Drag-and-drop controls */
-    .section-drag-handle, .entry-drag-handle, .custom-drag-handle {
-      border: 0; background: transparent; color: #8A887F; cursor: grab;
-      padding: 4px 7px; border-radius: 6px; font-size: 18px; line-height: 1;
-      touch-action: none; user-select: none;
-    }
+    .section-drag-handle, .entry-drag-handle, .custom-drag-handle { border: 0; background: transparent; color: #8A887F; cursor: grab; padding: 4px 7px; border-radius: 6px; font-size: 18px; line-height: 1; touch-action: none; user-select: none; }
     .section-drag-handle:hover, .entry-drag-handle:hover, .custom-drag-handle:hover { background: #EAE7DF; color: #2B3A2E; }
     .section-card.dragging, .entry-card.dragging, .custom-section-card.dragging, .custom-entry.dragging { opacity: .45; }
     .section-card.drag-over, .entry-card.drag-over, .custom-section-card.drag-over, .custom-entry.drag-over { outline: 2px dashed #4A6350; outline-offset: 3px; }
     .section-header { cursor: default; }
-    .entry-header { display:flex; align-items:center; gap:6px; }
-    .entry-header .entry-label { flex:1; }
-    .custom-section-head { gap:8px; }
-    .custom-section-head > span:first-child { flex:1; }
-    .custom-entry { display:flex; align-items:flex-start; gap:6px; }
-    .custom-entry textarea { flex:1; }
+    .entry-header { display: flex; align-items: center; gap: 6px; }
+    .entry-header .entry-label { flex: 1; }
+    .custom-section-head { gap: 8px; }
+    .custom-section-head > span:first-child { flex: 1; }
+    .custom-entry { display: flex; align-items: flex-start; gap: 6px; }
+    .custom-entry textarea { flex: 1; }
+    .preview-error { padding: 24px; font: 13px/1.5 "DM Sans", sans-serif; color: #c0392b; }
   </style>
 </head>
 
@@ -537,11 +130,8 @@
             </div>
             <div class="field">
               <label>Phone</label>
-              <div class="field">
-                <label>Phone</label>
-                <input type="tel" id="f-phone" placeholder="e.g. 09123456789" maxlength="11" inputmode="numeric"
-                  oninput="this.value=this.value.replace(/\D/g,'').slice(0,11); updatePreview()">
-              </div>
+              <input type="tel" id="f-phone" placeholder="e.g. 09123456789" maxlength="11" inputmode="numeric"
+                oninput="this.value=this.value.replace(/\D/g,'').slice(0,11); updatePreview()">
             </div>
             <div class="field full">
               <label>Profile Photo <span class="hint">(optional)</span></label>
@@ -608,7 +198,7 @@
         <div class="section-header" onclick="toggleSection('sec-awards')">
           <button type="button" class="section-drag-handle" draggable="true" aria-label="Drag to reorder section" title="Drag to reorder">⠿</button>
           <div class="section-title-wrap">
-            <div class="section-icon">A</div><span>Awards & Achievements</span>
+            <div class="section-icon">A</div><span>Awards &amp; Achievements</span>
           </div>
           <span class="chevron" id="chev-sec-awards">▾</span>
         </div>
@@ -756,25 +346,25 @@
         <div class="customize-group">
           <label>Size</label>
           <input type="range" id="fontSize" min="9" max="15" value="12" step="1" oninput="applyCustomizations()">
-          <span class="size-val" id="fontSizeVal">13px</span>
+          <span class="size-val" id="fontSizeVal">12px</span>
           <div style="font-size:10px;color:#B0ADA4;font-family:'DM Sans',sans-serif;width:100%;">Font size applies to
             final resume</div>
           <div class="customize-group" id="accentColorGroup">
             <label>Color</label>
             <div style="display:flex;gap:6px;align-items:center;">
-              <div class="color-swatch active" data-color="#2C2C2C" style="background:#2C2C2C;"
+              <div class="color-swatch active" data-color="#2C2C2C" data-light="#8FB89A" style="background:#2C2C2C;"
                 onclick="applyAccentColor('#2C2C2C', '#8FB89A', this)"></div>
-              <div class="color-swatch" data-color="#1B3A5C" style="background:#1B3A5C;"
+              <div class="color-swatch" data-color="#1B3A5C" data-light="#7EB5D6" style="background:#1B3A5C;"
                 onclick="applyAccentColor('#1B3A5C', '#7EB5D6', this)"></div>
-              <div class="color-swatch" data-color="#2B3A2E" style="background:#2B3A2E;"
+              <div class="color-swatch" data-color="#2B3A2E" data-light="#8FB89A" style="background:#2B3A2E;"
                 onclick="applyAccentColor('#2B3A2E', '#8FB89A', this)"></div>
-              <div class="color-swatch" data-color="#4A2040" style="background:#4A2040;"
+              <div class="color-swatch" data-color="#4A2040" data-light="#C48AB0" style="background:#4A2040;"
                 onclick="applyAccentColor('#4A2040', '#C48AB0', this)"></div>
-              <div class="color-swatch" data-color="#3B2A1A" style="background:#3B2A1A;"
+              <div class="color-swatch" data-color="#3B2A1A" data-light="#C4A882" style="background:#3B2A1A;"
                 onclick="applyAccentColor('#3B2A1A', '#C4A882', this)"></div>
-              <div class="color-swatch" data-color="#1A3A3A" style="background:#1A3A3A;"
+              <div class="color-swatch" data-color="#1A3A3A" data-light="#7EC4C4" style="background:#1A3A3A;"
                 onclick="applyAccentColor('#1A3A3A', '#7EC4C4', this)"></div>
-              <div class="color-swatch" data-color="#2C2C4A" style="background:#2C2C4A;"
+              <div class="color-swatch" data-color="#2C2C4A" data-light="#9898D6" style="background:#2C2C4A;"
                 onclick="applyAccentColor('#2C2C4A', '#9898D6', this)"></div>
               <button onclick="resetAccentColor()"
                 style="font-size:10px;color:#7A776E;background:none;border:1px solid #D4CFC4;border-radius:6px;padding:2px 7px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-left:2px;">Reset</button>
@@ -790,7 +380,7 @@
           <div id="previewResume"
             style="width:794px;height:1123px;background:white;position:relative;overflow:hidden;transform-origin:top left;font-size:13px;">
 
-            <!-- TEMPLATE 1 PREVIEW -->
+            <!-- TEMPLATE 1 PREVIEW (legacy static markup) -->
             <div id="prev-t1"
               style="position:absolute;top:0;left:0;right:0;bottom:0;font-family:'DM Sans',sans-serif;display:none;">
               <div style="position:absolute;left:0;top:0;width:220px;height:100%;background:#2C2C2C;"></div>
@@ -858,316 +448,18 @@
               </div>
             </div>
 
-            <!-- TEMPLATE 2 PREVIEW -->
-            <div id="prev-t2"
-              style="position:absolute;top:0;left:0;right:0;bottom:0;font-family:'DM Sans',sans-serif;display:none;">
-              <div style="position:absolute;left:0;top:0;width:100%;height:135px;background:#4A5568;"></div>
-              <div
-                style="position:absolute;left:0;top:0;width:100%;height:180px;background:#4A5568;clip-path:polygon(0 0,100% 0,100% 75%,0 100%);">
-              </div>
-              <div id="prev-t2-photo"
-                style="position:absolute;right:24px;top:20px;width:100px;height:100px;display:none;border-radius:6px;overflow:hidden;">
-                <img id="prev-t2-photo-img" style="width:100%;height:100%;object-fit:cover;display:block;">
-              </div>
-              <div style="position:absolute;left:20px;top:30px;width:580px;">
-                <div id="prev-t2-name"
-                  style="font-family:'DM Serif Display',serif;font-size:28px;color:#fff;line-height:1.2;">Your Name
-                </div>
-                <div id="prev-t2-job"
-                  style="font-size:11px;color:rgba(255,255,255,0.75);margin-top:4px;letter-spacing:0.05em;">Job Title
-                </div>
-              </div>
-              <div style="position:absolute;left:14px;top:215px;width:240px;overflow:hidden;">
-                <div id="prev-t2-summary-wrap" style="display:none;margin-bottom:10px;">
-                  <div
-                    style="font-size:7px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4A5568;border-left:3px solid #4A5568;padding-left:5px;margin-bottom:5px;">
-                    Personal Profile</div>
-                  <div id="prev-t2-summary" style="font-size:8px;color:#444;line-height:1.6;"></div>
-                </div>
-                <div id="prev-t2-contact-wrap" style="display:none;margin-bottom:10px;">
-                  <div
-                    style="font-size:7px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4A5568;border-left:3px solid #4A5568;padding-left:5px;margin-bottom:5px;">
-                    Contact</div>
-                  <div id="prev-t2-contact" style="font-size:8px;color:#555;line-height:1.7;"></div>
-                </div>
-                <div id="prev-t2-edu-wrap" style="display:none;margin-bottom:10px;">
-                  <div
-                    style="font-size:7px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4A5568;border-left:3px solid #4A5568;padding-left:5px;margin-bottom:5px;">
-                    Education</div>
-                  <div id="prev-t2-edu" style="font-size:8px;color:#333;"></div>
-                </div>
-                <div id="prev-t2-lang-wrap" style="display:none;margin-bottom:10px;">
-                  <div
-                    style="font-size:7px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4A5568;border-left:3px solid #4A5568;padding-left:5px;margin-bottom:5px;">
-                    Languages</div>
-                  <div id="prev-t2-lang" style="font-size:8px;color:#555;"></div>
-                </div>
-                <div id="prev-t2-custom-left" style="margin-top:4px;"></div>
-              </div>
-              <div style="position:absolute;left:260px;top:215px;width:1px;height:900px;background:#D4CFC4;"></div>
-              <div
-                style="position:absolute;left:280px;top:215px;width:494px;overflow:hidden;padding-right:16px;box-sizing:border-box;">
-                <div id="prev-t2-skills-wrap" style="display:none;margin-bottom:10px;">
-                  <div
-                    style="font-size:7px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4A5568;border-bottom:1px solid #D4CFC4;padding-bottom:3px;margin-bottom:6px;">
-                    Skills</div>
-                  <div id="prev-t2-skills" style="font-size:8px;color:#333;columns:2;gap:8px;line-height:1.6;"></div>
-                </div>
-                <div id="prev-t2-work-wrap" style="display:none;margin-bottom:10px;">
-                  <div
-                    style="font-size:7px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4A5568;border-bottom:1px solid #D4CFC4;padding-bottom:3px;margin-bottom:6px;">
-                    Work Experience</div>
-                  <div id="prev-t2-work" style="font-size:8px;color:#1A1A18;"></div>
-                </div>
-                <div id="prev-t2-cert-wrap" style="display:none;margin-bottom:10px;">
-                  <div
-                    style="font-size:7px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4A5568;border-bottom:1px solid #D4CFC4;padding-bottom:3px;margin-bottom:6px;">
-                    Certifications</div>
-                  <div id="prev-t2-cert" style="font-size:8px;color:#1A1A18;"></div>
-                </div>
-                <div id="prev-t2-award-wrap" style="display:none;margin-bottom:10px;">
-                  <div
-                    style="font-size:7px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4A5568;border-bottom:1px solid #D4CFC4;padding-bottom:3px;margin-bottom:6px;">
-                    Awards &amp; Achievements</div>
-                  <div id="prev-t2-award" style="font-size:8px;color:#1A1A18;"></div>
-                </div>
-                <div id="prev-t2-custom-right" style="margin-top:4px;"></div>
-              </div>
-            </div>
-
-            <!-- TEMPLATE 3 PREVIEW -->
-            <div id="prev-t3" style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;">
-              <div style="position:absolute;left:0;top:0;width:100%;height:4px;background:#2B3A2E;"></div>
-              <div style="position:absolute;right:40px;top:20px;display:none;" id="prev-t3-photo-wrap">
-                <img id="prev-t3-photo-img"
-                  style="width:80px;height:80px;object-fit:cover;border-radius:4px;border:1px solid #D4CFC4;display:block;">
-              </div>
-              <div style="position:absolute;left:40px;top:20px;">
-                <div id="prev-t3-name"
-                  style="font-family:'DM Serif Display',serif;font-size:34px;color:#1A1A18;line-height:1.2;">Your Name
-                </div>
-                <div id="prev-t3-job"
-                  style="font-size:12px;color:#7A776E;margin-top:4px;letter-spacing:0.08em;text-transform:uppercase;">
-                  JOB TITLE · LOCATION</div>
-              </div>
-              <div style="position:absolute;left:40px;top:108px;width:714px;height:1px;background:#D4CFC4;"></div>
-              <div id="prev-t3-contact" style="position:absolute;left:40px;top:118px;font-size:11px;color:#7A776E;">
-              </div>
-              <div style="position:absolute;left:40px;top:148px;width:714px;">
-                <div id="prev-t3-summary" style="font-size:12px;color:#444;margin-bottom:8px;"></div>
-                <div id="prev-t3-work" style="font-size:12px;color:#1A1A18;"></div>
-                <div id="prev-t3-edu" style="font-size:12px;color:#1A1A18;"></div>
-                <div id="prev-t3-custom" style="font-size:12px;color:#1A1A18;margin-top:6px;"></div>
-              </div>
-            </div>
-
-            <!-- TEMPLATE 4 PREVIEW -->
-            <div id="prev-t4"
-              style="position:absolute;top:0;left:0;right:0;bottom:0;font-family:'DM Sans',sans-serif;display:none;">
-              <div style="position:absolute;left:0;top:0;width:260px;height:100%;background:#EDEAE3;"></div>
-              <div style="position:absolute;left:260px;top:0;width:534px;height:100%;background:#FFFFFF;"></div>
-              <div style="position:absolute;left:0;top:0;width:260px;height:100%;overflow:hidden;">
-                <div id="prev-t4-photo-wrap" style="display:none;width:100%;padding:14px 0 10px;text-align:center;">
-                  <img id="prev-t4-photo-img"
-                    style="width:120px;height:120px;object-fit:cover;border-radius:4px;display:inline-block;">
-                </div>
-                <div id="prev-t4-no-photo" style="width:100%;height:130px;background:#D4CFC4;"></div>
-                <div style="padding:8px 14px 16px;">
-                  <div id="prev-t4-edu-wrap" style="display:none;">
-                    <div
-                      style="font-size:7px;font-weight:700;color:#2B3A2E;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #D4CFC4;padding-bottom:2px;margin-bottom:6px;">
-                      Education</div>
-                    <div id="prev-t4-edu-sidebar" style="font-size:8px;color:#7A776E;margin-bottom:8px;"></div>
-                  </div>
-                  <div id="prev-t4-skills-wrap" style="display:none;">
-                    <div
-                      style="font-size:7px;font-weight:700;color:#2B3A2E;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #D4CFC4;padding-bottom:2px;margin-bottom:6px;margin-top:8px;">
-                      Skills</div>
-                    <div id="prev-t4-skills" style="font-size:8px;color:#7A776E;line-height:1.6;"></div>
-                  </div>
-                  <div id="prev-t4-lang-wrap" style="display:none;">
-                    <div
-                      style="font-size:7px;font-weight:700;color:#2B3A2E;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #D4CFC4;padding-bottom:2px;margin-bottom:6px;margin-top:8px;">
-                      Languages</div>
-                    <div id="prev-t4-lang-sidebar" style="font-size:8px;color:#7A776E;"></div>
-                  </div>
-                  <div id="prev-t4-cert-sidebar-wrap" style="display:none;">
-                    <div
-                      style="font-size:7px;font-weight:700;color:#2B3A2E;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #D4CFC4;padding-bottom:2px;margin-bottom:6px;margin-top:8px;">
-                      Certifications</div>
-                    <div id="prev-t4-cert-sidebar" style="font-size:8px;color:#7A776E;"></div>
-                  </div>
-                  <div id="prev-t4-contact-head"
-                    style="font-size:7px;font-weight:700;color:#2B3A2E;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #D4CFC4;padding-bottom:2px;margin-bottom:6px;margin-top:8px;">
-                    Contact</div>
-                  <div id="prev-t4-contact" style="font-size:8px;color:#7A776E;line-height:1.7;"></div>
-                  <div id="prev-t4-custom-sidebar" style="margin-top:8px;"></div>
-                </div>
-              </div>
-              <div style="position:absolute;left:260px;top:0;width:534px;height:100%;overflow:hidden;">
-                <div style="padding:22px 16px 16px;">
-                  <div id="prev-t4-name"
-                    style="font-family:'DM Serif Display',serif;font-size:20px;color:#1A1A18;letter-spacing:0.01em;line-height:1.2;margin-bottom:4px;">
-                  </div>
-                  <div id="prev-t4-job" style="font-size:9px;color:#8FB89A;margin-bottom:10px;"></div>
-                  <div style="width:100%;height:1px;background:#D4CFC4;margin-bottom:8px;"></div>
-                  <div id="prev-t4-summary-wrap" style="display:none;">
-                    <div
-                      style="font-size:8px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2B3A2E;border-bottom:1.5px solid #8FB89A;padding-bottom:2px;margin-bottom:6px;margin-top:10px;">
-                      Profile</div>
-                    <div id="prev-t4-summary" style="font-size:9px;color:#555;line-height:1.55;margin-bottom:8px;">
-                    </div>
-                  </div>
-                  <div id="prev-t4-work-wrap" style="display:none;">
-                    <div
-                      style="font-size:8px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2B3A2E;border-bottom:1.5px solid #8FB89A;padding-bottom:2px;margin-bottom:6px;margin-top:10px;">
-                      Work Experience</div>
-                    <div id="prev-t4-work" style="font-size:9px;color:#1A1A18;"></div>
-                  </div>
-                  <div id="prev-t4-award-wrap" style="display:none;">
-                    <div
-                      style="font-size:8px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2B3A2E;border-bottom:1.5px solid #8FB89A;padding-bottom:2px;margin-bottom:6px;margin-top:10px;">
-                      Awards &amp; Achievements</div>
-                    <div id="prev-t4-award"
-                      style="font-size:9px;color:#1A1A18;display:grid;grid-template-columns:1fr 1fr;gap:6px;"></div>
-                  </div>
-                  <div id="prev-t4-custom-main" style="margin-top:8px;font-size:9px;color:#1A1A18;"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- TEMPLATE 5 PREVIEW -->
-            <div id="prev-t5"
-              style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;font-family:'DM Serif Display',serif;">
-              <div style="text-align:center;padding-top:40px;">
-                <div
-                  style="font-family:'Playfair Display',serif;font-size:36px;font-weight:bold;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;"
-                  id="prev-t5-name">JANELLE SEVILLA</div>
-                <div style="font-size:16px;color:#333;margin-bottom:16px;" id="prev-t5-job">Web Developer</div>
-                <div style="display:flex;justify-content:center;gap:40px;font-size:12px;" id="prev-t5-contact">
-                  <div>sevillaja@gmail.com</div>
-                  <div>Olongapo City, Philippines</div>
-                  <div>09123456789</div>
-                </div>
-              </div>
-              <div style="width:100%;height:4px;background:#0B132B;margin-top:30px;position:relative;">
-                <div
-                  style="position:absolute;left:50%;transform:translateX(-50%);top:-18px;background:#0B132B;color:white;padding:4px 20px;border-radius:20px;font-size:14px;letter-spacing:1px;">
-                  ABOUT ME</div>
-              </div>
-              <div style="text-align:center;padding:30px 80px;font-size:14px;line-height:1.5;" id="prev-t5-summary">
-                Summary goes here</div>
-            </div>
-
-            <!-- TEMPLATE 6 PREVIEW -->
-            <div id="prev-t6"
-              style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;font-family:'DM Serif Display',serif;">
-              <div style="width:280px;height:100%;background:#0B132B;position:absolute;left:0;top:0;"></div>
-              <div
-                style="position:absolute;left:40px;top:60px;width:200px;height:200px;background:#ddd;border-radius:50%;"
-                id="prev-t6-photo"></div>
-              <div style="position:absolute;left:310px;top:40px;">
-                <div
-                  style="font-family:'Playfair Display',serif;font-size:36px;font-weight:bold;text-transform:uppercase;margin-bottom:6px;"
-                  id="prev-t6-name">JANELLE SEVILLA</div>
-                <div style="font-size:16px;" id="prev-t6-job">Web Developer</div>
-              </div>
-            </div>
-
-            <!-- TEMPLATE 7 PREVIEW -->
-            <div id="prev-t7"
-              style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;font-family:'DM Serif Display',serif;">
-              <div
-                style="position:absolute;left:-100px;top:-100px;width:300px;height:300px;background:#2F4C32;border-radius:50%;">
-              </div>
-              <div style="position:absolute;left:230px;top:40px;width:520px;">
-                <div
-                  style="font-family:'Playfair Display',serif;font-size:36px;font-weight:bold;text-transform:uppercase;margin-bottom:6px;"
-                  id="prev-t7-name">JANELLE SEVILLA</div>
-                <div style="font-size:16px;margin-bottom:16px;" id="prev-t7-job">Web Developer</div>
-                <div style="font-size:12px;line-height:1.5;" id="prev-t7-summary">Summary goes here</div>
-              </div>
-              <div style="position:absolute;left:0;top:280px;width:100%;height:2px;background:#111;"></div>
-            </div>
-
-            <!-- TEMPLATE 8 PREVIEW -->
-            <div id="prev-t8"
-              style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;font-family:'DM Serif Display',serif;">
-              <div style="position:absolute;left:0;top:0;width:280px;height:55%;background:#3A5F3E;"></div>
-              <div style="position:absolute;left:0;bottom:0;width:280px;height:45%;background:#D6E4D6;"></div>
-              <div
-                style="position:absolute;left:40px;top:40px;width:200px;height:200px;background:#ccc;border-radius:50%;"
-                id="prev-t8-photo"></div>
-              <div style="position:absolute;left:310px;top:40px;width:440px;text-align:right;">
-                <div
-                  style="font-family:'Playfair Display',serif;font-size:36px;font-weight:bold;text-transform:uppercase;margin-bottom:6px;"
-                  id="prev-t8-name">JANELLE SEVILLA</div>
-                <div style="font-size:16px;" id="prev-t8-job">Web Developer</div>
-              </div>
-            </div>
-
-            <!-- TEMPLATE 9 PREVIEW -->
-            <div id="prev-t9"
-              style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;font-family:'DM Serif Display',serif;">
-              <div style="position:absolute;left:0;top:0;width:260px;height:100%;background:#E8E8E8;"></div>
-              <div style="position:absolute;left:0;top:0;width:60px;height:160px;background:#6A4766;"></div>
-              <div style="position:absolute;left:50px;top:50px;width:160px;height:160px;background:#ccc;"
-                id="prev-t9-photo"></div>
-              <div style="position:absolute;left:260px;top:0;width:534px;height:135px;background:#6A4766;"></div>
-              <div style="position:absolute;left:260px;top:135px;width:534px;text-align:center;padding-top:30px;">
-                <div
-                  style="font-family:'Playfair Display',serif;font-size:36px;font-weight:bold;text-transform:uppercase;margin-bottom:6px;"
-                  id="prev-t9-name">JANELLE SEVILLA</div>
-                <div style="font-size:16px;" id="prev-t9-job">Web Developer</div>
-              </div>
-            </div>
-
-            <!-- TEMPLATE 10 PREVIEW -->
-            <div id="prev-t10"
-              style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;font-family:'DM Serif Display',serif;">
-              <div style="position:absolute;left:0;top:0;width:100%;height:150px;background:#1C291C;"></div>
-              <div
-                style="position:absolute;left:40px;top:25px;width:100px;height:100px;background:#ccc;border-radius:50%;"
-                id="prev-t10-photo"></div>
-              <div style="position:absolute;left:150px;top:40px;width:600px;text-align:right;">
-                <div
-                  style="font-family:'Playfair Display',serif;font-size:36px;font-weight:bold;text-transform:uppercase;color:white;margin-bottom:4px;"
-                  id="prev-t10-name">JANELLE SEVILLA</div>
-                <div style="font-size:16px;color:#D1D5DB;" id="prev-t10-job">Web Developer</div>
-              </div>
-              <div style="position:absolute;left:0;top:150px;width:100%;height:40px;background:#EAEAEA;"></div>
-            </div>
-
-            <!-- TEMPLATE 11 PREVIEW -->
-            <div id="prev-t11"
-              style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;font-family:'DM Serif Display',serif;">
-              <div style="position:absolute;left:0;top:0;width:280px;height:100%;background:#243424;"></div>
-              <div
-                style="position:absolute;left:40px;top:40px;width:200px;height:200px;background:#ccc;border-radius:50%;"
-                id="prev-t11-photo"></div>
-              <div
-                style="position:absolute;left:280px;top:0;width:514px;height:180px;background:white;display:flex;align-items:center;justify-content:flex-end;padding-right:40px;box-sizing:border-box;">
-                <div style="text-align:right;">
-                  <div
-                    style="font-family:'Playfair Display',serif;font-size:36px;font-weight:bold;text-transform:uppercase;margin-bottom:6px;"
-                    id="prev-t11-name">JANELLE SEVILLA</div>
-                  <div style="font-size:16px;" id="prev-t11-job">Web Developer</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- TEMPLATE 12 PREVIEW -->
-            <div id="prev-t12"
-              style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;font-family:'DM Serif Display',serif;">
-              <div
-                style="position:absolute;left:0;top:0;width:100%;height:100px;background:#4A3B32;display:flex;align-items:center;justify-content:center;color:white;text-align:center;">
-                <div
-                  style="font-family:'Playfair Display',serif;font-size:36px;font-weight:bold;text-transform:uppercase;letter-spacing:2px;"
-                  id="prev-t12-name">JANELLE SEVILLA - WEB DEVELOPER</div>
-              </div>
-              <div style="position:absolute;left:0;top:100px;width:100%;height:40px;background:#7A6353;"></div>
-              <div style="position:absolute;left:0;top:140px;width:100%;height:40px;background:#9C826E;"></div>
-            </div>
+            <!-- TEMPLATES 2-12: empty containers. templateN.js's renderFromFormData draws into the active one. -->
+            <div id="prev-t2" style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;"></div>
+            <div id="prev-t3" style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;"></div>
+            <div id="prev-t4" style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;"></div>
+            <div id="prev-t5" style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;"></div>
+            <div id="prev-t6" style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;"></div>
+            <div id="prev-t7" style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;"></div>
+            <div id="prev-t8" style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;"></div>
+            <div id="prev-t9" style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;"></div>
+            <div id="prev-t10" style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;"></div>
+            <div id="prev-t11" style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;"></div>
+            <div id="prev-t12" style="position:absolute;top:0;left:0;right:0;bottom:0;display:none;"></div>
 
           </div>
         </div>
@@ -1180,17 +472,40 @@
     #previewResume .rs-content { font-size: 16px; line-height: 1.45; color: #000; overflow: visible; white-space: normal; overflow-wrap: anywhere; word-break: break-word; padding: 0; }
   </style>
   <script>
-    // Lets templateN.js be reused by the live preview: instead of building a full editor
-    // it just hands us its renderer. (The real initResumeEditor lives in editor.js.)
-    window.__previewRenderers = {}
-    window.initResumeEditor = function (cfg) { window.__previewRenderers[String(cfg.templateNum)] = cfg.renderFromFormData }
+    // Hook for templateN.js. Each template file calls initResumeEditor({ templateNum, renderFromFormData, ... }).
+    // On this page we don't build an editor; we just capture the renderer so the live preview can use it.
+    // Only ONE template script is ever loaded per page, so the renderer is stored under a single slot
+    // (not keyed by cfg.templateNum). A wrong/missing templateNum inside templateN.js can no longer blank the preview.
+    window.__previewRenderer = null
+    window.__previewConfig = null
+    window.__onRendererReady = null
+    window.initResumeEditor = function (cfg) {
+      window.__previewConfig = cfg || null
+      if (cfg && typeof cfg.renderFromFormData === 'function') window.__previewRenderer = cfg.renderFromFormData
+      if (typeof window.__onRendererReady === 'function') window.__onRendererReady(cfg)
+    }
   </script>
 
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const rawTemplate = urlParams.get('template');
-    const templateNum = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].includes(rawTemplate) ? rawTemplate : '1';
-    if (templateNum === '3') { const colorGroup = document.getElementById('accentColorGroup'); if (colorGroup) colorGroup.style.display = 'none'; }
+    /* ===================================================================
+       TEMPLATE CLASSIFICATION  (single source of truth - nothing else
+       in this file hard-codes template numbers)
+       =================================================================== */
+    const VALID_TEMPLATES = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+    const TWO_COLUMN_TEMPLATES = ['2', '4', '6', '7', '8', '9', '10', '11']
+    const SINGLE_COLUMN_TEMPLATES = ['3', '5', '12']
+    const NO_ACCENT_TEMPLATES = ['3']          // colour controls hidden, accent changes ignored
+    const LEGACY_STATIC_TEMPLATES = ['1']      // still drawn from the static markup, no templateN.js renderer
+
+    const urlParams = new URLSearchParams(window.location.search)
+    const rawTemplate = urlParams.get('template')
+    const templateNum = VALID_TEMPLATES.includes(rawTemplate) ? rawTemplate : '1'   // always a STRING
+
+    const usesRenderer = !LEGACY_STATIC_TEMPLATES.includes(templateNum)
+    const hasSectionColumns = TWO_COLUMN_TEMPLATES.includes(templateNum)
+    const supportsAccent = !NO_ACCENT_TEMPLATES.includes(templateNum)
+
+    if (TWO_COLUMN_TEMPLATES.some(n => SINGLE_COLUMN_TEMPLATES.includes(n))) console.error('Template classification overlap: a template is both one- and two-column')
 
     const TEMPLATE_DEFAULTS = {
       '1': { dark: '#2C2C2C', light: '#8FB89A' },
@@ -1205,784 +520,89 @@
       '10': { dark: '#1C291C', light: '#8FB89A' },
       '11': { dark: '#243424', light: '#8FB89A' },
       '12': { dark: '#4A3B32', light: '#8FB89A' }
-    };
+    }
 
-    const savedDark = localStorage.getItem('profile_accent_dark_t' + templateNum);
-    const savedLight = localStorage.getItem('profile_accent_light_t' + templateNum);
+    const templateNames = {
+      '1': 'Classic Sidebar', '2': 'Bold Header', '3': 'Minimal', '4': 'Two Column',
+      '5': 'Navy Serif', '6': 'Navy Circle Sidebar', '7': 'Green Split', '8': 'Green Pastel Sidebar',
+      '9': 'Purple Split', '10': 'Green Grid Header', '11': 'Dark Green Accent', '12': 'Brown Full-Width'
+    }
 
-    window.currentAccentDark = savedDark || TEMPLATE_DEFAULTS[templateNum].dark;
-    window.currentAccentLight = savedLight || TEMPLATE_DEFAULTS[templateNum].light;
+    const DEFAULT_SECTION_ORDER = ['sec-personal', 'sec-work', 'sec-edu', 'sec-cert', 'sec-awards', 'sec-languages', 'sec-skills', 'sec-summary', 'sec-custom']
+    // Name/contact (sec-personal) and Summary stay where the template puts them: they cannot be dragged
+    // and do not take part in ordering. Everything else is movable.
+    const FIXED_SECTIONS = ['sec-personal', 'sec-summary']
+    const MOVABLE_SECTIONS = DEFAULT_SECTION_ORDER.filter(id => !FIXED_SECTIONS.includes(id))
 
-    document.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-      let matchedSwatch = null;
-      document.querySelectorAll('.color-swatch').forEach(s => {
-        if (s.dataset.color && s.dataset.color.toLowerCase() === window.currentAccentDark.toLowerCase()) {
-          s.classList.add('active');
-          matchedSwatch = s;
-        }
-      });
-      setTimeout(() => {
-        applyAccentColor(window.currentAccentDark, window.currentAccentLight, matchedSwatch);
-      }, 100);
-    });
+    // Column maps exist ONLY for two-column templates. Templates 3, 5 and 12 have no entry on purpose.
+    const TEMPLATE_DEFAULT_COLUMNS = {
+      '2': { 'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'side', 'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'side', 'sec-skills': 'main', 'sec-custom': 'side' },
+      '4': { 'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'side', 'sec-cert': 'side', 'sec-awards': 'main', 'sec-languages': 'side', 'sec-skills': 'side', 'sec-custom': 'main' },
+      '6': { 'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'main', 'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'side', 'sec-skills': 'side', 'sec-custom': 'main' },
+      '7': { 'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'main', 'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'side', 'sec-skills': 'side', 'sec-custom': 'main' },
+      '8': { 'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'main', 'sec-cert': 'side', 'sec-awards': 'main', 'sec-languages': 'side', 'sec-skills': 'side', 'sec-custom': 'main' },
+      '9': { 'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'main', 'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'side', 'sec-skills': 'side', 'sec-custom': 'main' },
+      '10': { 'sec-personal': 'main', 'sec-work': 'main', 'sec-edu': 'main', 'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'side', 'sec-skills': 'main', 'sec-custom': 'main' },
+      '11': { 'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'main', 'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'side', 'sec-skills': 'side', 'sec-custom': 'main' }
+    }
+    const DEFAULT_SECTION_COLUMNS = hasSectionColumns ? TEMPLATE_DEFAULT_COLUMNS[templateNum] : {}
 
+    const ENTRY_CONTAINERS = ['work-entries', 'edu-entries', 'cert-entries', 'award-entries', 'lang-entries']
+    const PAPER_SPECS = { a4: { w: 794, h: 1123 }, letter: { w: 816, h: 1056 } }
+    const FONT_BASE = 12, FONT_MIN = 9, FONT_MAX = 15
+
+    /* ===================================================================
+       STATE
+       =================================================================== */
     let photoBase64 = null
     let workCount = 0, eduCount = 0, certCount = 0, awardCount = 0, langCount = 0
     let paperSize = 'a4'
     let customSections = []
     let customSectionCount = 0
-    const DEFAULT_SECTION_ORDER = ['sec-personal', 'sec-work', 'sec-edu', 'sec-cert', 'sec-awards', 'sec-languages', 'sec-skills', 'sec-summary', 'sec-custom']
     let sectionOrder = [...DEFAULT_SECTION_ORDER]
-    // Column controls are available on every two-column template.
-    // Templates 5 and 12 are intentionally single-column.
-    const TEMPLATES_WITH_COLUMNS = ['2', '4', '6', '7', '8', '9', '10', '11']
-    const TEMPLATE_DEFAULT_COLUMNS = {
-      '2': {
-        'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'side',
-        'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'side',
-        'sec-skills': 'main', 'sec-custom': 'side'
-      },
-      '4': {
-        'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'side',
-        'sec-cert': 'side', 'sec-awards': 'main', 'sec-languages': 'side',
-        'sec-skills': 'side', 'sec-custom': 'main'
-      },
-      '6': {
-        'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'main',
-        'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'side',
-        'sec-skills': 'side', 'sec-custom': 'main'
-      },
-      '7': {
-        'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'main',
-        'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'side',
-        'sec-skills': 'side', 'sec-custom': 'main'
-      },
-      '8': {
-        'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'main',
-        'sec-cert': 'side', 'sec-awards': 'main', 'sec-languages': 'side',
-        'sec-skills': 'side', 'sec-custom': 'main'
-      },
-      '9': {
-        'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'main',
-        'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'side',
-        'sec-skills': 'side', 'sec-custom': 'main'
-      },
-      '10': {
-        'sec-personal': 'main', 'sec-work': 'main', 'sec-edu': 'main',
-        'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'side',
-        'sec-skills': 'main', 'sec-custom': 'main'
-      },
-      '11': {
-        'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'main',
-        'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'side',
-        'sec-skills': 'side', 'sec-custom': 'main'
-      }
-    }
-    const hasSectionColumns = TEMPLATES_WITH_COLUMNS.includes(templateNum)
-    const DEFAULT_SECTION_COLUMNS = TEMPLATE_DEFAULT_COLUMNS[templateNum] || {}
     let sectionColumns = { ...DEFAULT_SECTION_COLUMNS }
+    let suspendUpdates = 0      // >0 while the form is being restored; blocks half-built previews/saves
+    let initialised = false     // false until the first restore finished; blocks saves of an empty form
+    let saveTimer = null
+    let aiLastResult = ''
+    window.currentAccentDark = TEMPLATE_DEFAULTS[templateNum].dark
+    window.currentAccentLight = TEMPLATE_DEFAULTS[templateNum].light
 
-    function applyCustomizations() {
-      const font = document.getElementById('fontFamily').value
-      const size = document.getElementById('fontSize').value
-      const sizeNum = parseInt(size);
-
-      document.getElementById('fontSizeVal').textContent = size + 'px'
-
-      const fontName = font.replace(/'/g, '').split(',')[0].trim();
-      if (fontName && fontName !== 'Times New Roman' && fontName !== 'Georgia') {
-        const linkId = 'font-link-' + fontName.replace(/ /g, '-');
-        if (!document.getElementById(linkId)) {
-          const link = document.createElement('link');
-          link.id = linkId;
-          const weights = { 'Playfair Display': '400;700', 'Merriweather': '300;400;700', 'Lato': '300;400;700', 'DM Sans': '300;400;500;700' }[fontName] || '400;700';
-          link.href = `https://fonts.googleapis.com/css2?family=${fontName.replace(/ /g, '+')}:wght@${weights}&display=swap`;
-          link.rel = 'stylesheet';
-          document.head.appendChild(link);
-        }
-      }
-
-      let styleTag = document.getElementById('preview-custom-style')
-      if (!styleTag) {
-        styleTag = document.createElement('style')
-        styleTag.id = 'preview-custom-style'
-        document.head.appendChild(styleTag)
-      }
-
-      styleTag.textContent = `
-        #previewResume, #previewResume * { font-family: ${font} !important; }
-        #previewResume .text-content { font-size: ${sizeNum}px !important; }
-        #previewResume .prev-name, #previewResume [id$="-name"], #previewResume [id$="-name-main"] { font-size: ${sizeNum * 2}px !important; }
-        #previewResume .prev-jobtitle, #previewResume [id$="-job"], #previewResume [id$="-job-main"] { font-size: ${sizeNum + 2}px !important; }
-        
-        #prev-t2-summary-wrap, #prev-t2-contact-wrap, #prev-t2-edu-wrap, #prev-t2-lang-wrap, #prev-t2-custom-left, #prev-t2-skills-wrap, #prev-t2-work-wrap, #prev-t2-cert-wrap, #prev-t2-award-wrap, #prev-t2-custom-right,
-        #prev-t1-edu-wrap, #prev-t1-contact-head, #prev-skills-section, #prev-t1-lang-wrap, #prev-contact, #prev-t1-custom, #prev-t1-summary-wrap, #prev-work-wrap, #prev-cert-wrap, #prev-award-wrap, #prev-t1-main-custom,
-        #prev-t4-edu-wrap, #prev-t4-skills-wrap, #prev-t4-lang-wrap, #prev-t4-cert-sidebar-wrap, #prev-t4-contact-head, #prev-t4-contact, #prev-t4-custom-sidebar, #prev-t4-summary-wrap, #prev-t4-work-wrap, #prev-t4-award-wrap, #prev-t4-custom-main {
-          zoom: ${(1.4 * sizeNum / 12).toFixed(3)};
-          overflow-wrap: anywhere;
-          word-break: break-word;
-        }
-        #prev-t3-summary, #prev-t3-work, #prev-t3-edu, #prev-t3-custom, #prev-t3-contact { zoom: ${(sizeNum / 12).toFixed(3)}; overflow-wrap: anywhere; line-height: 1.4 !important; }
-      `
-
-      saveDraft()
-      updatePreview()
+    /* ===================================================================
+       SMALL HELPERS
+       =================================================================== */
+    function readStored(key) { try { return localStorage.getItem(key) } catch (e) { return null } }
+    function writeStored(key, value) {
+      try { localStorage.setItem(key, value); return true } catch (e) { console.warn('localStorage write failed for', key, e); return false }
     }
-
-    function resetAccentColor() {
-      const defaults = TEMPLATE_DEFAULTS[templateNum]
-      applyAccentColor(defaults.dark, defaults.light, null)
-      const accentStyle = document.getElementById('accent-color-style')
-      if (accentStyle) accentStyle.textContent = ''
-      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'))
+    function removeStored(key) { try { localStorage.removeItem(key) } catch (e) { } }
+    function escapeHtml(v) {
+      return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
     }
-
-    function applyAccentColor(dark, light, el) {
-      if (templateNum === '3') return
-      window.currentAccentDark = dark
-      window.currentAccentLight = light
-
-      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'))
-      if (el) el.classList.add('active')
-
-      const t1 = document.getElementById('prev-t1')
-      if (t1) t1.querySelector('div:first-child').style.background = dark
-      const t2 = document.getElementById('prev-t2')
-      if (t2) {
-        if (t2.children[0]) t2.children[0].style.background = dark
-        if (t2.children[1]) t2.children[1].style.background = dark
-      }
-      const t4 = document.getElementById('prev-t4')
-      if (t4) t4.children[0].style.background = dark
-
-      let accentStyle = document.getElementById('accent-color-style')
-      if (!accentStyle) {
-        accentStyle = document.createElement('style')
-        accentStyle.id = 'accent-color-style'
-        document.head.appendChild(accentStyle)
-      }
-
-      const isLight = dark === '#EDEAE3' || dark === '#F0EDE5'
-
-      accentStyle.textContent = `
-      #prev-t1 [style*="color:#8FB89A"] { color: ${light} !important; }
-      #prev-t1 [style*="border:2px solid #8FB89A"] { border-color: ${light} !important; }
-
-      #prev-t4 [style*="color:#8FB89A"] { color: ${light} !important; }
-      #prev-t4 [style*="border-bottom:1.5px solid #8FB89A"] { border-color: ${light} !important; }
-      #prev-t4 > div:nth-child(3) [style*="color:#7A776E"] { color: ${isLight ? '#7A776E' : '#ccc'} !important; }
-      #prev-t4 > div:nth-child(3) [style*="color:#2B3A2E"] { color: ${isLight ? '#2B3A2E' : '#fff'} !important; }
-      #prev-t4 > div:nth-child(3) [style*="color:#1A1A18"] { color: ${isLight ? '#1A1A18' : '#fff'} !important; }
-      #prev-t4 > div:nth-child(3) [style*="font-weight:700"] { color: ${isLight ? '#2B3A2E' : '#fff'} !important; }
-      #prev-t4 > div:nth-child(3) [style*="border-bottom:1px solid #D4CFC4"] { border-color: ${isLight ? '#D4CFC4' : '#555'} !important; }
-
-      #prev-t2 [style*="color:#4A5568"][style*="font-weight:700"] { color: ${dark} !important; }
-      #prev-t2 [style*="border-left:3px solid #4A5568"] { border-color: ${dark} !important; }
-      #prev-t2 [style*="border-bottom:1px solid #D4CFC4"][style*="font-weight:700"] { color: ${dark} !important; }
-
-      
-    `
-
-      if (templateNum === '2' || templateNum === '3' || parseInt(templateNum) >= 5) updatePreview()
-      else saveDraft()
+    function clampFontSize(v) {
+      const n = parseInt(v, 10)
+      return Math.min(FONT_MAX, Math.max(FONT_MIN, isNaN(n) ? FONT_BASE : n))
     }
+    function setVal(id, v) { const el = document.getElementById(id); if (el) el.value = v == null ? '' : v }
 
-    function loadAccentColor(dark, light) {
-      const swatch = Array.from(document.querySelectorAll('.color-swatch'))
-        .find(s => s.dataset.color === dark)
-      applyAccentColor(dark, light, swatch || null)
-    }
-
-    function validateEmail(input) {
-      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)
-      const existing = input.parentElement.querySelector('.email-hint')
-      if (input.value && !valid) {
-        input.style.borderColor = '#E07070'
-        input.style.boxShadow = '0 0 0 3px rgba(224,112,112,0.1)'
-        if (!existing) {
-          const hint = document.createElement('p')
-          hint.className = 'hint email-hint'
-          hint.style.color = '#c0392b'
-          hint.textContent = 'Please enter a valid email address.'
-          input.parentElement.appendChild(hint)
-        }
-      } else {
-        input.style.borderColor = ''
-        input.style.boxShadow = ''
-        if (existing) existing.remove()
-      }
-    }
-
-    function addCustomSection() {
-      const nameInput = document.getElementById('newSectionName')
-      const name = nameInput.value.trim()
-      if (!name) { nameInput.focus(); return }
-      const id = 'custom-sec-' + customSectionCount++
-      const section = { id, name, entries: [''] }
-      customSections.push(section)
-      nameInput.value = ''
-      renderCustomSections()
-      updatePreview()
-    }
-
-    function removeCustomSection(id) {
-      customSections = customSections.filter(s => s.id !== id)
-      renderCustomSections()
-      updatePreview()
-    }
-
-    function addCustomEntry(sectionId) {
-      const sec = customSections.find(s => s.id === sectionId)
-      if (sec) { sec.entries.push(''); renderCustomSections(); updatePreview() }
-    }
-
-    function removeCustomEntry(sectionId, index) {
-      const sec = customSections.find(s => s.id === sectionId)
-      if (sec) {
-        sec.entries.splice(index, 1)
-        if (!sec.entries.length) sec.entries.push('')
-        renderCustomSections()
-        updatePreview()
-      }
-    }
-
-    function updateCustomEntry(sectionId, index, value) {
-      const sec = customSections.find(s => s.id === sectionId)
-      if (sec) { sec.entries[index] = value; updatePreview() }
-    }
-
-    function renderCustomSections() {
-      const list = document.getElementById('custom-sections-list')
-      list.innerHTML = ''
-      customSections.forEach(sec => {
-        const card = document.createElement('div')
-        card.className = 'custom-section-card'
-        card.dataset.sectionId = sec.id
-        card.innerHTML = `
-        <div class="custom-section-head">
-          <button type="button" class="custom-drag-handle" draggable="true" aria-label="Drag to reorder custom section" title="Drag to reorder">⠿</button>
-          <span>${sec.name}</span>
-          <button class="btn-remove-custom" onclick="removeCustomSection('${sec.id}')">✕ Remove section</button>
-        </div>
-        <div class="custom-section-body">
-          ${sec.entries.map((entry, i) => `
-            <div class="custom-entry">
-              <button type="button" class="entry-drag-handle" draggable="true" aria-label="Drag to reorder custom entry" title="Drag to reorder">⠿</button>
-              <textarea placeholder="Add content for this section..." oninput="updateCustomEntry('${sec.id}', ${i}, this.value)">${entry}</textarea>
-              <button class="btn-remove-entry" onclick="removeCustomEntry('${sec.id}', ${i})">✕</button>
-            </div>
-          `).join('')}
-          <button class="btn-add-entry" onclick="addCustomEntry('${sec.id}')">+ Add item</button>
-        </div>
-      `
-        list.appendChild(card)
+    /* ===================================================================
+       PREVIEW  (single update path: updatePreview() renders + schedules a save)
+       =================================================================== */
+    function showActivePreviewRoot() {
+      VALID_TEMPLATES.forEach(n => {
+        const el = document.getElementById('prev-t' + n)
+        if (el) el.style.display = n === templateNum ? 'block' : 'none'
       })
     }
 
-    function getCustomSectionsPreviewHTML(darkMode) {
-      if (!customSections.length) return ''
-      return customSections.map(sec => {
-        const items = sec.entries.filter(e => e && e.trim())
-        if (!items.length) return ''
-        const titleColor = darkMode ? '#8FB89A' : '#2B3A2E'
-        const textColor = darkMode ? '#ccc' : '#555'
-        const borderColor = darkMode ? '#444' : '#D4CFC4'
-        return `
-        <div style="margin-top:10px;">
-          <div style="font-size:8px;font-weight:600;color:${titleColor};letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid ${borderColor};padding-bottom:2px;margin-bottom:6px;">${sec.name}</div>
-          ${items.map(item => `<div style="font-size:8px;color:${textColor};margin-bottom:3px;line-height:1.5;">• ${item}</div>`).join('')}
-        </div>
-      `
-      }).join('')
-    }
-
-    function handlePhotoUpload(e) {
-      const file = e.target.files[0]
-      if (!file) return
-      const reader = new FileReader()
-      reader.onload = function (ev) {
-        photoBase64 = ev.target.result
-        document.getElementById('photoPreviewImg').src = photoBase64
-        document.getElementById('photoPreviewImg').style.display = 'block'
-        document.getElementById('photoPlaceholder').style.display = 'none'
-        e.target.value = ''
-        updatePreview()
-      }
-      reader.readAsDataURL(file)
-    }
-
-    function setPaper(size) {
-      paperSize = size
-      document.getElementById('btn-a4').classList.toggle('active', size === 'a4')
-      document.getElementById('btn-letter').classList.toggle('active', size === 'letter')
-      const resumeEl = document.getElementById('previewResume')
-      const outerEl = document.getElementById('previewOuter')
-      const specs = { a4: { w: 794, h: 1123 }, letter: { w: 816, h: 1056 } }
-      const d = specs[size]
-      resumeEl.style.width = d.w + 'px'
-      resumeEl.style.height = d.h + 'px'
-      const scaleFactor = outerEl.offsetWidth / d.w
-      resumeEl.style.transform = `scale(${scaleFactor})`
-      outerEl.style.height = (d.h * scaleFactor) + 'px'
-      localStorage.setItem('profile_paper_size', size)
-      if (typeof updatePreview === 'function') updatePreview()
-    }
-
-    function normalizeSectionOrder(savedOrder) {
-      const valid = Array.isArray(savedOrder) ? savedOrder.filter(id => DEFAULT_SECTION_ORDER.includes(id)) : []
-      return [...new Set([...valid, ...DEFAULT_SECTION_ORDER])]
-    }
-
-    function getCurrentSectionOrder() {
-      const panel = document.getElementById('formPanel')
-      return Array.from(panel.querySelectorAll(':scope > .section-card')).map(card => card.id)
-    }
-
-    function applySectionOrder() {
-      const panel = document.getElementById('formPanel')
-      const fragment = document.createDocumentFragment()
-      normalizeSectionOrder(sectionOrder).forEach(id => {
-        const card = document.getElementById(id)
-        if (card && card.parentElement === panel) fragment.appendChild(card)
-      })
-      panel.appendChild(fragment)
-    }
-
-    function normalizeSectionColumns(savedColumns) {
-      const normalized = { ...DEFAULT_SECTION_COLUMNS }
-      if (savedColumns && typeof savedColumns === 'object') {
-        Object.keys(DEFAULT_SECTION_COLUMNS).forEach(id => {
-          if (savedColumns[id] === 'side' || savedColumns[id] === 'main') normalized[id] = savedColumns[id]
-        })
-      }
-      return normalized
-    }
-
-    function setupSectionColumnControls() {
-      if (!hasSectionColumns) return
-      const panel = document.getElementById('formPanel')
-      panel.querySelectorAll(':scope > .section-card').forEach(card => {
-        if (card.id === 'sec-summary') return // Summary stays fixed above the columns.
-        const header = card.querySelector('.section-header')
-        if (!header || header.querySelector('.section-column-select')) return
-        const select = document.createElement('select')
-        select.className = 'section-column-select'
-        select.setAttribute('aria-label', 'Choose resume column')
-        select.title = 'Move this section to a column'
-        select.style.cssText = 'margin-left:auto;margin-right:10px;padding:4px 6px;border:1px solid #D4CFC4;border-radius:6px;background:#fff;color:#444;font-size:11px;max-width:112px;cursor:pointer;'
-        select.innerHTML = '<option value="side">Sidebar</option><option value="main">Main body</option>'
-        select.value = sectionColumns[card.id] || DEFAULT_SECTION_COLUMNS[card.id] || 'main'
-        select.addEventListener('click', event => event.stopPropagation())
-        select.addEventListener('mousedown', event => event.stopPropagation())
-        select.addEventListener('change', event => {
-          event.stopPropagation()
-          sectionColumns[card.id] = select.value === 'main' ? 'main' : 'side'
-          updatePreview()
-        })
-        const chevron = header.querySelector('.chevron')
-        header.insertBefore(select, chevron || null)
-      })
-    }
-
-    function syncSectionColumnControls() {
-      if (!hasSectionColumns) return
-      sectionColumns = normalizeSectionColumns(sectionColumns)
-      document.querySelectorAll('#formPanel .section-column-select').forEach(select => {
-        const card = select.closest('.section-card')
-        if (card) select.value = sectionColumns[card.id] || 'side'
-      })
-    }
-
-    function moveItemBefore(dragged, target, container, event) {
-      if (!dragged || !target || dragged === target || dragged.parentElement !== container || target.parentElement !== container) return
-      const rect = target.getBoundingClientRect()
-      const after = (event.clientY - rect.top) > rect.height / 2
-      container.insertBefore(dragged, after ? target.nextSibling : target)
-    }
-
-    function setupDragAndDrop() {
-      const panel = document.getElementById('formPanel')
-      setupSectionColumnControls()
-      let draggedSection = null
-      let draggedEntry = null
-      let draggedCustomSection = null
-      let draggedCustomEntry = null
-
-      panel.querySelectorAll(':scope > .section-card').forEach(card => {
-        if (card.id === 'sec-summary') {
-          const fixedHandle = card.querySelector('.section-drag-handle')
-          if (fixedHandle) {
-            fixedHandle.draggable = false
-            fixedHandle.style.visibility = 'hidden'
-            fixedHandle.title = 'Summary stays fixed'
-          }
-          return // Summary is fixed and cannot be reordered or moved between columns.
-        }
-        const handle = card.querySelector('.section-drag-handle')
-        if (handle) {
-          handle.addEventListener('click', event => event.stopPropagation())
-          handle.addEventListener('dragstart', event => {
-          draggedSection = card
-          card.classList.add('dragging')
-          event.dataTransfer.effectAllowed = 'move'
-          event.dataTransfer.setData('text/plain', card.id)
-          })
-        }
-        card.addEventListener('dragover', event => {
-          if (!draggedSection || draggedSection === card) return
-          event.preventDefault(); card.classList.add('drag-over')
-        })
-        card.addEventListener('dragleave', () => card.classList.remove('drag-over'))
-        card.addEventListener('drop', event => {
-          if (!draggedSection || draggedSection === card) return
-          event.preventDefault(); moveItemBefore(draggedSection, card, panel, event)
-          card.classList.remove('drag-over'); draggedSection.classList.remove('dragging')
-          draggedSection = null; sectionOrder = getCurrentSectionOrder(); updatePreview()
-        })
-        card.addEventListener('dragend', () => {
-          card.classList.remove('dragging')
-          panel.querySelectorAll('.section-card').forEach(el => el.classList.remove('drag-over'))
-          if (draggedSection) { draggedSection = null; sectionOrder = getCurrentSectionOrder(); updatePreview() }
-        })
-      })
-
-      const entryContainers = ['work-entries', 'edu-entries', 'cert-entries', 'award-entries', 'lang-entries']
-      entryContainers.forEach(containerId => {
-        const container = document.getElementById(containerId)
-        if (!container) return
-        container.addEventListener('dragstart', event => {
-          const handle = event.target.closest('.entry-drag-handle')
-          const card = handle?.closest('.entry-card')
-          if (!card) { event.preventDefault(); return }
-          draggedEntry = card; card.classList.add('dragging')
-          event.dataTransfer.effectAllowed = 'move'; event.dataTransfer.setData('text/plain', card.id)
-        })
-        container.addEventListener('dragover', event => {
-          if (!draggedEntry || draggedEntry.parentElement !== container) return
-          const target = event.target.closest('.entry-card')
-          if (target && target !== draggedEntry) { event.preventDefault(); target.classList.add('drag-over') }
-        })
-        container.addEventListener('dragleave', event => event.target.closest('.entry-card')?.classList.remove('drag-over'))
-        container.addEventListener('drop', event => {
-          const target = event.target.closest('.entry-card')
-          if (!draggedEntry || !target || draggedEntry.parentElement !== container || target === draggedEntry) return
-          event.preventDefault(); moveItemBefore(draggedEntry, target, container, event)
-          container.querySelectorAll('.entry-card').forEach(el => el.classList.remove('drag-over', 'dragging'))
-          draggedEntry = null; updateEntryLabels(container); updatePreview()
-        })
-        container.addEventListener('dragend', () => {
-          if (draggedEntry) { draggedEntry.classList.remove('dragging'); draggedEntry = null; updateEntryLabels(container); updatePreview() }
-        })
-      })
-
-      const customList = document.getElementById('custom-sections-list')
-      if (customList) {
-        customList.addEventListener('dragstart', event => {
-          const sectionHandle = event.target.closest('.custom-drag-handle')
-          const entryHandle = event.target.closest('.entry-drag-handle')
-          if (sectionHandle) { draggedCustomSection = sectionHandle.closest('.custom-section-card'); draggedCustomSection.classList.add('dragging') }
-          else if (entryHandle) { draggedCustomEntry = entryHandle.closest('.custom-entry'); draggedCustomEntry.classList.add('dragging') }
-          else { event.preventDefault(); return }
-          event.dataTransfer.effectAllowed = 'move'
-        })
-        customList.addEventListener('dragover', event => {
-          if (draggedCustomSection) {
-            const target = event.target.closest('.custom-section-card')
-            if (target && target !== draggedCustomSection) { event.preventDefault(); target.classList.add('drag-over') }
-          } else if (draggedCustomEntry) {
-            const target = event.target.closest('.custom-entry')
-            if (target && target !== draggedCustomEntry && target.parentElement === draggedCustomEntry.parentElement) { event.preventDefault(); target.classList.add('drag-over') }
-          }
-        })
-        customList.addEventListener('drop', event => {
-          if (draggedCustomSection) {
-            const target = event.target.closest('.custom-section-card')
-            if (target && target !== draggedCustomSection) { event.preventDefault(); moveItemBefore(draggedCustomSection, target, customList, event); customSections = Array.from(customList.querySelectorAll('.custom-section-card')).map(card => customSections.find(sec => sec.id === card.dataset.sectionId)).filter(Boolean) }
-          } else if (draggedCustomEntry) {
-            const target = event.target.closest('.custom-entry')
-            const sourceSection = draggedCustomEntry.closest('.custom-section-card')
-            if (target && target !== draggedCustomEntry && target.parentElement === draggedCustomEntry.parentElement) { event.preventDefault(); moveItemBefore(draggedCustomEntry, target, draggedCustomEntry.parentElement, event); const sec = customSections.find(item => item.id === sourceSection.dataset.sectionId); if (sec) sec.entries = Array.from(sourceSection.querySelectorAll('.custom-entry textarea')).map(el => el.value) }
-          }
-          customList.querySelectorAll('.drag-over,.dragging').forEach(el => el.classList.remove('drag-over','dragging'))
-          draggedCustomSection = null; draggedCustomEntry = null
-          renderCustomSections() // Refresh index-based input handlers after custom entry reordering.
-          updatePreview()
-        })
-        customList.addEventListener('dragend', () => {
-          customList.querySelectorAll('.drag-over,.dragging').forEach(el => el.classList.remove('drag-over','dragging'))
-          draggedCustomSection = null; draggedCustomEntry = null
-        })
-      }
-    }
-
-    function entryContainersRefresh() {
-      ['work-entries','edu-entries','cert-entries','award-entries','lang-entries'].forEach(id => {
-        const container = document.getElementById(id)
-        if (container) updateEntryLabels(container)
-      })
-    }
-
-    function updateEntryLabels(container) {
-      const labels = Array.from(container.querySelectorAll('.entry-card .entry-label'))
-      const prefix = ({'work-entries':'Experience','edu-entries':'Education','cert-entries':'Certification','award-entries':'Award','lang-entries':'Language'})[container.id] || 'Entry'
-      labels.forEach((label, index) => label.textContent = `${prefix} #${index + 1}`)
-    }
-
-    function toggleSection(id) {
-      const body = document.getElementById('body-' + id)
-      const chev = document.getElementById('chev-' + id)
-      const open = body.style.display !== 'none'
-      body.style.display = open ? 'none' : 'block'
-      chev.textContent = open ? '▸' : '▾'
-    }
-
-    function addEntry(type) {
-      const div = document.createElement('div')
-      div.className = 'entry-card'
-      if (type === 'work') {
-        const id = 'work-' + workCount++
-        div.id = id
-        div.innerHTML = `
-        <div class="entry-header"><button type="button" class="entry-drag-handle" draggable="true" aria-label="Drag to reorder entry" title="Drag to reorder">⠿</button><span class="entry-label">Experience #${workCount}</span><button class="btn-remove" onclick="removeEntry('${id}')">Remove</button></div>
-        <div class="field-grid">
-          <div class="field"><label>Job Title</label><input type="text" placeholder="e.g. Frontend Developer" oninput="updatePreview()"></div>
-          <div class="field"><label>Company</label><input type="text" placeholder="e.g. Acme Corp" oninput="updatePreview()"></div>
-          <div class="field"><label>Duration</label><input type="text" placeholder="e.g. 2022 - 2024" oninput="this.value=this.value.replace(/[^0-9\s\-–]/g,''); updatePreview()"></div>
-          <div class="field full"><label>Description</label><textarea rows="2" placeholder="What did you do there?" oninput="updatePreview()"></textarea></div>
-        </div>`
-        document.getElementById('work-entries').appendChild(div)
-      } else if (type === 'edu') {
-        const id = 'edu-' + eduCount++
-        div.id = id
-        div.innerHTML = `
-        <div class="entry-header"><button type="button" class="entry-drag-handle" draggable="true" aria-label="Drag to reorder entry" title="Drag to reorder">⠿</button><span class="entry-label">Education #${eduCount}</span><button class="btn-remove" onclick="removeEntry('${id}')">Remove</button></div>
-        <div class="field-grid">
-          <div class="field"><label>School / University</label><input type="text" placeholder="e.g. University of Santo Tomas" oninput="updatePreview()"></div>
-          <div class="field"><label>Course / Degree</label><input type="text" placeholder="e.g. BS Information Technology" oninput="updatePreview()"></div>
-          <div class="field"><label>Year</label><input type="text" placeholder="e.g. 2020 - 2024" oninput="this.value=this.value.replace(/[^0-9\s\-–]/g,''); updatePreview()"></div>
-        </div>`
-        document.getElementById('edu-entries').appendChild(div)
-      } else if (type === 'cert') {
-        const id = 'cert-' + certCount++
-        div.id = id
-        div.innerHTML = `
-        <div class="entry-header"><button type="button" class="entry-drag-handle" draggable="true" aria-label="Drag to reorder entry" title="Drag to reorder">⠿</button><span class="entry-label">Certification #${certCount}</span><button class="btn-remove" onclick="removeEntry('${id}')">Remove</button></div>
-        <div class="field-grid">
-          <div class="field"><label>Certificate Name</label><input type="text" placeholder="e.g. AWS Cloud Practitioner" oninput="updatePreview()"></div>
-          <div class="field"><label>Issuing Organization</label><input type="text" placeholder="e.g. Amazon Web Services" oninput="updatePreview()"></div>
-          <div class="field full"><label>Date / Expiry</label><input type="text" placeholder="e.g. May 2025 | Expires May 2028" oninput="this.value=this.value.replace(/[^0-9a-zA-Z\s\-|]/g,''); updatePreview()"></div>
-        </div>`
-        document.getElementById('cert-entries').appendChild(div)
-      } else if (type === 'award') {
-        const id = 'award-' + awardCount++
-        div.id = id
-        div.innerHTML = `
-        <div class="entry-header"><button type="button" class="entry-drag-handle" draggable="true" aria-label="Drag to reorder entry" title="Drag to reorder">⠿</button><span class="entry-label">Award #${awardCount}</span><button class="btn-remove" onclick="removeEntry('${id}')">Remove</button></div>
-        <div class="field-grid">
-          <div class="field"><label>Award Name</label><input type="text" placeholder="e.g. Dean's Lister" oninput="updatePreview()"></div>
-          <div class="field"><label>Issuer</label><input type="text" placeholder="e.g. University of Santo Tomas" oninput="updatePreview()"></div>
-          <div class="field full"><label>Year</label><input type="text" placeholder="e.g. 2024" oninput="this.value=this.value.replace(/[^0-9\s\-–]/g,''); updatePreview()"></div>
-        </div>`
-        document.getElementById('award-entries').appendChild(div)
-      } else if (type === 'lang') {
-        const id = 'lang-' + langCount++
-        div.id = id
-        div.innerHTML = `
-        <div class="entry-header"><button type="button" class="entry-drag-handle" draggable="true" aria-label="Drag to reorder entry" title="Drag to reorder">⠿</button><span class="entry-label">Language #${langCount}</span><button class="btn-remove" onclick="removeEntry('${id}')">Remove</button></div>
-        <div class="field-grid">
-          <div class="field"><label>Language</label><input type="text" placeholder="e.g. English" oninput="updatePreview()"></div>
-          <div class="field"><label>Proficiency Level</label>
-            <select oninput="updatePreview()">
-              <option value="">Select level</option>
-              <option>Native / Bilingual</option>
-              <option>Fluent</option>
-              <option>Professional Working</option>
-              <option>Intermediate</option>
-              <option>Basic</option>
-            </select>
-          </div>
-        </div>`
-        document.getElementById('lang-entries').appendChild(div)
-      }
-    }
-
-    function removeEntry(id) {
-      document.getElementById(id).remove()
-      updatePreview()
-    }
-
-    function collectFormData() {
-      const workData = Array.from(document.querySelectorAll('#work-entries .entry-card')).map(entry => {
-        const inputs = entry.querySelectorAll('input')
-        return { title: inputs[0]?.value || '', company: inputs[1]?.value || '', duration: inputs[2]?.value || '', desc: entry.querySelector('textarea')?.value || '' }
-      })
-      const eduData = Array.from(document.querySelectorAll('#edu-entries .entry-card')).map(entry => {
-        const inputs = entry.querySelectorAll('input')
-        return { school: inputs[0]?.value || '', course: inputs[1]?.value || '', year: inputs[2]?.value || '' }
-      })
-      const certData = Array.from(document.querySelectorAll('#cert-entries .entry-card')).map(entry => {
-        const inputs = entry.querySelectorAll('input')
-        return { name: inputs[0]?.value || '', org: inputs[1]?.value || '', date: inputs[2]?.value || '' }
-      })
-      const awardData = Array.from(document.querySelectorAll('#award-entries .entry-card')).map(entry => {
-        const inputs = entry.querySelectorAll('input')
-        return { name: inputs[0]?.value || '', issuer: inputs[1]?.value || '', year: inputs[2]?.value || '' }
-      })
-      const langData = Array.from(document.querySelectorAll('#lang-entries .entry-card')).map(entry => ({
-        name: entry.querySelector('input')?.value || '', level: entry.querySelector('select')?.value || ''
-      }))
-      return {
-        name: document.getElementById('f-name').value,
-        jobtitle: document.getElementById('f-jobtitle').value,
-        location: document.getElementById('f-location').value,
-        email: document.getElementById('f-email').value,
-        phone: document.getElementById('f-phone').value,
-        skills: document.getElementById('f-skills').value,
-        summary: document.getElementById('f-summary').value,
-        work: workData, edu: eduData, certifications: certData,
-        awards: awardData, languages: langData,
-        customSections,
-        sectionOrder: getCurrentSectionOrder(),
-        ...(hasSectionColumns ? { sectionColumns: { ...sectionColumns } } : {}),
-        fontFamily: document.getElementById('fontFamily').value,
-        fontSize: document.getElementById('fontSize').value,
-        paperSize,
-        templateNum: templateNum,
-        photo: photoBase64,
-        accentDark: window.currentAccentDark,
-        accentLight: window.currentAccentLight
-      }
-    }
-
-    function saveDraft() {
-      const data = collectFormData()
-      localStorage.setItem('profile_form_draft_t' + templateNum, JSON.stringify(data))
-      localStorage.setItem('profile_form_data', JSON.stringify(data))
-    }
-
-    async function loadResumeFromServer() {
-      const resumeId = new URLSearchParams(window.location.search).get('id')
-      if (!resumeId) { loadSavedForm(); return }
-      const token = localStorage.getItem('profile_token')
-      try {
-        const res = await fetch(`/api/resumes/${resumeId}`, { headers: { 'Authorization': 'Bearer ' + token } })
-        if (!res.ok) { loadSavedForm(); return }
-        const resume = await res.json()
-        const data = typeof resume.resume_data === 'string' ? JSON.parse(resume.resume_data) : resume.resume_data
-        localStorage.setItem('profile_form_data', JSON.stringify(data))
-        loadSavedForm()
-      } catch (e) {
-        loadSavedForm()
-      }
-    }
-
-    setupDragAndDrop()
-    loadResumeFromServer()
-
-    function loadSavedForm() {
-      const raw = localStorage.getItem('profile_form_draft_t' + templateNum) || localStorage.getItem('profile_form_data')
-      if (!raw) { addEntry('work'); addEntry('edu'); updatePreview(); return }
-      const data = JSON.parse(raw)
-
-      document.getElementById('f-name').value = data.name || ''
-      document.getElementById('f-jobtitle').value = data.jobtitle || ''
-      document.getElementById('f-location').value = data.location || ''
-      document.getElementById('f-email').value = data.email || ''
-      document.getElementById('f-phone').value = data.phone || ''
-      document.getElementById('f-skills').value = data.skills || ''
-      document.getElementById('f-summary').value = data.summary || ''
-
-      if (data.fontFamily) document.getElementById('fontFamily').value = data.fontFamily
-      if (data.fontSize) {
-        document.getElementById('fontSize').value = data.fontSize
-        document.getElementById('fontSizeVal').textContent = data.fontSize + 'px'
-      }
-
-      paperSize = data.paperSize || 'a4'
-      setPaper(paperSize)
-
-      photoBase64 = data.photo || null
-      if (photoBase64) {
-        document.getElementById('photoPreviewImg').src = photoBase64
-        document.getElementById('photoPreviewImg').style.display = 'block'
-        document.getElementById('photoPlaceholder').style.display = 'none'
-      }
-
-      if (data.customSections && data.customSections.length) {
-        customSections = data.customSections
-        customSectionCount = customSections.length
-        renderCustomSections()
-      }
-
-      document.getElementById('work-entries').innerHTML = ''
-      document.getElementById('edu-entries').innerHTML = ''
-      document.getElementById('cert-entries').innerHTML = ''
-      document.getElementById('award-entries').innerHTML = ''
-      document.getElementById('lang-entries').innerHTML = ''
-      workCount = 0; eduCount = 0; certCount = 0; awardCount = 0; langCount = 0
-
-        ; (data.work || []).forEach(item => {
-          addEntry('work')
-          const entry = document.querySelector('#work-entries .entry-card:last-child')
-          const inputs = entry.querySelectorAll('input')
-          inputs[0].value = item.title || ''; inputs[1].value = item.company || ''; inputs[2].value = item.duration || ''
-          entry.querySelector('textarea').value = item.desc || ''
-        })
-        ; (data.edu || []).forEach(item => {
-          addEntry('edu')
-          const entry = document.querySelector('#edu-entries .entry-card:last-child')
-          const inputs = entry.querySelectorAll('input')
-          inputs[0].value = item.school || ''; inputs[1].value = item.course || ''; inputs[2].value = item.year || ''
-        })
-        ; (data.certifications || []).forEach(item => {
-          addEntry('cert')
-          const entry = document.querySelector('#cert-entries .entry-card:last-child')
-          const inputs = entry.querySelectorAll('input')
-          inputs[0].value = item.name || ''; inputs[1].value = item.org || ''; inputs[2].value = item.date || ''
-        })
-        ; (data.awards || []).forEach(item => {
-          addEntry('award')
-          const entry = document.querySelector('#award-entries .entry-card:last-child')
-          const inputs = entry.querySelectorAll('input')
-          inputs[0].value = item.name || ''; inputs[1].value = item.issuer || ''; inputs[2].value = item.year || ''
-        })
-        ; (data.languages || []).forEach(item => {
-          addEntry('lang')
-          const entry = document.querySelector('#lang-entries .entry-card:last-child')
-          entry.querySelector('input').value = item.name || ''
-          entry.querySelector('select').value = item.level || ''
-        })
-
-      if (!(data.work || []).length) addEntry('work')
-      if (!(data.edu || []).length) addEntry('edu')
-      entryContainersRefresh()
-
-      sectionOrder = normalizeSectionOrder(data.sectionOrder)
-      if (hasSectionColumns) {
-        sectionColumns = normalizeSectionColumns(data.sectionColumns)
-        syncSectionColumnControls()
-      }
-      applySectionOrder()
-      // Only trust a saved accent if it was saved FOR THIS template
-      // (templates 5-12 stamp templateNum; older data without it falls back to the template default)
-      const accentIsMine = String(data.templateNum) === templateNum || (parseInt(templateNum) < 5 && !data.templateNum)
-      if (accentIsMine && data.accentDark) loadAccentColor(data.accentDark, data.accentLight)
-      else resetAccentColor()
-      applyCustomizations()
-      updatePreview()
-    }
-
-    // Draws renderer-backed templates in the live preview using the exact renderFromFormData
-    // from templateN.js, so the preview and the built resume can never drift apart.
-    function renderTemplatePreview() {
+    function showPreviewMessage(msg) {
       const root = document.getElementById('prev-t' + templateNum)
-      if (!root) return
-      root.innerHTML = ''
-      const renderer = window.__previewRenderers && window.__previewRenderers[templateNum]
-      if (!renderer) return // templateN.js still loading; its onload re-runs updatePreview()
+      if (root) root.innerHTML = '<div class="preview-error">' + escapeHtml(msg) + '</div>'
+    }
 
-      const data = collectFormData()
+    // Draws the template into `root` using the same renderFromFormData the built resume uses.
+    function drawRenderer(root, renderer, data) {
+      root.innerHTML = ''
       const px = v => (typeof v === 'number' ? v : parseInt(v) || 0)
 
       function buildTextElement(opts = {}) {
@@ -2020,80 +640,793 @@
         return el
       }
 
+      renderer({ data, buildTextElement, buildHtmlElement, buildImageElement })
+    }
+
+    // Used only when a renderer does not react to data.fontSize by itself (the Template 3 symptom):
+    // scales every px font size the renderer produced, relative to the slider's default.
+    function scaleRenderedText(root, factor) {
+      root.querySelectorAll('.rs-content, [style*="font-size"]').forEach(el => {
+        const inline = el.style.fontSize
+        let base = NaN
+        if (inline && /px\s*$/.test(inline)) base = parseFloat(inline)
+        else if (!inline && el.classList.contains('rs-content')) base = 16   // the .rs-content default above
+        if (!isNaN(base)) el.style.fontSize = (base * factor).toFixed(2) + 'px'
+      })
+    }
+
+    function renderTemplatePreview() {
+      const root = document.getElementById('prev-t' + templateNum)
+      const renderer = window.__previewRenderer
+      if (!root || !renderer) return   // renderer still loading; __onRendererReady re-runs updatePreview()
+      const data = collectFormData()
+      const size = clampFontSize(data.fontSize)
       try {
-        renderer({ data, buildTextElement, buildHtmlElement, buildImageElement })
+        if (size !== FONT_BASE) {
+          // Does this renderer react to the font size by itself? Draw at the base size, then at the real size.
+          drawRenderer(root, renderer, Object.assign({}, data, { fontSize: String(FONT_BASE) }))
+          const baseHtml = root.innerHTML
+          drawRenderer(root, renderer, data)
+          if (root.innerHTML === baseHtml) scaleRenderedText(root, size / FONT_BASE)
+        } else {
+          drawRenderer(root, renderer, data)
+        }
       } catch (e) {
         console.error('Preview render error (template ' + templateNum + '):', e)
+        showPreviewMessage('The preview could not be drawn. Your data is safe - see the browser console for details.')
       }
     }
 
     function updatePreview() {
-      const name = document.getElementById('f-name').value || 'Your Name'
-      const jobtitle = document.getElementById('f-jobtitle').value || 'Job Title'
-      const location = document.getElementById('f-location').value || ''
-      const email = document.getElementById('f-email').value || ''
-      const phone = document.getElementById('f-phone').value || ''
-      const skills = document.getElementById('f-skills').value || ''
-      const summary = document.getElementById('f-summary').value || ''
+      if (suspendUpdates > 0) return
+      if (usesRenderer) renderTemplatePreview()
+      scheduleSave()
+    }
 
-      // Collect Data
-      const getWorkData = () => Array.from(document.querySelectorAll('#work-entries .entry-card')).map(entry => {
-        const inputs = entry.querySelectorAll('input')
-        return { title: inputs[0]?.value, company: inputs[1]?.value, duration: inputs[2]?.value, desc: entry.querySelector('textarea')?.value }
-      }).filter(w => w.title || w.company)
+    function loadRendererScript() {
+      if (!usesRenderer) return
+      window.__onRendererReady = function (cfg) {
+        if (cfg && cfg.templateNum != null && String(cfg.templateNum) !== templateNum)
+          console.warn('template' + templateNum + '.js registered itself as template "' + cfg.templateNum + '" - check initResumeEditor({ templateNum })')
+        updatePreview()
+      }
+      const s = document.createElement('script')
+      s.src = 'template' + templateNum + '.js'
+      s.onload = () => {
+        if (window.__previewRenderer) { updatePreview(); return }
+        setTimeout(() => {
+          if (window.__previewRenderer) updatePreview()
+          else showPreviewMessage('template' + templateNum + '.js loaded but did not call initResumeEditor with a renderFromFormData function.')
+        }, 1000)
+      }
+      s.onerror = () => {
+        console.error('Could not load template' + templateNum + '.js')
+        showPreviewMessage('Could not load template' + templateNum + '.js - the live preview is unavailable.')
+      }
+      document.head.appendChild(s)
+    }
 
-      const getEduData = () => Array.from(document.querySelectorAll('#edu-entries .entry-card')).map(entry => {
-        const inputs = entry.querySelectorAll('input')
-        return { school: inputs[0]?.value, course: inputs[1]?.value, year: inputs[2]?.value }
-      }).filter(e => e.school || e.course)
+    /* ===================================================================
+       PAPER SIZE + PREVIEW SCALING (one function owns the transform)
+       =================================================================== */
+    function scalePreview() {
+      const outer = document.getElementById('previewOuter')
+      const inner = document.getElementById('previewResume')
+      if (!outer || !inner) return
+      const d = PAPER_SPECS[paperSize] || PAPER_SPECS.a4
+      inner.style.width = d.w + 'px'
+      inner.style.height = d.h + 'px'
+      const avail = outer.parentElement.clientWidth - 32
+      const scale = avail > 0 ? Math.min(avail / d.w, 1) : 1
+      inner.style.transform = `scale(${scale})`
+      inner.style.transformOrigin = 'top left'
+      outer.style.width = Math.round(d.w * scale) + 'px'
+      outer.style.height = Math.round(d.h * scale) + 'px'
+      outer.style.margin = '0 auto'
+    }
 
-      const getCertData = () => Array.from(document.querySelectorAll('#cert-entries .entry-card')).map(entry => {
-        const inputs = entry.querySelectorAll('input')
-        return { name: inputs[0]?.value, org: inputs[1]?.value, date: inputs[2]?.value }
-      }).filter(c => c.name || c.org)
+    function setPaper(size) {
+      if (!PAPER_SPECS[size]) size = 'a4'
+      paperSize = size
+      document.getElementById('btn-a4').classList.toggle('active', size === 'a4')
+      document.getElementById('btn-letter').classList.toggle('active', size === 'letter')
+      writeStored('profile_paper_size', size)
+      scalePreview()
+      updatePreview()
+    }
 
-      const getAwardData = () => Array.from(document.querySelectorAll('#award-entries .entry-card')).map(entry => {
-        const inputs = entry.querySelectorAll('input')
-        return { name: inputs[0]?.value, issuer: inputs[1]?.value, year: inputs[2]?.value }
-      }).filter(a => a.name || a.issuer)
+    /* ===================================================================
+       FONT + ACCENT CUSTOMISATION
+       =================================================================== */
+    function applyCustomizations() {
+      const fontSel = document.getElementById('fontFamily')
+      const font = fontSel.value
+      const sizeNum = clampFontSize(document.getElementById('fontSize').value)
+      document.getElementById('fontSizeVal').textContent = sizeNum + 'px'
 
-      const getLangData = () => Array.from(document.querySelectorAll('#lang-entries .entry-card')).map(entry => ({
-        name: entry.querySelector('input')?.value, level: entry.querySelector('select')?.value
-      })).filter(l => l.name)
+      const fontName = font.replace(/'/g, '').split(',')[0].trim()
+      if (fontName && fontName !== 'Times New Roman' && fontName !== 'Georgia') {
+        const linkId = 'font-link-' + fontName.replace(/ /g, '-')
+        if (!document.getElementById(linkId)) {
+          const link = document.createElement('link')
+          link.id = linkId
+          const weights = { 'Playfair Display': '400;700', 'Merriweather': '300;400;700', 'Lato': '300;400;700', 'DM Sans': '300;400;500;700' }[fontName] || '400;700'
+          link.href = `https://fonts.googleapis.com/css2?family=${fontName.replace(/ /g, '+')}:wght@${weights}&display=swap`
+          link.rel = 'stylesheet'
+          document.head.appendChild(link)
+        }
+      }
 
-      const fmtSkills = () => skills.split(',').map(s => s.trim()).filter(Boolean)
+      let styleTag = document.getElementById('preview-custom-style')
+      if (!styleTag) {
+        styleTag = document.createElement('style')
+        styleTag.id = 'preview-custom-style'
+        document.head.appendChild(styleTag)
+      }
+      // Font family applies to every preview. Font SIZE for renderer templates is applied in renderTemplatePreview().
+      let css = `#previewResume, #previewResume * { font-family: ${font} !important; }\n`
+      if (templateNum === '1') {
+        // Legacy static Template 1 markup only.
+        css += `
+        #prev-t1 .prev-name, #prev-t1 [id$="-name-main"] { font-size: ${sizeNum * 2}px !important; }
+        #prev-t1 [id$="-job-main"] { font-size: ${sizeNum + 2}px !important; }
+        #prev-t1-edu-wrap, #prev-t1-contact-head, #prev-skills-section, #prev-t1-lang-wrap, #prev-contact, #prev-t1-custom, #prev-t1-summary-wrap, #prev-work-wrap, #prev-cert-wrap, #prev-award-wrap, #prev-t1-main-custom {
+          zoom: ${(1.4 * sizeNum / 12).toFixed(3)}; overflow-wrap: anywhere; word-break: break-word;
+        }`
+      }
+      styleTag.textContent = css
+      updatePreview()
+    }
 
-        // Hide all, show current
-        ;['prev-t1', 'prev-t2', 'prev-t3', 'prev-t4', 'prev-t5', 'prev-t6', 'prev-t7', 'prev-t8', 'prev-t9', 'prev-t10', 'prev-t11', 'prev-t12'].forEach((id, i) => {
-          const el = document.getElementById(id)
-          if (el) el.style.display = String(i + 1) === templateNum ? 'block' : 'none'
+    function highlightSwatch(dark) {
+      document.querySelectorAll('.color-swatch').forEach(s => {
+        s.classList.toggle('active', !!s.dataset.color && s.dataset.color.toLowerCase() === String(dark).toLowerCase())
+      })
+    }
+
+    // Updates colour state + swatch UI (+ legacy Template 1 markup). Does NOT refresh the preview.
+    function setAccentState(dark, light) {
+      if (!supportsAccent) return
+      window.currentAccentDark = dark
+      window.currentAccentLight = light
+      highlightSwatch(dark)
+      if (templateNum === '1') {
+        const t1 = document.getElementById('prev-t1')
+        if (t1 && t1.firstElementChild) t1.firstElementChild.style.background = dark
+        let accentStyle = document.getElementById('accent-color-style')
+        if (!accentStyle) { accentStyle = document.createElement('style'); accentStyle.id = 'accent-color-style'; document.head.appendChild(accentStyle) }
+        accentStyle.textContent = `
+          #prev-t1 [style*="color:#8FB89A"] { color: ${light} !important; }
+          #prev-t1 [style*="border:2px solid #8FB89A"] { border-color: ${light} !important; }`
+      }
+    }
+
+    // `el` is accepted for backwards compatibility with the swatch onclick handlers.
+    function applyAccentColor(dark, light, el) {
+      if (!supportsAccent) return
+      setAccentState(dark, light)
+      updatePreview()    // every template, every time - there is no per-template condition to forget
+    }
+
+    function resetAccentColor() {
+      if (!supportsAccent) return
+      const d = TEMPLATE_DEFAULTS[templateNum]
+      removeStored('profile_accent_dark_t' + templateNum)
+      removeStored('profile_accent_light_t' + templateNum)
+      applyAccentColor(d.dark, d.light, null)
+    }
+
+    /* ===================================================================
+       PERSONAL INFO HELPERS
+       =================================================================== */
+    function validateEmail(input) {
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)
+      const existing = input.parentElement.querySelector('.email-hint')
+      if (input.value && !valid) {
+        input.style.borderColor = '#E07070'
+        input.style.boxShadow = '0 0 0 3px rgba(224,112,112,0.1)'
+        if (!existing) {
+          const hint = document.createElement('p')
+          hint.className = 'hint email-hint'
+          hint.style.color = '#c0392b'
+          hint.textContent = 'Please enter a valid email address.'
+          input.parentElement.appendChild(hint)
+        }
+      } else {
+        input.style.borderColor = ''
+        input.style.boxShadow = ''
+        if (existing) existing.remove()
+      }
+    }
+
+    // Phone photos are several MB; localStorage is ~5 MB for everything. Shrink before storing.
+    function downscaleImage(dataUrl, maxDim) {
+      return new Promise(resolve => {
+        const img = new Image()
+        img.onload = () => {
+          try {
+            const ratio = Math.min(1, maxDim / Math.max(img.width, img.height))
+            if (ratio === 1 && dataUrl.length < 400000) { resolve(dataUrl); return }
+            const canvas = document.createElement('canvas')
+            canvas.width = Math.round(img.width * ratio)
+            canvas.height = Math.round(img.height * ratio)
+            const ctx = canvas.getContext('2d')
+            ctx.fillStyle = '#fff'
+            ctx.fillRect(0, 0, canvas.width, canvas.height)
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+            resolve(canvas.toDataURL('image/jpeg', 0.9))
+          } catch (e) { resolve(dataUrl) }
+        }
+        img.onerror = () => resolve(dataUrl)
+        img.src = dataUrl
+      })
+    }
+
+    function showPhotoInForm(src) {
+      const img = document.getElementById('photoPreviewImg')
+      const ph = document.getElementById('photoPlaceholder')
+      if (src) { img.src = src; img.style.display = 'block'; ph.style.display = 'none' }
+      else { img.removeAttribute('src'); img.style.display = 'none'; ph.style.display = '' }
+    }
+
+    function handlePhotoUpload(e) {
+      const file = e.target.files[0]
+      if (!file) return
+      const input = e.target
+      const reader = new FileReader()
+      reader.onload = async function (ev) {
+        photoBase64 = await downscaleImage(ev.target.result, 800)
+        showPhotoInForm(photoBase64)
+        input.value = ''
+        updatePreview()
+      }
+      reader.readAsDataURL(file)
+    }
+
+    /* ===================================================================
+       CUSTOM SECTIONS
+       =================================================================== */
+    function addCustomSection() {
+      const nameInput = document.getElementById('newSectionName')
+      const name = nameInput.value.trim()
+      if (!name) { nameInput.focus(); return }
+      customSections.push({ id: 'custom-sec-' + customSectionCount++, name, entries: [''] })
+      nameInput.value = ''
+      renderCustomSections()
+      updatePreview()
+    }
+    function removeCustomSection(id) {
+      customSections = customSections.filter(s => s.id !== id)
+      renderCustomSections()
+      updatePreview()
+    }
+    function addCustomEntry(sectionId) {
+      const sec = customSections.find(s => s.id === sectionId)
+      if (sec) { sec.entries.push(''); renderCustomSections(); updatePreview() }
+    }
+    function removeCustomEntry(sectionId, index) {
+      const sec = customSections.find(s => s.id === sectionId)
+      if (sec) {
+        sec.entries.splice(index, 1)
+        if (!sec.entries.length) sec.entries.push('')
+        renderCustomSections()
+        updatePreview()
+      }
+    }
+    function updateCustomEntry(sectionId, index, value) {
+      const sec = customSections.find(s => s.id === sectionId)
+      if (sec) { sec.entries[index] = value; updatePreview() }
+    }
+    function renderCustomSections() {
+      const list = document.getElementById('custom-sections-list')
+      list.innerHTML = ''
+      customSections.forEach(sec => {
+        const card = document.createElement('div')
+        card.className = 'custom-section-card'
+        card.dataset.sectionId = sec.id
+        card.innerHTML = `
+        <div class="custom-section-head">
+          <button type="button" class="custom-drag-handle" draggable="true" aria-label="Drag to reorder custom section" title="Drag to reorder">⠿</button>
+          <span>${escapeHtml(sec.name)}</span>
+          <button class="btn-remove-custom" onclick="removeCustomSection('${sec.id}')">✕ Remove section</button>
+        </div>
+        <div class="custom-section-body">
+          ${sec.entries.map((entry, i) => `
+            <div class="custom-entry">
+              <button type="button" class="entry-drag-handle" draggable="true" aria-label="Drag to reorder custom entry" title="Drag to reorder">⠿</button>
+              <textarea placeholder="Add content for this section..." oninput="updateCustomEntry('${sec.id}', ${i}, this.value)">${escapeHtml(entry)}</textarea>
+              <button class="btn-remove-entry" onclick="removeCustomEntry('${sec.id}', ${i})">✕</button>
+            </div>
+          `).join('')}
+          <button class="btn-add-entry" onclick="addCustomEntry('${sec.id}')">+ Add item</button>
+        </div>`
+        list.appendChild(card)
+      })
+    }
+
+    /* ===================================================================
+       SECTION ORDER + COLUMNS
+       Fixed sections (personal, summary) keep their default slot; movable sections fill the other slots.
+       =================================================================== */
+    function composeSectionOrder(movableOrder) {
+      const movable = [...new Set((movableOrder || []).filter(id => MOVABLE_SECTIONS.includes(id)))]
+      MOVABLE_SECTIONS.forEach(id => { if (!movable.includes(id)) movable.push(id) })
+      let m = 0
+      return DEFAULT_SECTION_ORDER.map(id => FIXED_SECTIONS.includes(id) ? id : movable[m++])
+    }
+    function normalizeSectionOrder(saved) { return composeSectionOrder(Array.isArray(saved) ? saved : []) }
+
+    function getFormCards() {
+      const panel = document.getElementById('formPanel')
+      return Array.from(panel.children).filter(c => c.classList.contains('section-card'))
+    }
+    function getCurrentSectionOrder() { return composeSectionOrder(getFormCards().map(c => c.id)) }
+
+    function applySectionOrder() {
+      const panel = document.getElementById('formPanel')
+      const anchor = Array.from(panel.children).find(c => c.classList.contains('form-actions')) || null
+      sectionOrder = normalizeSectionOrder(sectionOrder)
+      // insert BEFORE the Build button (appending to the panel would put the cards underneath it)
+      sectionOrder.forEach(id => {
+        const card = document.getElementById(id)
+        if (card && card.parentElement === panel) panel.insertBefore(card, anchor)
+      })
+    }
+
+    function normalizeSectionColumns(saved) {
+      const normalized = { ...DEFAULT_SECTION_COLUMNS }
+      if (saved && typeof saved === 'object') {
+        Object.keys(DEFAULT_SECTION_COLUMNS).forEach(id => {
+          if (saved[id] === 'side' || saved[id] === 'main') normalized[id] = saved[id]
         })
+      }
+      return normalized
+    }
 
-      // Template 1-4 (Keep as is)
-      if (templateNum === '1') { /* ... existing t1 code ... */ }
-      if (templateNum === '2') { /* ... existing t2 code ... */ }
-      if (templateNum === '3') { /* ... existing t3 code ... */ }
-      if (templateNum === '4') { /* ... existing t4 code ... */ }
+    function setupSectionColumnControls() {
+      if (!hasSectionColumns) return   // templates 3, 5, 12 (and legacy 1): no column controls at all
+      getFormCards().forEach(card => {
+        if (card.id === 'sec-summary') return   // Summary stays fixed above the columns
+        const header = card.querySelector('.section-header')
+        if (!header || header.querySelector('.section-column-select')) return
+        const select = document.createElement('select')
+        select.className = 'section-column-select'
+        select.setAttribute('aria-label', 'Choose resume column')
+        select.title = 'Move this section to a column'
+        select.style.cssText = 'margin-left:auto;margin-right:10px;padding:4px 6px;border:1px solid #D4CFC4;border-radius:6px;background:#fff;color:#444;font-size:11px;max-width:112px;cursor:pointer;'
+        select.innerHTML = '<option value="side">Sidebar</option><option value="main">Main body</option>'
+        select.value = sectionColumns[card.id] || DEFAULT_SECTION_COLUMNS[card.id] || 'main'
+        select.addEventListener('click', e => e.stopPropagation())
+        select.addEventListener('mousedown', e => e.stopPropagation())
+        select.addEventListener('change', e => {
+          e.stopPropagation()
+          sectionColumns[card.id] = select.value === 'main' ? 'main' : 'side'
+          updatePreview()
+        })
+        header.insertBefore(select, header.querySelector('.chevron') || null)
+      })
+    }
 
-      // Templates 2-12 use the SAME renderer as the built resume (Template 1 keeps its original preview).
-      if (templateNum === '2' || templateNum === '3' || templateNum === '4' || parseInt(templateNum) >= 5) renderTemplatePreview()
+    function syncSectionColumnControls() {
+      if (!hasSectionColumns) return
+      sectionColumns = normalizeSectionColumns(sectionColumns)
+      document.querySelectorAll('#formPanel .section-column-select').forEach(select => {
+        const card = select.closest('.section-card')
+        if (card) select.value = sectionColumns[card.id] || 'side'
+      })
+    }
 
-      saveDraft()
+    /* ===================================================================
+       DRAG AND DROP  (sections, entries inside their own category, custom sections/items)
+       =================================================================== */
+    function moveItemBefore(dragged, target, container, event) {
+      if (!dragged || !target || dragged === target || dragged.parentElement !== container || target.parentElement !== container) return
+      const rect = target.getBoundingClientRect()
+      const after = (event.clientY - rect.top) > rect.height / 2
+      container.insertBefore(dragged, after ? target.nextSibling : target)
+    }
+
+    function updateEntryLabels(container) {
+      const prefix = ({ 'work-entries': 'Experience', 'edu-entries': 'Education', 'cert-entries': 'Certification', 'award-entries': 'Award', 'lang-entries': 'Language' })[container.id] || 'Entry'
+      Array.from(container.querySelectorAll('.entry-card .entry-label')).forEach((label, i) => label.textContent = `${prefix} #${i + 1}`)
+    }
+    function entryContainersRefresh() {
+      ENTRY_CONTAINERS.forEach(id => { const c = document.getElementById(id); if (c) updateEntryLabels(c) })
+    }
+
+    function setupDragAndDrop() {
+      const panel = document.getElementById('formPanel')
+      setupSectionColumnControls()
+      let draggedSection = null, draggedEntry = null, draggedCustomSection = null, draggedCustomEntry = null
+
+      // Fixed sections: no drag handle, never a drop target.
+      FIXED_SECTIONS.forEach(id => {
+        const h = document.querySelector('#' + id + ' .section-drag-handle')
+        if (h) { h.draggable = false; h.style.visibility = 'hidden'; h.style.pointerEvents = 'none'; h.tabIndex = -1; h.title = 'This section stays fixed' }
+      })
+
+      const clearOver = () => document.querySelectorAll('#formPanel .drag-over').forEach(el => el.classList.remove('drag-over'))
+      const movableTarget = ev => {
+        const t = ev.target.closest ? ev.target.closest('.section-card') : null
+        return t && t.parentElement === panel && MOVABLE_SECTIONS.includes(t.id) ? t : null
+      }
+
+      // ---- sections (delegated on the panel)
+      panel.addEventListener('dragstart', ev => {
+        const handle = ev.target.closest && ev.target.closest('.section-drag-handle')
+        if (!handle) return
+        const card = handle.closest('.section-card')
+        if (!card || card.parentElement !== panel || !MOVABLE_SECTIONS.includes(card.id)) { ev.preventDefault(); return }
+        draggedSection = card
+        card.classList.add('dragging')
+        ev.dataTransfer.effectAllowed = 'move'
+        ev.dataTransfer.setData('text/plain', card.id)
+      })
+      panel.addEventListener('dragover', ev => {
+        if (!draggedSection) return
+        const t = movableTarget(ev)
+        if (!t || t === draggedSection) return
+        ev.preventDefault()
+        clearOver(); t.classList.add('drag-over')
+      })
+      panel.addEventListener('drop', ev => {
+        if (!draggedSection) return
+        const t = movableTarget(ev)
+        if (!t || t === draggedSection) return
+        ev.preventDefault()
+        moveItemBefore(draggedSection, t, panel, ev)
+        draggedSection.classList.remove('dragging')
+        clearOver()
+        draggedSection = null
+        sectionOrder = getCurrentSectionOrder()
+        applySectionOrder()          // re-pins the fixed sections
+        updatePreview()
+      })
+      panel.addEventListener('dragend', () => {
+        if (draggedSection) { draggedSection.classList.remove('dragging'); draggedSection = null }
+        clearOver()
+      })
+
+      // ---- entries (stay inside their own category container)
+      ENTRY_CONTAINERS.forEach(containerId => {
+        const container = document.getElementById(containerId)
+        if (!container) return
+        container.addEventListener('dragstart', ev => {
+          const handle = ev.target.closest && ev.target.closest('.entry-drag-handle')
+          const card = handle ? handle.closest('.entry-card') : null
+          if (!card) { ev.preventDefault(); return }
+          draggedEntry = card; card.classList.add('dragging')
+          ev.dataTransfer.effectAllowed = 'move'; ev.dataTransfer.setData('text/plain', card.id)
+        })
+        container.addEventListener('dragover', ev => {
+          if (!draggedEntry || draggedEntry.parentElement !== container) return
+          const target = ev.target.closest('.entry-card')
+          if (target && target !== draggedEntry) { ev.preventDefault(); target.classList.add('drag-over') }
+        })
+        container.addEventListener('dragleave', ev => { const t = ev.target.closest && ev.target.closest('.entry-card'); if (t) t.classList.remove('drag-over') })
+        container.addEventListener('drop', ev => {
+          const target = ev.target.closest('.entry-card')
+          if (!draggedEntry || !target || draggedEntry.parentElement !== container || target === draggedEntry) return
+          ev.preventDefault()
+          moveItemBefore(draggedEntry, target, container, ev)
+          container.querySelectorAll('.entry-card').forEach(el => el.classList.remove('drag-over', 'dragging'))
+          draggedEntry = null
+          updateEntryLabels(container)
+          updatePreview()
+        })
+        container.addEventListener('dragend', () => {
+          container.querySelectorAll('.entry-card').forEach(el => el.classList.remove('drag-over', 'dragging'))
+          if (draggedEntry) { draggedEntry = null; updateEntryLabels(container); updatePreview() }
+        })
+      })
+
+      // ---- custom sections and their items
+      const customList = document.getElementById('custom-sections-list')
+      if (customList) {
+        customList.addEventListener('dragstart', ev => {
+          const sectionHandle = ev.target.closest && ev.target.closest('.custom-drag-handle')
+          const entryHandle = ev.target.closest && ev.target.closest('.entry-drag-handle')
+          if (sectionHandle) { draggedCustomSection = sectionHandle.closest('.custom-section-card'); draggedCustomSection.classList.add('dragging') }
+          else if (entryHandle) { draggedCustomEntry = entryHandle.closest('.custom-entry'); draggedCustomEntry.classList.add('dragging') }
+          else { ev.preventDefault(); return }
+          ev.dataTransfer.effectAllowed = 'move'
+          ev.dataTransfer.setData('text/plain', 'custom')   // Firefox will not start a drag without data
+        })
+        customList.addEventListener('dragover', ev => {
+          if (draggedCustomSection) {
+            const target = ev.target.closest('.custom-section-card')
+            if (target && target !== draggedCustomSection) { ev.preventDefault(); target.classList.add('drag-over') }
+          } else if (draggedCustomEntry) {
+            const target = ev.target.closest('.custom-entry')
+            if (target && target !== draggedCustomEntry && target.parentElement === draggedCustomEntry.parentElement) { ev.preventDefault(); target.classList.add('drag-over') }
+          }
+        })
+        customList.addEventListener('drop', ev => {
+          if (draggedCustomSection) {
+            const target = ev.target.closest('.custom-section-card')
+            if (target && target !== draggedCustomSection) {
+              ev.preventDefault()
+              moveItemBefore(draggedCustomSection, target, customList, ev)
+              customSections = Array.from(customList.querySelectorAll('.custom-section-card')).map(card => customSections.find(sec => sec.id === card.dataset.sectionId)).filter(Boolean)
+            }
+          } else if (draggedCustomEntry) {
+            const target = ev.target.closest('.custom-entry')
+            const sourceSection = draggedCustomEntry.closest('.custom-section-card')
+            if (target && target !== draggedCustomEntry && target.parentElement === draggedCustomEntry.parentElement) {
+              ev.preventDefault()
+              moveItemBefore(draggedCustomEntry, target, draggedCustomEntry.parentElement, ev)
+              const sec = customSections.find(item => item.id === sourceSection.dataset.sectionId)
+              if (sec) sec.entries = Array.from(sourceSection.querySelectorAll('.custom-entry textarea')).map(el => el.value)
+            }
+          }
+          customList.querySelectorAll('.drag-over,.dragging').forEach(el => el.classList.remove('drag-over', 'dragging'))
+          draggedCustomSection = null; draggedCustomEntry = null
+          renderCustomSections()   // refresh index-based input handlers
+          updatePreview()
+        })
+        customList.addEventListener('dragend', () => {
+          customList.querySelectorAll('.drag-over,.dragging').forEach(el => el.classList.remove('drag-over', 'dragging'))
+          draggedCustomSection = null; draggedCustomEntry = null
+        })
+      }
+    }
+
+    /* ===================================================================
+       ENTRIES
+       =================================================================== */
+    function toggleSection(id) {
+      const body = document.getElementById('body-' + id)
+      const chev = document.getElementById('chev-' + id)
+      const open = body.style.display !== 'none'
+      body.style.display = open ? 'none' : 'block'
+      chev.textContent = open ? '▸' : '▾'
+    }
+
+    function addEntry(type) {
+      const div = document.createElement('div')
+      div.className = 'entry-card'
+      const handle = '<button type="button" class="entry-drag-handle" draggable="true" aria-label="Drag to reorder entry" title="Drag to reorder">⠿</button>'
+      let containerId
+      if (type === 'work') {
+        const id = 'work-' + workCount++
+        div.id = id; containerId = 'work-entries'
+        div.innerHTML = `
+        <div class="entry-header">${handle}<span class="entry-label"></span><button class="btn-remove" onclick="removeEntry('${id}')">Remove</button></div>
+        <div class="field-grid">
+          <div class="field"><label>Job Title</label><input type="text" placeholder="e.g. Frontend Developer" oninput="updatePreview()"></div>
+          <div class="field"><label>Company</label><input type="text" placeholder="e.g. Acme Corp" oninput="updatePreview()"></div>
+          <div class="field"><label>Duration</label><input type="text" placeholder="e.g. 2022 - 2024" oninput="this.value=this.value.replace(/[^0-9\\s\\-–]/g,''); updatePreview()"></div>
+          <div class="field full"><label>Description</label><textarea rows="2" placeholder="What did you do there?" oninput="updatePreview()"></textarea></div>
+        </div>`
+      } else if (type === 'edu') {
+        const id = 'edu-' + eduCount++
+        div.id = id; containerId = 'edu-entries'
+        div.innerHTML = `
+        <div class="entry-header">${handle}<span class="entry-label"></span><button class="btn-remove" onclick="removeEntry('${id}')">Remove</button></div>
+        <div class="field-grid">
+          <div class="field"><label>School / University</label><input type="text" placeholder="e.g. University of Santo Tomas" oninput="updatePreview()"></div>
+          <div class="field"><label>Course / Degree</label><input type="text" placeholder="e.g. BS Information Technology" oninput="updatePreview()"></div>
+          <div class="field"><label>Year</label><input type="text" placeholder="e.g. 2020 - 2024" oninput="this.value=this.value.replace(/[^0-9\\s\\-–]/g,''); updatePreview()"></div>
+        </div>`
+      } else if (type === 'cert') {
+        const id = 'cert-' + certCount++
+        div.id = id; containerId = 'cert-entries'
+        div.innerHTML = `
+        <div class="entry-header">${handle}<span class="entry-label"></span><button class="btn-remove" onclick="removeEntry('${id}')">Remove</button></div>
+        <div class="field-grid">
+          <div class="field"><label>Certificate Name</label><input type="text" placeholder="e.g. AWS Cloud Practitioner" oninput="updatePreview()"></div>
+          <div class="field"><label>Issuing Organization</label><input type="text" placeholder="e.g. Amazon Web Services" oninput="updatePreview()"></div>
+          <div class="field full"><label>Date / Expiry</label><input type="text" placeholder="e.g. May 2025 | Expires May 2028" oninput="this.value=this.value.replace(/[^0-9a-zA-Z\\s\\-|]/g,''); updatePreview()"></div>
+        </div>`
+      } else if (type === 'award') {
+        const id = 'award-' + awardCount++
+        div.id = id; containerId = 'award-entries'
+        div.innerHTML = `
+        <div class="entry-header">${handle}<span class="entry-label"></span><button class="btn-remove" onclick="removeEntry('${id}')">Remove</button></div>
+        <div class="field-grid">
+          <div class="field"><label>Award Name</label><input type="text" placeholder="e.g. Dean's Lister" oninput="updatePreview()"></div>
+          <div class="field"><label>Issuer</label><input type="text" placeholder="e.g. University of Santo Tomas" oninput="updatePreview()"></div>
+          <div class="field full"><label>Year</label><input type="text" placeholder="e.g. 2024" oninput="this.value=this.value.replace(/[^0-9\\s\\-–]/g,''); updatePreview()"></div>
+        </div>`
+      } else if (type === 'lang') {
+        const id = 'lang-' + langCount++
+        div.id = id; containerId = 'lang-entries'
+        div.innerHTML = `
+        <div class="entry-header">${handle}<span class="entry-label"></span><button class="btn-remove" onclick="removeEntry('${id}')">Remove</button></div>
+        <div class="field-grid">
+          <div class="field"><label>Language</label><input type="text" placeholder="e.g. English" oninput="updatePreview()"></div>
+          <div class="field"><label>Proficiency Level</label>
+            <select onchange="updatePreview()">
+              <option value="">Select level</option>
+              <option>Native / Bilingual</option>
+              <option>Fluent</option>
+              <option>Professional Working</option>
+              <option>Intermediate</option>
+              <option>Basic</option>
+            </select>
+          </div>
+        </div>`
+      } else return
+      const container = document.getElementById(containerId)
+      container.appendChild(div)
+      updateEntryLabels(container)
+      return div
+    }
+
+    function removeEntry(id) {
+      const el = document.getElementById(id)
+      if (!el) return
+      const container = el.parentElement
+      el.remove()
+      if (container) updateEntryLabels(container)
+      updatePreview()
+    }
+
+    /* ===================================================================
+       COLLECT / SAVE / RESTORE  (ONE function feeds the preview, the draft and Build)
+       =================================================================== */
+    function collectFormData() {
+      const entriesOf = (sel, map) => Array.from(document.querySelectorAll(sel + ' .entry-card')).map(map)
+      const workData = entriesOf('#work-entries', entry => {
+        const i = entry.querySelectorAll('input')
+        return { title: i[0]?.value || '', company: i[1]?.value || '', duration: i[2]?.value || '', desc: entry.querySelector('textarea')?.value || '' }
+      })
+      const eduData = entriesOf('#edu-entries', entry => {
+        const i = entry.querySelectorAll('input')
+        return { school: i[0]?.value || '', course: i[1]?.value || '', year: i[2]?.value || '' }
+      })
+      const certData = entriesOf('#cert-entries', entry => {
+        const i = entry.querySelectorAll('input')
+        return { name: i[0]?.value || '', org: i[1]?.value || '', date: i[2]?.value || '' }
+      })
+      const awardData = entriesOf('#award-entries', entry => {
+        const i = entry.querySelectorAll('input')
+        return { name: i[0]?.value || '', issuer: i[1]?.value || '', year: i[2]?.value || '' }
+      })
+      const langData = entriesOf('#lang-entries', entry => ({
+        name: entry.querySelector('input')?.value || '', level: entry.querySelector('select')?.value || ''
+      }))
+      return {
+        name: document.getElementById('f-name').value,
+        jobtitle: document.getElementById('f-jobtitle').value,
+        location: document.getElementById('f-location').value,
+        email: document.getElementById('f-email').value,
+        phone: document.getElementById('f-phone').value,
+        skills: document.getElementById('f-skills').value,
+        summary: document.getElementById('f-summary').value,
+        work: workData, edu: eduData, certifications: certData,
+        awards: awardData, languages: langData,
+        customSections: customSections.map(s => ({ id: s.id, name: s.name, entries: s.entries.slice() })),
+        sectionOrder: getCurrentSectionOrder(),
+        ...(hasSectionColumns ? { sectionColumns: normalizeSectionColumns(sectionColumns) } : {}),
+        fontFamily: document.getElementById('fontFamily').value,
+        fontSize: String(clampFontSize(document.getElementById('fontSize').value)),
+        paperSize,
+        templateNum: templateNum,
+        photo: photoBase64,
+        accentDark: window.currentAccentDark,
+        accentLight: window.currentAccentLight
+      }
+    }
+
+    function saveDraft() {
+      if (!initialised) return     // never overwrite a saved draft with a half-restored/empty form
+      const data = collectFormData()
+      let json = JSON.stringify(data)
+      if (!writeStored('profile_form_draft_t' + templateNum, json) || !writeStored('profile_form_data', json)) {
+        // quota problem: keep everything except the photo rather than losing the whole draft
+        json = JSON.stringify({ ...data, photo: null })
+        writeStored('profile_form_draft_t' + templateNum, json)
+        writeStored('profile_form_data', json)
+      }
+    }
+    function scheduleSave() {
+      clearTimeout(saveTimer)
+      saveTimer = setTimeout(saveDraft, 250)
+    }
+
+    function readDraft() {
+      const raw = readStored('profile_form_draft_t' + templateNum) || readStored('profile_form_data')
+      if (!raw) return null
+      try { const d = JSON.parse(raw); return d && typeof d === 'object' ? d : null } catch (e) { return null }
+    }
+    // Data saved by another template must not donate its colours or column map to this one.
+    function dataIsForThisTemplate(data) {
+      return !!data && (String(data.templateNum) === templateNum || (templateNum === '1' && !data.templateNum))
+    }
+
+    function loadSavedForm(dataOverride) {
+      const data = dataOverride || readDraft()
+      suspendUpdates++
+      try {
+        ENTRY_CONTAINERS.forEach(id => { document.getElementById(id).innerHTML = '' })
+        workCount = 0; eduCount = 0; certCount = 0; awardCount = 0; langCount = 0
+
+        setVal('f-name', data?.name); setVal('f-jobtitle', data?.jobtitle); setVal('f-location', data?.location)
+        setVal('f-email', data?.email); setVal('f-phone', data?.phone); setVal('f-skills', data?.skills); setVal('f-summary', data?.summary)
+
+        // font
+        const fontSel = document.getElementById('fontFamily')
+        if (data?.fontFamily && Array.from(fontSel.options).some(o => o.value === data.fontFamily)) fontSel.value = data.fontFamily
+        const slider = document.getElementById('fontSize')
+        slider.value = String(clampFontSize(data?.fontSize))
+        applyCustomizations()
+
+        setPaper(data?.paperSize || readStored('profile_paper_size') || 'a4')
+
+        photoBase64 = data?.photo || null
+        showPhotoInForm(photoBase64)
+
+        // custom sections (ids may have gaps after deletions -> next id is max+1, never a duplicate)
+        customSections = (Array.isArray(data?.customSections) ? data.customSections : [])
+          .filter(s => s && typeof s.id === 'string')
+          .map(s => ({ id: s.id, name: String(s.name || ''), entries: Array.isArray(s.entries) && s.entries.length ? s.entries.map(e => String(e ?? '')) : [''] }))
+        customSectionCount = customSections.reduce((max, s) => Math.max(max, (parseInt(String(s.id).replace(/\D/g, ''), 10) || 0) + 1), customSections.length)
+        renderCustomSections()
+
+        const fill = (type, containerId, items, fn) => {
+          ; (Array.isArray(items) ? items : []).forEach(item => { addEntry(type); fn(document.querySelector('#' + containerId + ' .entry-card:last-child'), item || {}) })
+        }
+        fill('work', 'work-entries', data?.work, (e, it) => { const i = e.querySelectorAll('input'); i[0].value = it.title || ''; i[1].value = it.company || ''; i[2].value = it.duration || ''; e.querySelector('textarea').value = it.desc || '' })
+        fill('edu', 'edu-entries', data?.edu, (e, it) => { const i = e.querySelectorAll('input'); i[0].value = it.school || ''; i[1].value = it.course || ''; i[2].value = it.year || '' })
+        fill('cert', 'cert-entries', data?.certifications, (e, it) => { const i = e.querySelectorAll('input'); i[0].value = it.name || ''; i[1].value = it.org || ''; i[2].value = it.date || '' })
+        fill('award', 'award-entries', data?.awards, (e, it) => { const i = e.querySelectorAll('input'); i[0].value = it.name || ''; i[1].value = it.issuer || ''; i[2].value = it.year || '' })
+        fill('lang', 'lang-entries', data?.languages, (e, it) => { e.querySelector('input').value = it.name || ''; e.querySelector('select').value = it.level || '' })
+        if (!document.querySelector('#work-entries .entry-card')) addEntry('work')
+        if (!document.querySelector('#edu-entries .entry-card')) addEntry('edu')
+        entryContainersRefresh()
+
+        // section order (older drafts without it fall back to the default)
+        sectionOrder = normalizeSectionOrder(data?.sectionOrder)
+        applySectionOrder()
+
+        // columns: only trust a saved map if it was saved FOR THIS template
+        sectionColumns = hasSectionColumns ? normalizeSectionColumns(dataIsForThisTemplate(data) ? data.sectionColumns : null) : {}
+        syncSectionColumnControls()
+
+        // accent: this template's draft -> this template's last build -> template default
+        if (supportsAccent) {
+          const def = TEMPLATE_DEFAULTS[templateNum]
+          let dark = def.dark, light = def.light
+          const builtDark = readStored('profile_accent_dark_t' + templateNum)
+          const builtLight = readStored('profile_accent_light_t' + templateNum)
+          if (dataIsForThisTemplate(data) && data.accentDark) { dark = data.accentDark; light = data.accentLight || def.light }
+          else if (builtDark) { dark = builtDark; light = builtLight || def.light }
+          setAccentState(dark, light)
+        }
+      } finally {
+        suspendUpdates--
+      }
+      updatePreview()
+    }
+
+    async function fetchServerResume() {
+      const resumeId = urlParams.get('id')
+      const token = readStored('profile_token')
+      if (!resumeId || !token) return null
+      try {
+        const res = await fetch(`/api/resumes/${encodeURIComponent(resumeId)}`, { headers: { 'Authorization': 'Bearer ' + token } })
+        if (!res.ok) return null
+        const resume = await res.json()
+        const data = typeof resume.resume_data === 'string' ? JSON.parse(resume.resume_data) : resume.resume_data
+        return data && typeof data === 'object' ? data : null
+      } catch (e) { return null }
     }
 
     async function buildResume() {
-      const formData = collectFormData()
+      clearTimeout(saveTimer)
+      initialised = true
+      const formData = collectFormData()      // exactly what the preview rendered
+      const json = JSON.stringify(formData)
+      const ok = writeStored('profile_form_data', json) && writeStored('profile_form_draft_t' + templateNum, json)
+      if (!ok) {
+        alert('Your browser storage is full, so the resume cannot be built. Try removing the profile photo or clearing old data, then build again.')
+        return
+      }
+      writeStored('profile_accent_dark_t' + templateNum, window.currentAccentDark || TEMPLATE_DEFAULTS[templateNum].dark)
+      writeStored('profile_accent_light_t' + templateNum, window.currentAccentLight || TEMPLATE_DEFAULTS[templateNum].light)
 
-      formData.fontFamily = document.getElementById('fontFamily').value;
-      formData.fontSize = document.getElementById('fontSize').value;
-
-      localStorage.setItem('profile_form_data', JSON.stringify(formData))
-      localStorage.setItem('profile_form_draft_t' + templateNum, JSON.stringify(formData))
-
-      localStorage.setItem('profile_accent_dark_t' + templateNum, window.currentAccentDark || TEMPLATE_DEFAULTS[templateNum].dark)
-      localStorage.setItem('profile_accent_light_t' + templateNum, window.currentAccentLight || TEMPLATE_DEFAULTS[templateNum].light)
-
-      const token = localStorage.getItem('profile_token')
+      const token = readStored('profile_token')
       if (token) {
         try {
           await fetch('/api/resumes', {
@@ -2101,59 +1434,18 @@
             headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
             body: JSON.stringify({
               title: formData.name ? formData.name + "'s Resume" : 'Untitled Resume',
-              template_num: parseInt(templateNum),
+              template_num: parseInt(templateNum, 10),
               resume_data: formData
             })
           })
         } catch (e) { console.warn('Could not save to server:', e) }
       }
-
-      window.location.href = 'template' + templateNum + '.html';
+      window.location.href = 'template' + templateNum + '.html'
     }
 
-    function scalePreview() {
-      const outer = document.getElementById('previewOuter')
-      const inner = document.getElementById('previewResume')
-      if (!outer || !inner) return
-      const panelW = outer.parentElement.clientWidth - 32
-      const fitScale = panelW / 700
-      const scale = Math.min(fitScale, 1.0)
-      inner.style.transform = `scale(${scale})`
-      inner.style.transformOrigin = 'top left'
-      outer.style.height = Math.round(1123 * scale) + 'px'
-      outer.style.width = Math.round(794 * scale) + 'px'
-      outer.style.margin = '0 auto'
-    }
-    scalePreview()
-    window.addEventListener('resize', scalePreview)
-
-    const templateNames = {
-      '1': 'Classic Sidebar',
-      '2': 'Bold Header',
-      '3': 'Minimal',
-      '4': 'Two Column',
-      '5': 'Navy Serif',
-      '6': 'Navy Circle Sidebar',
-      '7': 'Green Split',
-      '8': 'Green Pastel Sidebar',
-      '9': 'Purple Split',
-      '10': 'Green Grid Header',
-      '11': 'Dark Green Accent',
-      '12': 'Brown Full-Width'
-    }
-    document.getElementById('templateLabel').textContent = templateNames[templateNum] || 'Classic Sidebar'
-
-    if (templateNum === '2' || templateNum === '3' || templateNum === '4' || parseInt(templateNum) >= 5) {
-      const s = document.createElement('script')
-      s.src = 'template' + templateNum + '.js'
-      s.onload = () => updatePreview()
-      document.head.appendChild(s)
-    }
-
-    loadSavedForm()
-
-    let aiLastResult = ''
-
+    /* ===================================================================
+       AI SUMMARY
+       =================================================================== */
     function toggleAiPanel() {
       const panel = document.getElementById('aiAssistPanel')
       const isHidden = panel.style.display === 'none'
@@ -2166,17 +1458,16 @@
     }
 
     async function runAiGenerate() {
-      const promptInput = document.getElementById('aiPromptInput')
-      const userPrompt = promptInput.value.trim()
+      const userPrompt = document.getElementById('aiPromptInput').value.trim()
       const btn = document.getElementById('btnGenerate')
       const btnText = document.getElementById('generateBtnText')
       const resultArea = document.getElementById('aiResultArea')
       const resultText = document.getElementById('aiResultText')
       const errorArea = document.getElementById('aiErrorArea')
+      const errorText = document.getElementById('aiErrorText')
 
       const name = document.getElementById('f-name').value.trim()
       const jobtitle = document.getElementById('f-jobtitle').value.trim()
-      const location = document.getElementById('f-location').value.trim()
       const skills = document.getElementById('f-skills').value.trim()
 
       const workEntries = []
@@ -2189,7 +1480,6 @@
         if (title || company) workEntries.push(`${title}${company ? ' at ' + company : ''}${dur ? ' (' + dur + ')' : ''}${desc ? ': ' + desc : ''}`)
       })
 
-      // Loading state
       btn.disabled = true
       btnText.className = 'ai-loading-dots'
       btnText.textContent = 'Generating'
@@ -2199,38 +1489,21 @@
       try {
         const response = await fetch('/api/ai/summary', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('profile_token')
-          },
-          body: JSON.stringify({
-            name,
-            jobTitle: jobtitle,
-            skills,
-            experience: workEntries.join(' | '),
-            userPrompt,
-            tone: 'Professional'
-          })
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + readStored('profile_token') },
+          body: JSON.stringify({ name, jobTitle: jobtitle, skills, experience: workEntries.join(' | '), userPrompt, tone: 'Professional' })
         })
-
         if (!response.ok) {
           const err = await response.json().catch(() => ({}))
-          throw new Error(
-            (typeof err.error === 'string' ? err.error : err?.error?.message) || `API error ${response.status}`
-          )
+          throw new Error((typeof err.error === 'string' ? err.error : err?.error?.message) || `API error ${response.status}`)
         }
-
         const data = await response.json()
         const result = data.summary
-
         if (!result) throw new Error('Empty response from AI.')
-
         aiLastResult = result
         resultText.textContent = result
         resultArea.style.display = 'block'
-
       } catch (err) {
-        errorArea.innerHTML = `⚠ ${err.message || 'Something went wrong. Please try again.'}`
+        errorText.textContent = '⚠ ' + (err.message || 'Something went wrong. Please try again.')
         errorArea.style.display = 'block'
       } finally {
         btn.disabled = false
@@ -2246,12 +1519,30 @@
       document.getElementById('aiAssistPanel').style.display = 'none'
       aiLastResult = ''
     }
-
     function discardAiResult() {
       document.getElementById('aiResultArea').style.display = 'none'
       aiLastResult = ''
     }
 
+    /* ===================================================================
+       INIT  (runs once)
+       =================================================================== */
+    async function initForm() {
+      if (!supportsAccent) { const g = document.getElementById('accentColorGroup'); if (g) g.style.display = 'none' }   // Template 3
+      document.getElementById('templateLabel').textContent = templateNames[templateNum] || 'Classic Sidebar'
+      showActivePreviewRoot()
+      setupDragAndDrop()
+      scalePreview()
+      window.addEventListener('resize', scalePreview)
+      window.addEventListener('pagehide', () => { clearTimeout(saveTimer); saveDraft() })
+      loadRendererScript()
+
+      const serverData = await fetchServerResume()   // null when there is no ?id=, no token, or the request failed
+      loadSavedForm(serverData)
+      initialised = true
+      saveDraft()
+    }
+    initForm()
   </script>
 </body>
 
