@@ -1233,6 +1233,46 @@
     let customSectionCount = 0
     const DEFAULT_SECTION_ORDER = ['sec-personal', 'sec-work', 'sec-edu', 'sec-cert', 'sec-awards', 'sec-languages', 'sec-skills', 'sec-summary', 'sec-custom']
     let sectionOrder = [...DEFAULT_SECTION_ORDER]
+    const DEFAULT_SECTION_COLUMNS = {
+      'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'side',
+      'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'side',
+      'sec-skills': 'side', 'sec-custom': 'main'
+    }
+    let sectionColumns = { ...DEFAULT_SECTION_COLUMNS }
+
+    function normalizeSectionColumns(saved) {
+      const result = { ...DEFAULT_SECTION_COLUMNS }
+      if (saved && typeof saved === 'object') {
+        Object.keys(DEFAULT_SECTION_COLUMNS).forEach(id => {
+          if (saved[id] === 'side' || saved[id] === 'main') result[id] = saved[id]
+        })
+      }
+      return result
+    }
+
+    function setupSectionColumnControls() {
+      if (String(templateNum) !== '1') return
+      Object.keys(DEFAULT_SECTION_COLUMNS).forEach(id => {
+        const card = document.getElementById(id)
+        const header = card?.querySelector('.section-header')
+        if (!header || header.querySelector('.section-column-select')) return
+        const select = document.createElement('select')
+        select.className = 'section-column-select'
+        select.title = 'Choose where this section appears in Template 1'
+        select.setAttribute('aria-label', 'Section column')
+        select.style.cssText = 'margin-left:auto;margin-right:8px;padding:4px 6px;border:1px solid #d8d4cc;border-radius:6px;background:#fff;font-size:11px;color:#444;max-width:112px;position:relative;z-index:2;'
+        select.innerHTML = '<option value="side">Sidebar</option><option value="main">Main body</option>'
+        select.value = sectionColumns[id] || DEFAULT_SECTION_COLUMNS[id]
+        select.addEventListener('click', event => event.stopPropagation())
+        select.addEventListener('change', event => {
+          event.stopPropagation()
+          sectionColumns[id] = select.value
+          updatePreview()
+        })
+        const chevron = header.querySelector('.chevron')
+        header.insertBefore(select, chevron || null)
+      })
+    }
 
     function applyCustomizations() {
       const font = document.getElementById('fontFamily').value
@@ -1741,6 +1781,7 @@
         awards: awardData, languages: langData,
         customSections,
         sectionOrder: getCurrentSectionOrder(),
+        sectionColumns: { ...sectionColumns },
         fontFamily: document.getElementById('fontFamily').value,
         fontSize: document.getElementById('fontSize').value,
         paperSize,
@@ -1774,6 +1815,7 @@
     }
 
     setupDragAndDrop()
+    setupSectionColumnControls()
     loadResumeFromServer()
 
     function loadSavedForm() {
@@ -1855,7 +1897,9 @@
       entryContainersRefresh()
 
       sectionOrder = normalizeSectionOrder(data.sectionOrder)
+      sectionColumns = normalizeSectionColumns(data.sectionColumns)
       applySectionOrder()
+      setupSectionColumnControls()
       // Only trust a saved accent if it was saved FOR THIS template
       // (templates 5-12 stamp templateNum; older data without it falls back to the template default)
       const accentIsMine = String(data.templateNum) === templateNum || (parseInt(templateNum) < 5 && !data.templateNum)
