@@ -1392,7 +1392,7 @@
       
     `
 
-      if (templateNum === '2' || parseInt(templateNum) >= 5) updatePreview()
+      if (templateNum === '2' || templateNum === '3' || parseInt(templateNum) >= 5) updatePreview()
       else saveDraft()
     }
 
@@ -2084,7 +2084,7 @@
       if (templateNum === '4') { /* ... existing t4 code ... */ }
 
       // Template 2 and templates 5-12 use the SAME renderer as the built resume.
-      if (templateNum === '2' || parseInt(templateNum) >= 5) renderTemplatePreview()
+      if (templateNum === '2' || templateNum === '3' || parseInt(templateNum) >= 5) renderTemplatePreview()
 
       saveDraft()
     }
@@ -2151,7 +2151,7 @@
     }
     document.getElementById('templateLabel').textContent = templateNames[templateNum] || 'Classic Sidebar'
 
-    if (templateNum === '2' || parseInt(templateNum) >= 5) {
+    if (templateNum === '2' || templateNum === '3' || parseInt(templateNum) >= 5) {
       const s = document.createElement('script')
       s.src = 'template' + templateNum + '.js'
       s.onload = () => updatePreview()
