@@ -759,7 +759,7 @@
           <span class="size-val" id="fontSizeVal">13px</span>
           <div style="font-size:10px;color:#B0ADA4;font-family:'DM Sans',sans-serif;width:100%;">Font size applies to
             final resume</div>
-          <div class="customize-group">
+          <div class="customize-group" id="accentColorGroup">
             <label>Color</label>
             <div style="display:flex;gap:6px;align-items:center;">
               <div class="color-swatch active" data-color="#2C2C2C" style="background:#2C2C2C;"
@@ -1190,6 +1190,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const rawTemplate = urlParams.get('template');
     const templateNum = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].includes(rawTemplate) ? rawTemplate : '1';
+    if (templateNum === '3') { const colorGroup = document.getElementById('accentColorGroup'); if (colorGroup) colorGroup.style.display = 'none'; }
 
     const TEMPLATE_DEFAULTS = {
       '1': { dark: '#2C2C2C', light: '#8FB89A' },
@@ -1235,20 +1236,12 @@
     let sectionOrder = [...DEFAULT_SECTION_ORDER]
     // Column controls are available on every two-column template.
     // Templates 5 and 12 are intentionally single-column.
-    const TEMPLATES_WITH_COLUMNS = ['2', '3', '4', '6', '7', '8', '9', '10', '11']
+    const TEMPLATES_WITH_COLUMNS = ['2', '4', '6', '7', '8', '9', '10', '11']
     const TEMPLATE_DEFAULT_COLUMNS = {
       '2': {
         'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'side',
         'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'side',
         'sec-skills': 'main', 'sec-custom': 'side'
-      },
-      // Template 3 currently presents its content in a full-width body.
-      // The selector is enabled here so its renderer can support column moves
-      // in the separate template-JS pass without another form.html change.
-      '3': {
-        'sec-personal': 'main', 'sec-work': 'main', 'sec-edu': 'main',
-        'sec-cert': 'main', 'sec-awards': 'main', 'sec-languages': 'main',
-        'sec-skills': 'main', 'sec-custom': 'main'
       },
       '4': {
         'sec-personal': 'side', 'sec-work': 'main', 'sec-edu': 'side',
@@ -1334,6 +1327,7 @@
       `
 
       saveDraft()
+      updatePreview()
     }
 
     function resetAccentColor() {
@@ -1345,6 +1339,7 @@
     }
 
     function applyAccentColor(dark, light, el) {
+      if (templateNum === '3') return
       window.currentAccentDark = dark
       window.currentAccentLight = light
 
@@ -1358,8 +1353,6 @@
         if (t2.children[0]) t2.children[0].style.background = dark
         if (t2.children[1]) t2.children[1].style.background = dark
       }
-      const t3 = document.getElementById('prev-t3')
-      if (t3) t3.querySelector('div:first-child').style.background = dark
       const t4 = document.getElementById('prev-t4')
       if (t4) t4.children[0].style.background = dark
 
@@ -1388,7 +1381,6 @@
       #prev-t2 [style*="border-left:3px solid #4A5568"] { border-color: ${dark} !important; }
       #prev-t2 [style*="border-bottom:1px solid #D4CFC4"][style*="font-weight:700"] { color: ${dark} !important; }
 
-      #prev-t3 > div:first-child { background: ${dark} !important; }
       
     `
 
@@ -1981,7 +1973,7 @@
       updatePreview()
     }
 
-    // Draws Template 2 and templates 5-12 in the live preview using the exact renderFromFormData
+    // Draws renderer-backed templates in the live preview using the exact renderFromFormData
     // from templateN.js, so the preview and the built resume can never drift apart.
     function renderTemplatePreview() {
       const root = document.getElementById('prev-t' + templateNum)
